@@ -6,22 +6,44 @@
 
 이미지에 존재하는 테이블의 타입은 다음과 같이 설명한다.
 
-
-|table_name|users|
-|:--------:|:--------:|
-|column_name|type|
-|:--------:|:--------:|
-|id|int|
-|email|varchar(64)|
-|username|varchar(64)|
-|password_hash|varchar(225)|
-|location|text|
-|about_me|text|
-|member_since|datetime|
-|profile_filename|varchar(200)|
-
 <table>
   <tr>
-    <td>test</td>
+    <td>users</td>
+  </tr>
+  <tr>
+    <td>column_name</td>
+    <td>type</td>
+  </tr>
+  <tr>
+   <td>id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>email</td>
+   <td>varchar(64)</td>
+  </tr>
+  <tr>
+   <td>username</td>
+   <td>varchar(64)</td>
+  </tr>
+  <tr>
+   <td>password_hash</td>
+   <td>varchar(225)</td>
+  </tr>
+  <tr>
+   <td>location</td>
+   <td>text</td>
+  </tr>
+  <tr>
+   <td>about_me</td>
+   <td>text</td>
+  </tr>
+  <tr>
+   <td>member_since</td>
+   <td>datetime</td>
+  </tr>
+  <tr>
+   <td>profile_filename</td>
+   <td>varchar(200)</td>
   </tr>
 </table>
