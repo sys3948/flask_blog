@@ -8,7 +8,8 @@
 
 <table>
   <tr>
-    <td>users</td>
+    <td></td>
+    <td><b>table_name : users</b></td>
   </tr>
   <tr>
     <td>column_name</td>
