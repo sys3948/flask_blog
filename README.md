@@ -19,3 +19,9 @@
 |about_me|text|
 |member_since|datetime|
 |profile_filename|varchar(200)|
+
+<table>
+  <tr>
+    <td>test</td>
+  </tr>
+</table>
