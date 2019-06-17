@@ -8,12 +8,11 @@
 
 <table>
   <tr>
-    <td></td>
     <td><b>table_name : users</b></td>
   </tr>
   <tr>
-    <td>column_name</td>
-    <td>type</td>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
   </tr>
   <tr>
    <td>id</td>
@@ -47,4 +46,138 @@
    <td>profile_filename</td>
    <td>varchar(200)</td>
   </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>table_name : posts</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>author_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>body</td>
+   <td>longtext</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>table_name : comments</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>author_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>post_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>parent</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>body</td>
+   <td>text</td>
+  </tr>
+  <tr>
+   <td>groupnum</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>table_name : works_count</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>posts</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>follow_posts</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>comments</td>
+   <td>int</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><b>table_name : follows</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>follower_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>followed_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr
+</table>
+
+<table>
+  <tr>
+    <td><b>table_name : follows_count</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>user_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>followed</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>following</td>
+   <td>int</td>
+  </tr
 </table>
