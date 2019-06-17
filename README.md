@@ -6,14 +6,13 @@
 
 이미지에 존재하는 테이블의 타입은 다음과 같이 설명한다.
 
-table_name : users                        table_name : posts
-|:--------:|:--------:|                   |:--------:|:--------:|
-|column_name|type|                        |column_name|type|
-|:--------:|:--------:|                   |:--------:|:--------:|
-|id|int|                                  |id|int|
-|email|varchar(64)|                       |author_id|int|
-|username|varchar(64)|                    |body|longtext|
-|password_hash|varchar(225)|              |timestamp|datetime|
+
+|column_name|type|
+|:--------:|:--------:|
+|id|int|
+|email|varchar(64)|
+|username|varchar(64)|
+|password_hash|varchar(225)|
 |location|text|
 |about_me|text|
 |member_since|datetime|
