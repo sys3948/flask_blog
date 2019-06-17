@@ -17,10 +17,10 @@ def change_filename(name):
 @main.route('/<int:num>', methods = ['GET', 'POST'])
 def index(num = 1):
     try:
-        global all_count
-        show_follower = False # 전체 게시글 또는 follow한 게시글들을 출력하기 위해 구분하는 변수. True면 팔로우한 게시글 출력 False면 전체 게시글 출력
-        rnum = (num - 1) * 10
         if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
+            global all_count
+            show_follower = False # 전체 게시글 또는 follow한 게시글들을 출력하기 위해 구분하는 변수. True면 팔로우한 게시글 출력 False면 전체 게시글 출력
+            rnum = (num - 1) * 10
             if request.method == 'POST': # method가 POST지 확인하는 조건문
                 body = request.form['body'] # 작성한 게시글의 내용을 받는 변수
                 dt = datetime.now() # 현재 시간
@@ -47,7 +47,7 @@ def index(num = 1):
                     db.commit() # 위 쿼리들(insert, update) 저장하는 부분
                     all_count = all_count + 1
                 flash('작성 완료했습니다.')
-                return redirect('/') # 작업이 끝났으면 GET method로 / route로 redirect 한다.
+                return redirect(url_for('.index')) # 작업이 끝났으면 GET method로 / route로 redirect 한다.
             # method가 GET일 때
             show_follower = bool(request.cookies.get('show_follower')) # 쿠키 'show_follower'의 값으로 전체 게시글 출력인지 follow한 게시글을 출력인지 구분해주는 변수
             with db.cursor() as cur:
@@ -119,36 +119,7 @@ def index(num = 1):
                         paging = paging + 1
 
         else: # 로그인이 되지 않는 상태의 조건문(else 문)
-            with db.cursor() as cur:
-                # 전체 Posts를 가져오기
-                # posts join users join comments_count
-                # on posts.author_id = users.id and posts.id = comments_count.posts_id
-                cur.execute("set @rownum = 0")
-                cur.execute("select id, body, timestamp, username, profile_filename, count \
-                             from ( \
-                                   select @rownum := @rownum + 1 as num, b.* \
-                                   from ( \
-                                        select pc.id, pc.body, pc.timestamp, pc.count, u.username, u.profile_filename \
-                                        from ( \
-                                              select p.*, count(c.id) as count \
-                                              from posts p left outer join comments c \
-                                              on p.id = c.post_id \
-                                              group by p.id\
-                                            ) as pc join users u \
-                                        on pc.author_id = u.id \
-                                        order by pc.timestamp desc\
-                                       ) as b \
-                                 ) as board \
-                                 where num >= %s \
-                                 limit 10", (rnum)) #num은 해당 페이지의 글 번호의 시작값
-
-                posts = cur.fetchall() # 위 검색 쿼리의 값을 저장하는 변수
-
-                paging = all_count//10
-                if all_count % 10 > 0: # 10으로 나누어 나머지가 존재하면 페이지의 수 + 1를 하는 조건문
-                    paging = paging + 1
-
-        return render_template('index.html', show_follower = show_follower, posts = posts, paging = paging, current_page = num)
+            return redirect(url_for('auth.login')) # 로그인 페이지로 이동
     except Exception as e: # 예상치 못 한 Error가 발생할 시 처리하는 except 문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
@@ -171,16 +142,17 @@ def change_pw():
                         db.commit()
                     else: # 존재하지 않는다면 비밀번호 변경 페이지로 리다이렉트 한다.
                         flash('Old Password(현재 비밀번호)가 맞지 않습니다. 다시 입력해주세요.')
-                        return redirect('/change_password')
+                        return redirect(url_for('.change_pw'))
                     flash('비밀번호 변경이 성공했습니다.')
-                    return redirect('/')
+                    return redirect(url_for('.index'))
             except Exception as e: # 예상치 못한 Error가 발생했을 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
 
         return render_template('change_password.html')
     else:
-        return redirect('/')
+        flash('로그인이 되어있지 않아 비밀번호 변경을 못 합니다. 로그인을 해주세요.')
+        return redirect(url_for('.index'))
 
 
 # 프로필 페이지의 라우트 & 뷰함수
@@ -188,65 +160,70 @@ def change_pw():
 @main.route('/profile/<username>/<int:num>')
 def profile(username, num = 1):
     try:
-        rnum = (num - 1) * 10 # limit offset의 값을 지정하는 변수
-        show_follow = False # Follow or Unfollow 버튼 활성화를 하기 위한 변수
-        print(username)
-        with db.cursor() as cur:
-            # 해당 프로필의 username에 해당하는 사용자 정보를 출력하는 검색 쿼리
-            cur.execute('select u.location, u.about_me, u.member_since, u.profile_filename, w.posts, w.comments \
-                         from users u join works_count w\
-                         on u.id = w.id \
-                         where u.username = %s', (username))
-            select_data = cur.fetchone()
-            if not select_data: # 검색한 쿼리의 값이 존재하지 않는다면 메인 페이지로 리다이렉트 하는 조건문
-                flash('존재하지 않는 사용자 닉네임입니다.')
-                return redirect('/')
+        if 'username' in session and 'id' in session:
+            rnum = (num - 1) * 10 # limit offset의 값을 지정하는 변수
+            show_follow = False # Follow or Unfollow 버튼 활성화를 하기 위한 변수
+            with db.cursor() as cur:
+                # 해당 프로필의 username에 해당하는 사용자 정보를 출력하는 검색 쿼리
+                cur.execute('select u.location, u.about_me, u.member_since, u.profile_filename, w.posts, w.comments \
+                            from users u join works_count w\
+                            on u.id = w.id \
+                            where u.username = %s', (username))
+                select_data = cur.fetchone()
+                if not select_data: # 검색한 쿼리의 값이 존재하지 않는다면 메인 페이지로 리다이렉트 하는 조건문
+                    flash('존재하지 않는 사용자 닉네임입니다.')
+                    return redirect(url_for('.index'))
 
-            # 팔로워 수와 팔로잉 한 수를 찾는 검색쿼리
-            cur.execute('select followed, following from follows_count \
-                         where user_id = (select id from users where username=%s)', (username))
-            count = cur.fetchone()
+                # 팔로워 수와 팔로잉 한 수를 찾는 검색쿼리
+                cur.execute('select followed, following from follows_count \
+                            where user_id = (select id from users where username=%s)', (username))
+                count = cur.fetchone()
 
-            if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인 하는 조건문
-                # 로그인이 되어있으면 해당 session값과 username 값을 이용하여 로그인한 유저가 해당 프로파일의 유저를 팔로우 했는지 확인하는 검색 쿼리
-                cur.execute('select followed_id from follows \
-                             where followed_id = (select id from users where username = %s) \
-                             and follower_id = %s', (username, session['id']))
-                follow_activation = cur.fetchone()
-                if follow_activation: # 해당 변수 값이 존재하면 팔로우를 했다는 의미이다.
-                    show_follow = True
-                else: # 존재하지 않으면 팔로우를 안 했다는 의미이다.
-                    show_follow = False
+                if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인 하는 조건문
+                    # 로그인이 되어있으면 해당 session값과 username 값을 이용하여 로그인한 유저가 해당 프로파일의 유저를 팔로우 했는지 확인하는 검색 쿼리
+                    cur.execute('select followed_id from follows \
+                                where followed_id = (select id from users where username = %s) \
+                                and follower_id = %s', (username, session['id']))
+                    follow_activation = cur.fetchone()
+                    if follow_activation: # 해당 변수 값이 존재하면 팔로우를 했다는 의미이다.
+                        show_follow = True
+                    else: # 존재하지 않으면 팔로우를 안 했다는 의미이다.
+                        show_follow = False
 
-            # 해당 프로필의 유저가 작성한 게시글 10개를 출력하는 검색 쿼리
-            cur.execute("set @rownum := 0")
-            cur.execute("select id, body, timestamp, username, profile_filename, count\
-                         from ( \
-                          select @rownum := @rownum + 1 as num, b.* \
-                          from ( \
-                           select pc.id, pc.body, pc.timestamp, pc.count, u.username, u.profile_filename \
-                           from ( \
-                            select p.*, count(c.id) as count \
-                            from posts p left outer join comments c \
-                            on p.id = c.post_id \
-                            group by p.id \
-                           ) as pc join users u \
-                           on pc.author_id = u.id \
-                           where u.username = %s \
-                           order by pc.timestamp desc \
-                          ) as b \
-                         ) as board \
-                         where num > %s \
-                         limit 10", (username, rnum)) #num은 해당 페이지의 게시글 시작하는 수이다.
+                # 해당 프로필의 유저가 작성한 게시글 10개를 출력하는 검색 쿼리
+                cur.execute("set @rownum := 0")
+                cur.execute("select id, body, timestamp, username, profile_filename, count\
+                            from ( \
+                            select @rownum := @rownum + 1 as num, b.* \
+                            from ( \
+                            select pc.id, pc.body, pc.timestamp, pc.count, u.username, u.profile_filename \
+                            from ( \
+                                select p.*, count(c.id) as count \
+                                from posts p left outer join comments c \
+                                on p.id = c.post_id \
+                                group by p.id \
+                            ) as pc join users u \
+                            on pc.author_id = u.id \
+                            where u.username = %s \
+                            order by pc.timestamp desc \
+                            ) as b \
+                            ) as board \
+                            where num > %s \
+                            limit 10", (username, rnum)) #num은 해당 페이지의 게시글 시작하는 수이다.
 
-            posts = cur.fetchall()
+                posts = cur.fetchall()
 
-            # 해당 프로필의 페이징 작업을 위해 해당 프로필의 유저의 pagination.my_posts_count 열을 출력하는 검색 쿼리
-            cur.execute('select posts from works_count where id=(select id from users where username = %s)', (username))
-            selected_num = cur.fetchone()
-            paging = selected_num[0]//10
-            if selected_num[0] % 10 > 0:
-                paging = paging + 1
+                # 해당 프로필의 페이징 작업을 위해 해당 프로필의 유저의 pagination.my_posts_count 열을 출력하는 검색 쿼리
+                cur.execute('select posts from works_count where id=(select id from users where username = %s)', (username))
+                selected_num = cur.fetchone()
+                paging = selected_num[0]//10
+                if selected_num[0] % 10 > 0:
+                    paging = paging + 1
+        
+        else:
+            flash('로그인이 되어있지 않습니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
+
     except Exception as e: # 예상치 못한 에러를 처리하는 except문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
@@ -342,7 +319,8 @@ def edit_profile():
         return render_template('edit_profile.html', username = session['username'], location = selected_data[0], \
                                about_me = selected_data[1], image_name = selected_data[2])
     else:
-        return redirect('/')
+        flash('로그인이 되어있지 않습니다. 로그인을 해주세요.')
+        return redirect(url_for('auth.login'))
 
 
 # 팔로우를 하는 것에 해당하는 라우트 & 뷰함수
@@ -375,11 +353,13 @@ def follow(username):
             flash('팔로우 했습니다.')
         else:
             flash('로그인이 되지 않는 상태입니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
+
     except Exception as e: # 예상치 못 한 Error가 발생시 처리하는 except 문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
     
-    return redirect('/')
+    return redirect(url_for('.index'))
 
 
 # 언팔로우 하는 것에 해당하는 라우트 & 뷰함수
@@ -412,26 +392,33 @@ def unfollow(username):
             flash('언팔로우 했습니다.')
         else:
             flash('로그인 되지 않는 상태입니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
+
     except Exception as e: # 예상치 못 한 Error가 발생시 처리하는 except 문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
     
-    return redirect('/')
+    return redirect(url_for('.index'))
 
 
 # 팔로워들의 목록을 보는 라우트 & 뷰함수
 @main.route('/followers/<username>')
 def followers(username):
     try:
-        with db.cursor() as cur:
-            # 해당 username의 팔로워들의 정보를 출력하기 위한 검색 쿼리
-            cur.execute('select u.username, u.profile_filename, f.timestamp \
-                         from users u join follows f \
-                         on u.id = f.follower_id \
-                         where f.followed_id = (select id from users where username = %s) \
-                         and f.follower_id != (select id from users where username = %s) \
-                         order by f.timestamp desc', (username, username))
-            follower_datas = cur.fetchall()
+        if 'username' in session and 'id' in session:
+            with db.cursor() as cur:
+                # 해당 username의 팔로워들의 정보를 출력하기 위한 검색 쿼리
+                cur.execute('select u.username, u.profile_filename, f.timestamp \
+                            from users u join follows f \
+                            on u.id = f.follower_id \
+                            where f.followed_id = (select id from users where username = %s) \
+                            and f.follower_id != (select id from users where username = %s) \
+                            order by f.timestamp desc', (username, username))
+                follower_datas = cur.fetchall()
+
+        else:
+            flash('로그인 되지 않는 상태입니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
 
         return render_template('followers.html', username = username, follow_kind = 'Followers',
                                 follow_datas = follower_datas)
@@ -444,15 +431,20 @@ def followers(username):
 @main.route('/following/<username>')
 def following(username):
     try:
-        with db.cursor() as cur:
-            # username이 팔로잉을 한 유저들의 정보를 출력하는 검색 쿼리
-            cur.execute('select u.username, u.profile_filename, f.timestamp \
-                         from users u join follows f \
-                         on u.id = f.followed_id \
-                         where f.follower_id = (select id from users where username = %s) \
-                         and f.followed_id != (select id from users where username = %s) \
-                         order by f.timestamp desc', (username, username))
-            follower_datas = cur.fetchall()
+        if 'username' in session and 'id' in session:
+            with db.cursor() as cur:
+                # username이 팔로잉을 한 유저들의 정보를 출력하는 검색 쿼리
+                cur.execute('select u.username, u.profile_filename, f.timestamp \
+                            from users u join follows f \
+                            on u.id = f.followed_id \
+                            where f.follower_id = (select id from users where username = %s) \
+                            and f.followed_id != (select id from users where username = %s) \
+                            order by f.timestamp desc', (username, username))
+                follower_datas = cur.fetchall()
+
+        else:
+            flash('로그인 되지 않는 상태입니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
 
         return render_template('followers.html', username = username, follow_kind = 'Following',
                                 follow_datas = follower_datas)
@@ -472,7 +464,7 @@ def edit_post(id):
                     # Client에서 입력한 값으로 수정하는 update 쿼리
                     cur.execute('update posts set body=%s where id=%s', (body, id))
                     db.commit()
-                    return redirect('/')
+                    return redirect(url_for('.index'))
                 # 해당 게시글의 내용을 출력하는 검색 쿼리
                 cur.execute('select body \
                              from posts join users \
@@ -483,10 +475,10 @@ def edit_post(id):
                 return render_template('edit_post.html', body=edit_posts[0])
             else: # 게시글의 내용이 존재하지 않을 때 작동하는 조건문
                 flash('수정할 게시글이 존재하지 않습니다.')
-                return redirect('/')
+                return redirect(url_for('.index'))
         else:
-            flash('edit_post 문제 발생!')
-            return redirect('/')
+            flash('로그인을 해주시길 바라겠습니다.')
+            return redirect(url_for('auth.login'))
     except Exception as e: # 예상치 못 한 Error가 발생시 처리하는 except 문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
@@ -496,65 +488,70 @@ def edit_post(id):
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
     try:
-        with db.cursor() as cur:
-            if request.method == 'POST':
-                if request.form['comment-classfiy'] == 'comment': # 댓글 작성을 처리하는 조건문
-                    body = request.form['body'] # 작성한 댓글의 내용을 저장하는 변수
-                    # 댓글의 내용 및 작성자 그리고 해당 게시글의 id 컬럼 값을 저장하는 삽입 쿼리
-                    cur.execute('insert into comments(body, author_id, post_id, groupnum) \
-                                 select %s, %s, %s, coalesce(max(groupnum) + 1, 1) from comments', (body, session['id'], id))
-                    # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
-                    cur.execute('update works_count set comments = comments + 1 \
-                                 where id = %d' %(session['id']))
+        if 'username' in session and 'id' in session:
+            with db.cursor() as cur:
+                if request.method == 'POST':
+                    if request.form['comment-classfiy'] == 'comment': # 댓글 작성을 처리하는 조건문
+                        body = request.form['body'] # 작성한 댓글의 내용을 저장하는 변수
+                        # 댓글의 내용 및 작성자 그리고 해당 게시글의 id 컬럼 값을 저장하는 삽입 쿼리
+                        cur.execute('insert into comments(body, author_id, post_id, groupnum) \
+                                    select %s, %s, %s, coalesce(max(groupnum) + 1, 1) from comments', (body, session['id'], id))
+                        # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
+                        cur.execute('update works_count set comments = comments + 1 \
+                                    where id = %d' %(session['id']))
 
-                else: # 답 댓글 작성을 처리하는 조건문
-                    parent_id = request.form['parent_id'] # 작성한 답 댓글의 부모 댓글의 id 컬럼 값을 저장한 변수
-                    group_id = request.form['group_id']
-                    print(group_id)
-                    body = request.form['body'] # 작성한 답 댓글의 내용을 저장한 변수
-                    # 답 댓글의 내용 및 작성자, 게시글 id 컬럼 값 그리고 부모 댓글의 id 컬럼 값을 저장하는 삽입 쿼리
-                    cur.execute('insert into comments(body, author_id, post_id, parent, groupnum) values(%s, %s, %s, %s, %s)',
-                                (body, session['id'], id, parent_id, group_id))
-                    # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
-                    cur.execute('update works_count set comments = comments + 1 \
-                                 where id = %d' %(session['id']))
+                    else: # 답 댓글 작성을 처리하는 조건문
+                        parent_id = request.form['parent_id'] # 작성한 답 댓글의 부모 댓글의 id 컬럼 값을 저장한 변수
+                        group_id = request.form['group_id']
+                        print(group_id)
+                        body = request.form['body'] # 작성한 답 댓글의 내용을 저장한 변수
+                        # 답 댓글의 내용 및 작성자, 게시글 id 컬럼 값 그리고 부모 댓글의 id 컬럼 값을 저장하는 삽입 쿼리
+                        cur.execute('insert into comments(body, author_id, post_id, parent, groupnum) values(%s, %s, %s, %s, %s)',
+                                    (body, session['id'], id, parent_id, group_id))
+                        # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
+                        cur.execute('update works_count set comments = comments + 1 \
+                                    where id = %d' %(session['id']))
 
-                db.commit()
-                return redirect('/post/'+str(id))
+                    db.commit()
+                    return redirect(url_for('.post', id = id))
 
-            # method가 GET 일 시
-            # 해당 게시글의 정보들 출력하는 검색 쿼리
-            cur.execute('select pc.id, pc.body, pc.timestamp, u.username, u.profile_filename, pc.count \
-                         from ( \
-                          select p.id, p.body, p.timestamp, p.author_id, count(c.id) as count \
-                          from posts p left outer join comments c \
-                          on p.id = c.post_id \
-                          where p.id = %s \
-                          group by p.id \
-                         ) as pc join users u \
-                         on pc.author_id = u.id', (id))
-            posts = cur.fetchall()
+                # method가 GET 일 시
+                # 해당 게시글의 정보들 출력하는 검색 쿼리
+                cur.execute('select pc.id, pc.body, pc.timestamp, u.username, u.profile_filename, pc.count \
+                            from ( \
+                            select p.id, p.body, p.timestamp, p.author_id, count(c.id) as count \
+                            from posts p left outer join comments c \
+                            on p.id = c.post_id \
+                            where p.id = %s \
+                            group by p.id \
+                            ) as pc join users u \
+                            on pc.author_id = u.id', (id))
+                posts = cur.fetchall()
 
-            # 해당 게시글의 댓글들의 정보를 출력하는 검색 쿼리
-            cur.execute('select c.id, c.body, c.timestamp, u.username, u.profile_filename, c.groupnum, c.parent \
-                         from comments as c join users as u \
-                         on c.author_id = u.id \
-                         where post_id = %s \
-                         order by groupnum, timestamp', (id))
+                # 해당 게시글의 댓글들의 정보를 출력하는 검색 쿼리
+                cur.execute('select c.id, c.body, c.timestamp, u.username, u.profile_filename, c.groupnum, c.parent \
+                            from comments as c join users as u \
+                            on c.author_id = u.id \
+                            where post_id = %s \
+                            order by groupnum, timestamp', (id))
 
-            comments = cur.fetchall()
+                comments = cur.fetchall()
+
+                return render_template('post.html', posts = posts, comments = comments)
+        
+        else:
+            flash('로그인이 되어있지 않습니다. 로그인을 해주세요.')
+            return redirect(url_for('auth.login'))
 
     except Exception as e: # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
 
-    return render_template('post.html', posts = posts, comments = comments)
-
 
 # 전체 게시글들을 선택할 시 쿠키에 저장하는 라우트 & 뷰함수
 @main.route('/all')
 def all():
-    resp = make_response(redirect('/'))
+    resp = make_response(redirect(url_for('.index')))
     resp.set_cookie('show_follower', '')
     return resp
 
@@ -562,6 +559,6 @@ def all():
 # 팔로우한 게시글들을 선택할 시 쿠키에 저장하는 라우트 & 뷰함수
 @main.route('/followed')
 def followed():
-    resp = make_response(redirect('/'))
+    resp = make_response(redirect(url_for('.index')))
     resp.set_cookie('show_follower', 'True')
     return resp

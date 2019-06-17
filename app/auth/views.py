@@ -6,7 +6,7 @@ from .. import db
 # 로그인 라우트 & 뷰함수
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if not 'username' in session: # 로그인이 안 되어있는 상태를 확인 하는 조건문
+    if not 'username' in session and 'id' in session: # 로그인이 안 되어있는 상태를 확인 하는 조건문
         if request.method == 'POST': # method가 POST인 경우(로그인을 하기위해 로그인 submit 버튼을 클릭 했을 때 발생하는 method)
             email = request.form['email'] # Client에서 입력한 email 값을 저장하는 변수
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
@@ -17,7 +17,7 @@ def login():
                     selected_data = cur.fetchone() # 위 검색 쿼리의 값을 저장하는 변수
                     if not selected_data: # 저장된 변수의 값이 존재 하지 않는지 확인하는 조건문 존재하지 않을 시 로그인 페이지로 리다이렉트 한다.
                         flash('비밀번호가 옳바르지 않거나 해당 계정이 없는 문제로 로그인에 실패했습니다.')
-                        return redirect('/login')
+                        return redirect(url_for('.login'))
                     else: # 저장된 변수의 값이 존재하는 경우 해당 users.id, users.username 값을 session에다 저장한다.
                         session['id'] = selected_data[0]
                         session['username'] = selected_data[1]
@@ -26,12 +26,13 @@ def login():
                 abort(500)
 
             flash('로그인을 성공했습니다.')
-            return redirect('/')
+            return redirect(url_for('main.index'))
         return render_template('login.html')
     else: # 로그인 되어있는 상태에서 로그인 페이지로 들어갈시(강제적으로) 메인 페이지로 리다이렉트 하는 조건문(else 문)
         flash('예상치 못한 문제로 로그아웃 합니다.')
         session.pop('username', None)
-        return redirect('/')
+        session.pop('id', None)
+        return redirect(url_for('.login'))
 
 
 # 로그 아웃 라우트 & 뷰함수
@@ -43,10 +44,10 @@ def logout():
             session.pop('username', None)
             session.pop('id', None)
             flash('로그아웃 합니다.')
-            return redirect('/')
+            return redirect(url_for('.login'))
         else: # 로그인이 되지 않는 상태에서 강제적으로 로그아웃으로 들어가면 메인페이지로 리다이렉트 한다.
             flash('로그아웃 되었습니다.')
-            return redirect('/')
+            return redirect(url_for('.login'))
     except Exception as e: # 예상치 못한 Error가 발생할 시 처리하는 except문
         flash(str(e) + '라는 문제가 발생했습니다.')
         abort(500)
@@ -71,14 +72,14 @@ def register():
                     # 검색한 쿼리(email)의 값이 존재하는지 확인하는 조건문이며 존재하면 다시 회원 가입 페이지로 리다이렉트한다.
                     if selected_email:
                         flash('존재하는 이메일 입니다.')
-                        return redirect('/register')
+                        return redirect(url_for('.register'))
                     # 입력한 username 값이 users.username에 존재하는지 확인하는 검색 쿼리
                     cur.execute('select username from users where username=%s', (username))
                     select_username = cur.fetchone()
                     # 검색한 쿼리(username)의 값이 존재하는지 확인하는 조건문이며 존재한다면 회원가입 페이지로 이동한다.
                     if select_username:
                         flash('존재하는 닉네임 입니다.')
-                        return render_template('register.html', email = email)
+                        return redirect(url_for('.register', email = email))
                     # 위의 조건문들을 통과하면 입력한 email과 username이 users 테이블에 존재하지 않다는 의미로 users 테이블에 email, username, password를
                     # 삽입하는 쿼리문이다.
                     cur.execute("insert into users(email, username, password_hash) values(%s, %s, sha2(%s, 224))", (email, username, password))
@@ -96,13 +97,13 @@ def register():
                 abort(500)
 
             flash('가입완료 됬습니다.')
-            return redirect('/login')
+            return redirect(url_for('.login'))
         return render_template('register.html')
     else: # 로그인이 되어있는 상태면 저장된 session을 제거(pop)한 후에 메인페이지로 리다이렉트 한다.
         session.pop('username', None)
         session.pop('id', None)
         flash('예상치 못한 문제로 로그아웃 합니다.')
-        return redirect('/')
+        return redirect(url_for('.login'))
 
 
 # 비밀번호 초기화하는 라우트 & 뷰함수
@@ -118,10 +119,10 @@ def reset():
                     selected_data = cur.fetchone() # 위 쿼리의 값을 저장하는 변수
                     if selected_data: # 변수에 값이 존재하는지 확인하는 조건문 존재한다면 해당 값(username)을 session에다 저장한 후에 비밀번호 변경 페이지로 리다이렉트 한다.
                         session['username'] = selected_data[0]
-                        return redirect('/reset_password')
+                        return redirect(url_for('.reset'))
                     else: # 존재하지 않으면 초기화 페이지로 리다이렉트 한다.
                         flash('입력하신 이메일은 존재하지 않는 계정 이메일입니다.')
-                        return redirect('/reset')
+                        return redirect(url_for('.reset'))
             except Exception as e: # 예상치 못 한 Error가 발생했을 시 처리하는 except 문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
@@ -131,7 +132,7 @@ def reset():
         flash('예상치 못한 접근으로 로그아웃 합니다.')
         session.pop('username', None)
         session.pop('id', None)
-        return redirect('/')
+        return redirect(url_for('.login'))
 
 
 # 초기화 하여 비밀번호를 변경하는 라우트 & 뷰함수
@@ -152,8 +153,8 @@ def reset_password():
 
             session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.
             flash('비밀번호 변경이 성공했습니다.')
-            return redirect('/login')
+            return redirect(url_for('.login'))
         flash('변경하실 비밀번호를 입력해주세요.')
         return render_template('reset_password.html')
     else:
-        return redirect('/')
+        return redirect(url_for('.login'))
