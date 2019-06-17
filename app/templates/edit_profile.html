@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Edit Profile{% endblock %}
+
+{% block page_content %}
+<div class="nav-tabs mt-5 mb-4 pb-2">
+ <h1>Edit Your Profile</h1>
+</div>
+<div class="col-md-4">
+ <form method="post" class="form" role="form" enctype="multipart/form-data">
+    <img class="img-rounded" id="profile-img" src="{{ url_for('static', filename='icon/') }}{{image_name}}" width="256px">
+    <input type="file" id="profile-file" name="file" accept="image/*">
+  <div class="form-group">
+   <label class="font-weight-bold" for="username">UserName</label>
+   <input class="form-control" id="username" name="username" type="text" value="{{username}}">
+  </div>
+  <div class="form-group">
+   <label class="font-weight-bold" for="location">location</label>
+   <input class="form-control" id="location" name="location" type="text" value="{{location}}">
+  </div>
+  <div class="form-group">
+   <label class="font-weight-bold" for="about_me">About me</label>
+   <textarea class="form-control" id="about_me" name="about_me">{{about_me}}
+   </textarea>
+  </div>
+  <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit">
+ </form> 
+</div>
+{% endblock %}
