@@ -8,11 +8,11 @@ from config import config
 
 # instance 하는 Flask 확장 or 다른 모듈들
 
-db = mysql.connect(host ='192.168.111.139',
-                   port = 3306,
-                   user = 'sys3948',
-                   passwd = 'Tlsdbstjr1+',
-                   db = 'FlaskyDB3',
+db = mysql.connect(host ='ip',
+                   port = 'port',
+                   user = 'mysql id',
+                   passwd = 'mysql passwd',
+                   db = 'mysql schema',
                    charset = 'utf8')
 
 # /home의 pagination 구현을 위한 등록된 전체 유저의 수, 전체 게시글 수 검색하는 쿼리
