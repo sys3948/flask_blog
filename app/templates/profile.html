@@ -4,54 +4,62 @@
 
 {% block page_content %}
 <div class="page-header mt-5 mb-4 pb-2">
- <img class="img-rounded profile-thumbnail" src="{{url_for('static', filename='icon/')}}{{image_name}}" width="256px">
- <div class="profile-header">
-  <h1>{{profile_user}}</h1>
-  {% if location %}
-  <p>
-   from <a href="http://maps.google.com/?q={{location}}">{{location}}</a>
-   <br>
-  </p>
- {% endif %}
-  
- {% if about_me %}
-  <p>{{about_me}}</p>
- {% endif %}
-  
- <p>가입 날짜: {{ member_since }}</p>
- <p>게시글 작성 수: {{posts_count}} 댓글 작성 수: {{comments_count}}</p>
- <p>
-  {% if 'username' in session and 'id' in session %}
-   {% if profile_user != session['username'] %}
-    {% if not show_follow %}
-    <a class="btn btn-outline-primary text-primary font-weight-bolder" href="/follow/{{profile_user}}">Follow</a>
+ <div class="row">
+  <div class="col-md-4">
+   <img class="img-thumbnail profile-thumbnail" src="{{url_for('static', filename='icon/')}}{{image_name}}" width="256px">
+  </div>
+  <div class="profile-header col-md-8">
+   <h1>{{profile_user}}</h1>
+   {% if location %}
+   <p>
+    from <a href="http://maps.google.com/?q={{location}}">{{location}}</a>
+    <br>
+   </p>
+  {% endif %}
+
+  {% if about_me %}
+   <p>{{about_me}}</p>
+  {% endif %}
+
+  <p>가입 날짜: {{ member_since }}</p>
+   <div class="btn-group">
+    <div class="btn btn-light">
+     <p class="p-2 text-secondary font-weight-bolder">{{ posts_count }}</p>
+     <p class="p-2 text-secondary font-weight-bolder">게시글</p>
+    </div>
+    <div class="btn btn-light">
+     <p class="p-2 text-secondary font-weight-bolder">{{ followers_count }}</p>
+     <a href="/follow_list/{{profile_user}}/follow" class="p-2 text-secondary font-weight-bolder">팔로워</a>
+    </div>
+    <div class="btn btn-light">
+     <p class="p-2 text-secondary font-weight-bolder">{{ following_count }}</p>
+     <a href="/follow_list/{{profile_user}}/following" class="p-2 text-secondary font-weight-bolder">팔로잉</a>
+    </div>
+   </div>
+   <div class="mt-2">
+    {% if profile_user == session['username'] %}
+     <a class="btn btn-outline-secondary text-secondary font-weight-bolder" href="/edit_profile">Edit Profile</a>
     {% else %}
-    <a class="btn btn-outline-secondary text-secondary font-weight-bolder" href="/unfollow/{{profile_user}}">Unfollow</a>
+     {% if not show_follow %}
+      <a href="/follow/{{profile_user}}" class="btn btn-primary btn-lg" style="width: 267px">팔로우</a>
+     {% else %}
+      <a href="/unfollow/{{profile_user}}" class="btn btn-outline-secondary btn-lg" style="width: 267px">언팔로우</a>
+     {% endif %}
     {% endif %}
-   {% endif %}
-  {% endif %}
-  <a href="/followers/{{profile_user}}">Followers: <span class="badge badge-secondary">{{followers_count}}</span></a>
-  <a href="/following/{{profile_user}}">Following: <span class="badge badge-secondary">{{following_count}}</span></a>
-  {#{% if 로그인이 되어있는 상태이고 프로필과 로그인한 유저가 달라야되고 프로필이 팔로우 된 상태여야한다. %}
-   <span class="badge badge-secondary font-weight-bolder">Follows you</span>
-  {% endif %}#}
- </p>
- <p>
-  {% if profile_user == session['username'] %}
-  <a class="btn btn-outline-secondary text-secondary font-weight-bolder" href="/edit_profile">Edit Profile</a>
-  {% endif %}
- </p>
+   </div>
+  </div>
  </div>
 </div>
 <div>
  <h3>작성한 게시글</h3>
- {% include '_posts.html' %}
+ {% if profile_user == session['username'] %}
+  {% include '_posts.html' %}
  
- {% if paging %}
- <div>
-  {# pagination에 관한 jquery plugin 적용하기. #}
-  <ul class="pagination pagination-lg" id="pagination"></ul>
- </div>
+  {% if paging %}
+   <div>
+    <ul class="pagination pagination-lg" id="pagination"></ul>
+   </div>
+  {% endif %}
  {% endif %}
 
  <script>
@@ -62,7 +70,7 @@
     currentPage: {{current_page}},
     prevText: '<span aria-hidden="true">&laquo;</span>',  
     nextText: '<span aria-hidden="true">&raquo;</span>',
-    hrefTextPrefix: '/{{url}}/',
+    hrefTextPrefix: '{{url}}/',
     onInit: function(){},
     onPageClick: function(page, evt){
      location.replace('/{{url}}/'+page);

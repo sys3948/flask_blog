@@ -14,12 +14,12 @@
 
 {% block page_content %}
 <div class="nav-tabs mt-5 mb-4 pb-2">
- <h1>Hello, {% if session['username'] %}{{ session['username'] }}{% else %}Stranger{% endif %}!</h1>   
+ <h1>{{username}}의 blog입니다! {% if show_follow %} <h6 class="font-weight-bolder">Following</h6> {% endif %} </h1>   
 </div>
 
 <div>
- {% if session['username'] %}
- <form action method="post" class="form" role="form" onsubmit="return check_submit()">
+ {% if session['username'] == username %}
+ <form action="/{{username}}" method="post" class="form" role="form" onsubmit="return check_submit()">
   <div class="form-group required">
    <label class="control-label" for="body">What's on your mind?</label>
     <div class="flask-pagedown">
@@ -31,18 +31,10 @@
  {% endif %}
 </div>
 <div class="post-tabs">
- <ul class="nav nav-tabs">
-  {% if 'username' in session %}
-  <li class="nav-item"><a {% if show_follower %} class="nav-link" {% else %} class="nav-link active" {% endif %} href="/all">All</a></li>
-  <li class="nav-item"><a {% if show_follower %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/followed">Followers</a></li>
-  {% else %}
-  <li class="active"><a href="/all">All</a></li>
-  {% endif %}
- </ul>
  {% include '_posts.html' %}
 </div>
 {% if paging %}
-<div>
+<div class="mt-2">
  {# pagination에 관한 jquery plugin 적용하기. #}
  <ul class="pagination pagination-lg" id="pagination"></ul>
 </div>
@@ -56,11 +48,8 @@
    currentPage: {{current_page}},
    prevText: '<span aria-hidden="true">&laquo;</span>',  
    nextText: '<span aria-hidden="true">&raquo;</span>',
-   hrefTextPrefix: '/',
+   hrefTextPrefix: '/{{username}}/',
    onInit: function(){},
-   onPageClick: function(page, evt){
-    location.replace('/'+page);
-   }
   });
  })
  

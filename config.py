@@ -6,7 +6,8 @@ class Config:
     SECRET_KEY = 'secret key in flasky example'
     EXTENTION_FILES = set({'png', 'jpg', 'jpeg', 'gif'})
     UPLOAD_FOLDERS = 'app/static/icon'
-
+    UPLOAD_POST_PATH_DEFAULT = 'app/templates/'
+    UPLOAD_POST_PATH = 'postFiles/'
     @staticmethod
     def init_app(app):
         pass

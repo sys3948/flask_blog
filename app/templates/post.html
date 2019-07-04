@@ -11,7 +11,7 @@
     <input type="hidden" name="comment-classfiy" value="comment">
     <div class="form-group required">
      <label class="font-weight-bolder" for="body">Enter Your Comment</label>
-     <input class="form-control" id="body" name="body" required type="text" value>
+     <textarea class="form-control" id="body" name="body" required></textarea>
     </div>
     <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit">
    </form>
@@ -19,9 +19,4 @@
   </div>
  {% endif %}
  {% include '_comments.html' %}
- {% if pagination %}
-  <div class="pagination">
-   {# pagination jquery plugin 적용하기. #}
-  </div>
- {% endif %}
 {% endblock %}

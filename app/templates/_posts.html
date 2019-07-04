@@ -1,31 +1,53 @@
-{% if posts %}
+{% if datas %}
 <ul class="posts">
- {% for post in posts %}
+ {% for post in datas %}
  <li class="post">
   <div class="post-thumbnail">
-   <a href="/profile/{{post[3]}}">
-    <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{post[4]}}" width="40px">
+   <a href="/profile/{{post[0]}}">
+    <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{post[1]}}" width="40px">
    </a>
   </div>
   <div class="post-content">
    <!--   게시글 작성 시간    -->
-   <div class="post-date">{{post[2]}}</div>
+   <div class="post-date">{{post[3]}}</div>
    <!--   작성자 유저네임(href, 해당 이름값)    -->
-   <div class="post-author"><a href="/profile/{{post[3]}}">{{post[3]}}</a></div>
+   <div class="post-author"><a href="/profile/{{post[0]}}">{{post[0]}}</a></div>
    <!--   게시글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
-   <div class="post-body">
-    <!--   게시글 내용이 들어갈 부분    -->
-    {{post[1] | safe}}
-   </div>
+   <iframe src="{{post[2]}}" class="post-body" id="the_iframe" onload="calcHeight();" name="WrittenPublic" title="게시판뷰" frameborder="0" scrolling="no" style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">
+    <!--   게시글 내용이 들어갈 부분 iframe으로 로드해보기   -->
+   </iframe>
    <div class="post-footer">
     <!--   접속한 유저가 작성한 유저와 같은가?     -->
-    {% if post[3] == session['username'] %}
-    <a href="/edit_post/{{post[0]}}"><span class="badge badge-primary">Edit</span></a>
+    {% if post[0] == session['username'] %}
+    <a href="/edit_post/{{post[5]}}"><span class="badge badge-primary">Edit</span></a>
     {% endif %}
-    <a href="/post/{{post[0]}}#comments"><span class="badge badge-secondary">Comments {{post[5]}}개</span></a>
+    {% if not id %}
+    <a href="/post/{{post[5]}}#comments"><span class="badge badge-secondary">Comments {{post[4]}}개</span></a>
+    {% else %}
+    <a href="/post/{{id}}#comments"><span class="badge badge-secondary">Comments {{post[4]}}개</span></a>
+    {% endif %}
    </div>
   </div>
  </li>
  {% endfor %}
 </ul>
+<script type="text/javascript"> 
+//<![CDATA[
+function calcHeight(){
+ //find the height of the internal page
+ 
+ var current_iframe = document.getElementsByClassName('post-body');
+ 
+ for(var i=0; i < current_iframe.length; i++){
+  var the_height = current_iframe[i].contentWindow.document.body.scrollHeight;
+  
+  // change the height of the iframe
+  document.getElementsByClassName('post-body')[i].height = the_height;
+  
+  document.getElementsByClassName('post-body')[i].style.overflow = "hidden";
+ }
+
+}
+//
+</script>
 {% endif %}

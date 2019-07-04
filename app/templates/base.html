@@ -3,7 +3,7 @@
  <head>
   {%- block head %}
    {%- block styles %}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {# summernote api의 css local file link #}
@@ -36,7 +36,7 @@
       </div>
       <div class="navbar-collapse ">
        <ul class="navbar-nav col-md-11">
-        <li class="nav-itme"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-itme"><a class="nav-link" href="/home">Home</a></li>{# home의 url은 /home로 전체 유저의 list와 전체 게시글들을 보여준다(최신의 게시글들로.) #}
         {% if session['username'] %}
         <li class="nav-item"><a class="nav-link" href="/profile/{{session['username']}}">Profile</a></li>
         {% endif %}
@@ -46,8 +46,10 @@
         <li class="dropdown">
          <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Account<b class="caret"></b></a>
          <ul class="dropdown-menu">
-          <li><a href="/change_password">Change Password</a></li>
-          <li><a href="/logout">Log Out</a></li>
+          <li><a class="dropdown-item" href="#"></a></li>
+          <li><a class="dropdown-item" href="/follow_list/{{session['username']}}">Follow & Following List</a></li>
+          <li><a class="dropdown-item" href="/change_password">Change Password</a></li>
+          <li><a class="dropdown-item" href="/logout">Log Out</a></li>
          </ul>
         </li>
         {% else %}

@@ -1,0 +1,88 @@
+<div class="mt-1 pt-2">
+ <form method="post">
+  <div class="input-group">
+   <div class="input-group-prepend">
+    <span class="input-group-text"><span class="fas fa-search"></span></span>
+   </div>
+   <input class="form-control" type="text" name="search" />
+   <input type="submit" class="btn btn-secondary" value="Search" />
+  </div>
+ </form>
+</div>
+<table class="table table-hover followers">
+ <thead>
+  <tr>
+   <th class="w-50">User</th>
+   <th class="w-25">Since</th>
+   <th class="w-25"></th>
+  </tr>
+ </thead>
+ {% if datas %}
+ {% for user_data in datas %}
+ <tr>
+  <td>
+   <a href="/profile/{{user_data[0]}}">
+    <img class="img-rounded" src="{{ url_for('static', filename='icon/') }}{{user_data[1]}}" width="32px">
+    {{user_data[0]}}
+   </a>
+  </td>
+  <td>
+   {{user_data[2]}}
+  </td>
+  <td>
+   {% if user_data[0] == session['username'] %}
+    
+   {% else %}
+    {% if user_data[3] %}
+     <button type="button" class="btn btn-outline-secondary w-75" data-toggle="modal" data-target="#myModal" onclick="modal('{{user_data[0]}}', '{{ url_for('static', filename='icon/') }}{{user_data[1]}}')">팔로잉</button>
+    {% else %}
+     <a href="/follow/{{user_data[0]}}" class="btn btn-primary w-75">팔로우</a>
+    {% endif %}
+   {% endif %}
+  </td>
+ </tr>
+ {% endfor %}
+ {% endif %}
+</table>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title contaniner" style="margin: 0 auto;">
+          <img class="img-rounded" id="icon" src="" width="64px;">
+        </h4>
+      </div>
+        
+      <!-- Modal body -->
+      <div class="modal-body" id="modalContent"></div>
+        
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary mx-auto" data-dismiss="modal">취소</button>
+        <a href="#" class="btn btn-outline-danger mx-auto" id="unfollowLink">언팔로우</a>
+      </div>    
+    </div>
+  </div>
+</div>
+{% if paging %}
+<div class="mt-2">
+  <ul class="pagination pagination-lg" id="pagination"></ul>
+</div>
+<script>
+  $(function(){
+    $('#pagination').pagination({
+      items: {{paging}},
+      itemOnPage: 5,
+      currentPage: {{current_page}},
+      prevText: '<span aria-hidden="true">&laquo;</span>',  
+      nextText: '<span aria-hidden="true">&raquo;</span>',
+      hrefTextPrefix: '/{{pageUrl}}/',
+      onInit: function(){},
+    })
+  })
+</script>
+{% endif %}
+<script src="{{ url_for('static', filename='js/modalConfig.js') }}"></script>

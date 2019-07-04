@@ -12,14 +12,18 @@ db = mysql.connect(host ='192.168.111.139',
                    port = 3306,
                    user = 'sys3948',
                    passwd = 'Tlsdbstjr1+',
-                   db = 'FlaskyDB2_test',
+                   db = 'FlaskyDB3',
                    charset = 'utf8')
 
+# /home의 pagination 구현을 위한 등록된 전체 유저의 수, 전체 게시글 수 검색하는 쿼리
 cur = db.cursor()
+cur.execute('select count(id) from users')
+all_user_count = cur.fetchone()
 cur.execute('select count(id) from posts')
-all_count = cur.fetchone()
+all_post_count = cur.fetchone()
 cur.close()
-all_count = all_count[0]
+all_user_count = all_user_count[0]
+all_post_count = all_post_count[0]
 
 def create_app(config_name):
     # instance한 객체들을 초기화 하고 Blueprint를 등록하는 부분
@@ -27,8 +31,12 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    from .main import main as main_blueprint
+    from .main import main as main_blueprint, errors as errors_handler
     app.register_blueprint(main_blueprint)
+    # 팩토리 함수에서 에러 핸들링 패턴.
+    app.register_error_handler(404, errors_handler.not_found)
+    app.register_error_handler(403, errors_handler.forbidden)
+    app.register_error_handler(500, errors_handler.internal_server)
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 

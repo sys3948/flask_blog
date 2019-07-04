@@ -1,12 +1,13 @@
 from flask import abort, flash, make_response, redirect, render_template, request, session, url_for
 from . import auth
 from .. import db
+import os
 
 
 # 로그인 라우트 & 뷰함수
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if not 'username' in session and 'id' in session: # 로그인이 안 되어있는 상태를 확인 하는 조건문
+    if not 'username' in session and not 'id' in session: # 로그인이 안 되어있는 상태를 확인 하는 조건문
         if request.method == 'POST': # method가 POST인 경우(로그인을 하기위해 로그인 submit 버튼을 클릭 했을 때 발생하는 method)
             email = request.form['email'] # Client에서 입력한 email 값을 저장하는 변수
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
@@ -26,7 +27,7 @@ def login():
                 abort(500)
 
             flash('로그인을 성공했습니다.')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.main_index', username = session['username']))
         return render_template('login.html')
     else: # 로그인 되어있는 상태에서 로그인 페이지로 들어갈시(강제적으로) 메인 페이지로 리다이렉트 하는 조건문(else 문)
         flash('예상치 못한 문제로 로그아웃 합니다.')
@@ -62,6 +63,8 @@ def register():
             username = request.form['username'] # Clinet에서 입력한 username 값을 저장하는 변수
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
 
+            # 이메일 닉네임 비밀번호가 존재하지 않는 경우 회원가입 페이지로 리다이렉트 하는 기능 추가하기.
+
             # user table에 email 또는 username이 존재하는 가? 만일 존재한다면 flash처리로 회원가입 하지 못하게 하기.
             try:
                 with db.cursor() as cur:
@@ -79,18 +82,15 @@ def register():
                     # 검색한 쿼리(username)의 값이 존재하는지 확인하는 조건문이며 존재한다면 회원가입 페이지로 이동한다.
                     if select_username:
                         flash('존재하는 닉네임 입니다.')
-                        return redirect(url_for('.register', email = email))
+                        return redirect(url_for('.register'))
                     # 위의 조건문들을 통과하면 입력한 email과 username이 users 테이블에 존재하지 않다는 의미로 users 테이블에 email, username, password를
                     # 삽입하는 쿼리문이다.
                     cur.execute("insert into users(email, username, password_hash) values(%s, %s, sha2(%s, 224))", (email, username, password))
                     # 삽입한 email 값으로 해당 id 값을 검색하는 쿼리
                     cur.execute('select id from users where email=%s', (email))
                     selected_id = cur.fetchone() # 위 검색 쿼리의 값을 저장하는 변수
-                    # 저장한 변수의 값으로 followers, follows_count, user_work_count, pagination 테이블에 삽입하는 쿼리
-                    # 팔로우 개념에서는 우선 자기가 자신을 팔로우 한다는 것을 잊지말자!
-                    cur.execute('insert into follows(follower_id, followed_id) values(%d, %d)' %(selected_id[0], selected_id[0]))
-                    cur.execute('insert into follows_count(user_id) values(%s)', (selected_id[0]))
-                    cur.execute('insert into works_count(id) values(%s)', (selected_id[0]))
+                    os.mkdir('app/templates/postFiles/' + str(selected_id[0]))
+                    cur.execute('insert into follows(follower_id, followed_id) values(%s, %s)', (selected_id[0], selected_id[0]))
                     db.commit()
             except Exception as e: # 예상치 못 한 Error가 발생할 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
