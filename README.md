@@ -1,10 +1,11 @@
 # flask_blog
 
-해당 페이지의 db 모델은 아래의 이미지 이다.
+###해당 페이지의 db 모델은 아래의 이미지 이다.(수정 2019/07/04)
 
-<img width="578" alt="db_modle_in_flasky" src="https://user-images.githubusercontent.com/48170295/59585495-94512080-911b-11e9-9172-97f2683fd67c.PNG">
+<img width="478" alt="flaskDBModel" src="https://user-images.githubusercontent.com/48170295/60644839-2f632d80-9e72-11e9-97c1-0540590e9b9b.PNG">
 
-이미지에 존재하는 테이블의 타입은 다음과 같이 설명한다.
+
+###이미지에 존재하는 테이블의 타입은 다음과 같이 설명한다.(수정 2019/07/04)
 
 <table>
   <tr>
@@ -46,6 +47,18 @@
    <td>profile_filename</td>
    <td>varchar(200)</td>
   </tr>
+  <tr>
+   <td>post_count</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>follow_count</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>following_count</td>
+   <td>int</td>
+  </tr>
 </table>
 
 <table>
@@ -65,12 +78,16 @@
    <td>int</td>
   </tr>
   <tr>
-   <td>body</td>
-   <td>longtext</td>
+   <td>name</td>
+   <td>varchar(200)</td>
   </tr>
   <tr>
    <td>timestamp</td>
    <td>datetime</td>
+  </tr>
+  <tr>
+   <td>comment_count</td>
+   <td>int</td>
   </tr>
 </table>
 
@@ -95,26 +112,26 @@
    <td>int</td>
   </tr>
   <tr>
-   <td>parent</td>
-   <td>int</td>
-  </tr>
-  <tr>
    <td>body</td>
    <td>text</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
   </tr>
   <tr>
    <td>groupnum</td>
    <td>int</td>
   </tr>
   <tr>
-   <td>timestamp</td>
-   <td>datetime</td>
+   <td>parent</td>
+   <td>int</td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td><b>table_name : works_count</b></td>
+    <td><b>table_name : delcomments</b></td>
   </tr>
   <tr>
     <td><b>column_name</b></td>
@@ -125,15 +142,27 @@
    <td>int</td>
   </tr>
   <tr>
-   <td>posts</td>
+   <td>author_id</td>
    <td>int</td>
   </tr>
   <tr>
-   <td>follow_posts</td>
+   <td>post_id</td>
    <td>int</td>
   </tr>
   <tr>
-   <td>comments</td>
+   <td>body</td>
+   <td>text</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr>
+  <tr>
+   <td>groupnum</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>parent</td>
    <td>int</td>
   </tr>
 </table>
@@ -160,24 +189,3 @@
   </tr
 </table>
 
-<table>
-  <tr>
-    <td><b>table_name : follows_count</b></td>
-  </tr>
-  <tr>
-    <td><b>column_name</b></td>
-    <td><b>type</b></td>
-  </tr>
-  <tr>
-   <td>user_id</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>followed</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>following</td>
-   <td>int</td>
-  </tr
-</table>
