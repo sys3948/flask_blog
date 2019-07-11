@@ -1,6 +1,6 @@
 from flask import abort, flash, make_response, redirect, render_template, request, session, url_for
 from . import auth
-from .. import db
+from .. import db, all_user_count
 import os
 
 
@@ -92,6 +92,8 @@ def register():
                     os.mkdir('app/templates/postFiles/' + str(selected_id[0]))
                     cur.execute('insert into follows(follower_id, followed_id) values(%s, %s)', (selected_id[0], selected_id[0]))
                     db.commit()
+                    global all_user_count
+                    all_user_count = all_user_count + 1
             except Exception as e: # 예상치 못 한 Error가 발생할 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
@@ -119,7 +121,7 @@ def reset():
                     selected_data = cur.fetchone() # 위 쿼리의 값을 저장하는 변수
                     if selected_data: # 변수에 값이 존재하는지 확인하는 조건문 존재한다면 해당 값(username)을 session에다 저장한 후에 비밀번호 변경 페이지로 리다이렉트 한다.
                         session['username'] = selected_data[0]
-                        return redirect(url_for('.reset'))
+                        return redirect(url_for('.reset_password'))
                     else: # 존재하지 않으면 초기화 페이지로 리다이렉트 한다.
                         flash('입력하신 이메일은 존재하지 않는 계정 이메일입니다.')
                         return redirect(url_for('.reset'))
@@ -147,14 +149,15 @@ def reset_password():
                     # 비밀번호를 변경하는 update 쿼리문
                     cur.execute('update users set password_hash=sha2(%s, 224) where username=%s', (password, session['username']))
                     db.commit()
+                # session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.password)
+                flash('비밀번호 변경이 성공했습니다.')
+                return redirect(url_for('.login'))
             except Exception as e: # 예상치 못 한 Error가 발생했을 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
 
-            session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.
-            flash('비밀번호 변경이 성공했습니다.')
-            return redirect(url_for('.login'))
         flash('변경하실 비밀번호를 입력해주세요.')
         return render_template('reset_password.html')
     else:
+        flash('문제 발생')
         return redirect(url_for('.login'))

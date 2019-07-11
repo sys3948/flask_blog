@@ -52,31 +52,28 @@
 </div>
 <div>
  <h3>작성한 게시글</h3>
- {% if profile_user == session['username'] %}
   {% include '_posts.html' %}
  
   {% if paging %}
    <div>
     <ul class="pagination pagination-lg" id="pagination"></ul>
    </div>
+    <script>
+     $(function(){
+      $('#pagination').pagination({
+       items: {{paging}},
+       itemOnPage: 5,
+       currentPage: {{current_page}},
+       prevText: '<span aria-hidden="true">&laquo;</span>',  
+       nextText: '<span aria-hidden="true">&raquo;</span>',
+       hrefTextPrefix: '{{url}}/',
+       onInit: function(){},
+       onPageClick: function(page, evt){
+        location.replace('/{{url}}/'+page);
+       }
+      });
+     })
+    </script>
   {% endif %}
- {% endif %}
-
- <script>
-  $(function(){
-   $('#pagination').pagination({
-    items: {{paging}},
-    itemOnPage: 5,
-    currentPage: {{current_page}},
-    prevText: '<span aria-hidden="true">&laquo;</span>',  
-    nextText: '<span aria-hidden="true">&raquo;</span>',
-    hrefTextPrefix: '{{url}}/',
-    onInit: function(){},
-    onPageClick: function(page, evt){
-     location.replace('/{{url}}/'+page);
-    }
-   });
-  })
- </script>
 </div>
 {% endblock %}

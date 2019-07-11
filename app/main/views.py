@@ -1,48 +1,9 @@
 from flask import abort, current_app, flash, make_response, redirect, render_template, request, session, url_for
 from . import main
 from .. import db, all_post_count, all_user_count
-from datetime import date
+from .file_func import change_filename, create_file
+from .db_query_func import follow_query, follow_search_query, following_query, following_search_query
 import os
-
-
-# file 저장시에 해당 file의 이름을 문제없이 저장하기 위해 변경해주는 함수
-def change_filename(name):
-    if ' ' in name:
-        name = name.replace(' ', '_')
-    return name
-
-
-# 게시글 파일을 생성하는 함수
-def create_file(content):
-    try:
-        # html 파일 이름을 년/월/일-n 으로 만드는 로직
-        filename = ''.join(date.today().isoformat().split('-'))
-        filename = filename + '.html'
-        path = current_app.config['UPLOAD_POST_PATH_DEFAULT'] + current_app.config['UPLOAD_POST_PATH'] + str(session['id'])# 파일을 저장할 file path
-        dbPath = current_app.config['UPLOAD_POST_PATH'] + str(session['id'])# DB에 저장할 file path
-
-        # 파일의 중복확인을 하기위한 반복문
-        i = 1
-        while os.path.exists(os.path.join(path, filename)):
-            # 파일 이름이 존재한다면 n을 1씩 증가하기.
-            name, extension = os.path.splitext(filename)
-            if i>1:
-                filename = filename.replace('-'+str(num), '-'+str(i))
-            else:
-                filename = name + '-' + str(i) + extension
-            num = i
-            i = i + 1
-
-        # 중복확인이 되었으면 생성된 파일이름으로 작성한 글을 작성하기.
-        f = open(os.path.join(path, filename), 'wt', encoding='utf-8')
-        f.write(content)
-        f.close()
-        filePath = os.path.join(dbPath, filename)
-        return filePath
-
-    except Exception as e:
-        flash(str(e) + '라는 문제가 발생했습니다.')
-        abort(500)
 
 
 # 메인 페이지로 리다이렉션하는 라우트 & 뷰함수
@@ -75,6 +36,9 @@ def index(username, num = 1):
                                      where id = %s', (session['id']))
 
                         db.commit() # 위 쿼리들(insert, update) 저장하는 부분
+
+                        global all_post_count
+                        all_post_count = all_post_count + 1
 
                         flash('작성 완료했습니다.')
                         return redirect(url_for('.index', username = session['username'])) # 작업이 끝났으면 GET method로 / route로 redirect 한다.
@@ -145,6 +109,8 @@ def home(num = 1):
                     # 게시글 목록의 pagination 구현하기 위한 값 저장
                     paging = all_post_count // 10
 
+                    print("post count: ", all_post_count)
+
                 else:
                     # 등록된 전체 유저들을 출력하기 위한 검색 쿼리
                     cur.execute('select u.username, u.profile_filename, u.member_since, f.followed_id\
@@ -157,15 +123,18 @@ def home(num = 1):
                                    where follower_id = %s and followed_id != %s \
                                  ) as f \
                                  on u.id = f.followed_id \
-                                 ', (session['id'], session['id']))
+                                 limit %s, 10', (session['id'], session['id'], rnum))
                     
                     datas = cur.fetchall()
 
                     # 등록된 유저 목록의 pagination 구현하기 위한 값 저장
                     paging = all_user_count // 10
+                    print("user count: ", all_user_count)
 
             if paging % 10 > 0:
                 paging = paging + 1
+
+            print("Paging: ", paging)
 
             return render_template('home.html', datas = datas, paging = paging, show_page = show_page, current_page = num)
 
@@ -208,7 +177,7 @@ def change_pw():
                         flash('Old Password(현재 비밀번호)가 맞지 않습니다. 다시 입력해주세요.')
                         return redirect(url_for('.change_pw'))
                     flash('비밀번호 변경이 성공했습니다.')
-                    return redirect(url_for('.index'))
+                    return redirect(url_for('.main_index'))
             except Exception as e: # 예상치 못한 Error가 발생했을 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
@@ -232,6 +201,7 @@ def profile(username, num = 1):
                 cur.execute('select location, about_me, member_since, profile_filename, post_count, follow_count, following_count \
                              from users where username = %s', (username))
                 select_data = cur.fetchone()
+                print(select_data)
                 if not select_data: # 검색한 쿼리의 값이 존재하지 않는다면 메인 페이지로 리다이렉트 하는 조건문
                     flash('존재하지 않는 사용자 닉네임입니다.')
                     return redirect(url_for('.index'))
@@ -426,10 +396,13 @@ def unfollow(username):
 # 팔로워들 또는 팔로잉을 한 유저들의 목록을 보는 라우트 & 뷰함수
 @main.route('/follow_list/<username>', methods=['GET', 'POST'])
 @main.route('/follow_list/<username>/<jf>', methods=['GET', 'POST'])
-def follow_list(username, jf='follow'):
+@main.route('/follow_list/<username>/<jf>/<int:num>', methods=['GET', 'POST'])
+def follow_list(username, jf = 'follow', num = 1):
     # 해당 username의 팔로우와 팔로잉
     try:
         if 'username' in session and 'id' in session:
+            rnum = (num - 1) * 10
+
             if jf == 'follow':
                 show_follow = True
             elif jf == 'following':
@@ -438,156 +411,65 @@ def follow_list(username, jf='follow'):
                 return redirect(url_for('.follow_list', username = username, jf = 'follow'))
 
             if request.method == 'POST':
-
-                with db.cursor() as cur:
-                    search = request.form['search']
-                    if show_follow:
-                        # 팔로우 부분
-                        cur.execute('select u.username, u.profile_filename, f.timestamp, f.loginUserFollower_id\
-                                     from ( \
-                                         select f1.follower_id as userFollower_id, f1.timestamp, f2.followed_id as loginUserFollower_id\
-                                         from ( \
-                                             select followed_id, follower_id, timestamp \
-                                             from follows \
-                                             where followed_id = ( \
-                                                 select id \
-                                                 from users \
-                                                 where username = %s \
-                                             ) \
-                                             and \
-                                             follower_id != ( \
-                                                 select id \
-                                                 from users \
-                                                 where username = %s \
-                                             ) \
-                                         ) as f1 \
-                                         left outer join ( \
-                                             select followed_id, follower_id \
-                                             from follows \
-                                             where follower_id= %s and followed_id != %s\
-                                         ) as f2 \
-                                         on f1.follower_id = f2.followed_id \
-                                     ) as f \
-                                     inner join ( \
-                                         select id, username, profile_filename\
-                                         from users \
-                                     ) as u \
-                                     on f.userFollower_id = u.id \
-                                     where u.username like %s\
-                                     order by f.timestamp desc', (username, username, session['id'], session['id'], "%"+search+"%"))
-                    else:
-                        # 팔로잉 부분
-                        cur.execute('select u.username, u.profile_filename, f.timestamp, f.loginUserFollowed_id \
-                                     from ( \
-                                         select f1.followed_id as userFollowed_id, f1.timestamp as timestamp, f2.followed_id as loginUserFollowed_id \
-                                         from ( \
-                                             select followed_id, timestamp \
-                                             from follows \
-                                             where follower_id = ( \
-                                                 select id \
-                                                 from users \
-                                                 where username = %s \
-                                             ) \
-                                             and \
-                                             followed_id != ( \
-                                                 select id \
-                                                 from users \
-                                                 where username = %s \
-                                             ) \
-                                         ) as f1 \
-                                         left outer join ( \
-                                             select followed_id \
-                                             from follows \
-                                             where follower_id = %s and followed_id != %s\
-                                         ) as f2 \
-                                         on f1.followed_id = f2.followed_id \
-                                     ) as f \
-                                     inner join (\
-                                         select id, username, profile_filename \
-                                         from users \
-                                     ) as u \
-                                     on f.userFollowed_id = u.id \
-                                     where u.username like %s \
-                                    order by f.timestamp desc', (username, username, session['id'], session['id'], "%"+search+"%"))
-
-                    follow_datas = cur.fetchall()
-
-                return render_template('followers.html', username = username, show_follow = show_follow, datas = follow_datas)
-
-            # method GET
-            with db.cursor() as cur:
-
+                search = request.form['search']
                 if show_follow:
-                        # 팔로우 부분
-                    cur.execute('select u.username, u.profile_filename, f.timestamp, f.loginUserFollower_id\
-                                 from ( \
-                                     select f1.follower_id as userFollower_id, f1.timestamp, f2.followed_id as loginUserFollower_id\
-                                     from ( \
-                                         select followed_id, follower_id, timestamp \
-                                         from follows \
-                                         where followed_id = ( \
-                                             select id \
-                                             from users \
-                                             where username = %s \
-                                         ) \
-                                         and \
-                                         follower_id != ( \
-                                             select id \
-                                             from users \
-                                             where username = %s \
-                                         ) \
-                                     ) as f1 \
-                                     left outer join ( \
-                                         select followed_id, follower_id \
-                                         from follows \
-                                         where follower_id= %s and followed_id != %s\
-                                     ) as f2 \
-                                     on f1.follower_id = f2.followed_id \
-                                 ) as f \
-                                 inner join ( \
-                                     select id, username, profile_filename\
-                                     from users \
-                                 ) as u \
-                                 on f.userFollower_id = u.id \
-                                 order by f.timestamp desc', (username, username, session['id'], session['id']))
+                    # 팔로우 부분
+                    follow_datas = follow_search_query(username, session['id'], search)
                 else:
                     # 팔로잉 부분
-                    cur.execute('select u.username, u.profile_filename, f.timestamp, f.loginUserFollowed_id \
-                                 from ( \
-                                     select f1.followed_id as userFollowed_id, f1.timestamp as timestamp, f2.followed_id as loginUserFollowed_id \
-                                     from ( \
-                                         select followed_id, timestamp \
-                                         from follows \
-                                         where follower_id = ( \
-                                             select id \
-                                             from users \
-                                             where username = %s \
-                                         ) \
-                                         and \
-                                         followed_id != ( \
-                                             select id \
-                                             from users \
-                                             where username = %s \
-                                         ) \
-                                     ) as f1 \
-                                     left outer join ( \
-                                         select followed_id \
-                                         from follows \
-                                         where follower_id = %s and followed_id != %s\
-                                     ) as f2 \
-                                     on f1.followed_id = f2.followed_id \
-                                 ) as f \
-                                 inner join (\
-                                     select id, username, profile_filename \
-                                     from users \
-                                 ) as u \
-                                 on f.userFollowed_id = u.id', (username, username, session['id'], session['id']))
+                    follow_datas = following_search_query(username, session['id'], search)
 
-                follow_datas = cur.fetchall()
+                # pagination 구현부분
+                paging = len(follow_datas) // 10
+                if paging % 10 > 0:
+                    paging = paging + 1
 
-                # 페이지네이션 구현 하기.
+                follow_datas = follow_datas[rnum:rnum+10]
 
-            return render_template('followers.html', username = username, show_follow = show_follow, datas = follow_datas)
+                url = url_for('.follow_list', username = username, jf = jf, search = True, result = search, paging = paging)
+
+                return render_template('followers.html', username = username, show_follow = show_follow, datas = follow_datas, paging = paging,
+                                       current_page = num, url = url)
+
+            # method GET
+            if show_follow:
+                # 팔로우 부분
+                if request.args.get('search'):
+
+                    num = int(request.args.get('paging').split('/')[1])
+                    rnum = (num - 1) * 10
+                    follow_datas = follow_search_query(username, session['id'], search = request.args.get('result'), rnum = rnum, limit = True)
+                
+                else:
+                    follow_datas, user_count = follow_query(username, session['id'], rnum)
+
+            else:
+                # 팔로잉 부분
+                if request.args.get('search'):
+                    # 검색한 팔로잉 목록 결과 출력
+                    
+                    num = int(request.args.get('paging').split('/')[1])
+                    rnum = (num - 1) * 10
+                    follow_datas = following_search_query(username, session['id'], request.args.get('result'), limit = True, rnum = rnum)
+
+                else:
+                    # 검색하지 않는 일반 팔로잉 목록 출력
+
+                    follow_datas, user_count = following_query(username, session['id'], rnum)
+
+            # 페이지네이션 구현 하기.
+            if request.args.get('paging'):
+                paging = int(request.args.get('paging').split('/')[0])
+                url = url_for('.follow_list', username = username, jf = jf, search = request.args.get('search'), result = request.args.get('result'), paging = paging)
+            else:
+                paging = user_count // 10
+                url = url_for('.follow_list', username = username, jf = jf)
+
+                if paging % 10 > 0:
+                    paging = paging + 1
+
+            return render_template('followers.html', username = username, show_follow = show_follow, datas = follow_datas, paging = paging,
+                                   current_page = num, url = url)
         else:
             flash('로그인이 되어있지 않는 상태입니다. 로그인을 해주세요.')
             return redirect(url_for('auth.login'))
@@ -642,55 +524,58 @@ def edit_post(id):
 def post(id):
     try:
         if 'username' in session and 'id' in session:
-            with db.cursor() as cur:
                 if request.method == 'POST':
                     if request.form['comment-classfiy'] == 'comment': # 댓글 작성을 처리하는 조건문
                         body = request.form['body'] # 작성한 댓글의 내용을 저장하는 변수
-                        # 댓글의 내용 및 작성자 그리고 해당 게시글의 id 컬럼 값을 저장하는 삽입 쿼리
-                        cur.execute('insert into comments(body, author_id, post_id, groupnum) \
-                                    select %s, %s, %s, coalesce(max(groupnum) + 1, 1) from comments', (body, session['id'], id))
-                        # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
-                        cur.execute('update posts set comment_count = comment_count + 1 \
-                                    where id = %d' %(id))
+                        with db.cursor() as cur:
+                            # 댓글의 내용 및 작성자 그리고 해당 게시글의 id 컬럼 값을 저장하는 삽입 쿼리
+                            cur.execute('insert into comments(body, author_id, post_id, groupnum) \
+                                        select %s, %s, %s, coalesce(max(groupnum) + 1, 1) from comments', (body, session['id'], id))
+                            # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
+                            cur.execute('update posts set comment_count = comment_count + 1 \
+                                        where id = %d' %(id))
 
                     elif request.form['comment-classfiy'] == 'recomment': # 답 댓글 작성을 처리하는 조건문
                         parent_id = request.form['parent_id'] # 작성한 답 댓글의 부모 댓글의 id 컬럼 값을 저장한 변수
                         group_id = request.form['group_id']
                         body = request.form['body'] # 작성한 답 댓글의 내용을 저장한 변수
-                        # 답 댓글의 내용 및 작성자, 게시글 id 컬럼 값 그리고 부모 댓글의 id 컬럼 값을 저장하는 삽입 쿼리
-                        cur.execute('insert into comments(body, author_id, post_id, parent, groupnum) values(%s, %s, %s, %s, %s)',
-                                    (body, session['id'], id, parent_id, group_id))
-                        # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
-                        cur.execute('update posts set comment_count = comment_count + 1 \
-                                    where id = %d' %(id))
+                        with db.cursor() as cur:
+                            # 답 댓글의 내용 및 작성자, 게시글 id 컬럼 값 그리고 부모 댓글의 id 컬럼 값을 저장하는 삽입 쿼리
+                            cur.execute('insert into comments(body, author_id, post_id, parent, groupnum) values(%s, %s, %s, %s, %s)',
+                                        (body, session['id'], id, parent_id, group_id))
+                            # 작성자(로그인한 유저)가 댓글을 작성했으니 작성자가 작성한 댓글의 수를 증가( + 1)를 해주는 update 쿼리
+                            cur.execute('update posts set comment_count = comment_count + 1 \
+                                        where id = %d' %(id))
 
                     else:
                         editCommentId = request.form['editComment_id']
                         body = request.form['body']
-                        cur.execute('update comments set body = %s where id = %s', (body, editCommentId))
+                        with db.cursor() as cur:
+                            cur.execute('update comments set body = %s where id = %s', (body, editCommentId))
 
                     db.commit()
                     return redirect(url_for('.post', id = id))
 
                 # method가 GET 일 시
-                # 해당 게시글의 정보들 출력하는 검색 쿼리
-                cur.execute('select u.username, u.profile_filename, p.name, p.timestamp, p.comment_count \
-                             from (select id, username, profile_filename from users) u \
-                             join (select * from posts where id = %s) p \
-                             on u.id = p.author_id', (id))
-                posts = cur.fetchall()
+                with db.cursor() as cur:
+                    # 해당 게시글의 정보들 출력하는 검색 쿼리
+                    cur.execute('select u.username, u.profile_filename, p.name, p.timestamp, p.comment_count \
+                                from (select id, username, profile_filename from users) u \
+                                join (select * from posts where id = %s) p \
+                                on u.id = p.author_id', (id))
+                    posts = cur.fetchall()
 
-                # 댓글의 수를 다른 변수에다 저장하기.
+                    # 댓글의 수를 다른 변수에다 저장하기.
 
-                # 해당 게시글의 댓글들의 정보를 출력하는 검색 쿼리
-                cur.execute('select c.id, c.body, c.timestamp, u.username, u.profile_filename, c.groupnum, c.parent \
-                             from (select id, author_id, body, timestamp, groupnum, parent from comments where post_id = %s) c \
-                             left outer join \
-                             (select id, username, profile_filename from users) u \
-                             on u.id = c.author_id \
-                             order by c.groupnum, c.timestamp', (id))
+                    # 해당 게시글의 댓글들의 정보를 출력하는 검색 쿼리
+                    cur.execute('select c.id, c.body, c.timestamp, u.username, u.profile_filename, c.groupnum, c.parent \
+                                from (select id, author_id, body, timestamp, groupnum, parent from comments where post_id = %s) c \
+                                left outer join \
+                                (select id, username, profile_filename from users) u \
+                                on u.id = c.author_id \
+                                order by c.groupnum, c.timestamp', (id))
 
-                comments = cur.fetchall()
+                    comments = cur.fetchall()
 
                 return render_template('post.html', datas = posts, id = id, comments = comments)
         

@@ -26,4 +26,18 @@
   <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit">
  </form> 
 </div>
+<script>
+  // 이미지 변경시 미리보기 기능 구현.
+  $(function(){
+   $('#profile-file').change(function(){
+    if(this.files && this.files[0]){
+     var reader = new FileReader();
+     reader.onload = function(e){
+      $('#profile-img').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(this.files[0]);
+    }
+   })
+  })
+</script>
 {% endblock %}

@@ -12,10 +12,14 @@
    <div class="post-date">{{post[3]}}</div>
    <!--   작성자 유저네임(href, 해당 이름값)    -->
    <div class="post-author"><a href="/profile/{{post[0]}}">{{post[0]}}</a></div>
-   <!--   게시글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+   <div class="postContent" id="post-{{post[5]}}" style="width: 100%;" data-load-url="{{post[2]}}" data-load-id="{{post[5]}}">
+   
+   </div>
+<!--
    <iframe src="{{post[2]}}" class="post-body" id="the_iframe" onload="calcHeight();" name="WrittenPublic" title="게시판뷰" frameborder="0" scrolling="no" style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">
-    <!--   게시글 내용이 들어갈 부분 iframe으로 로드해보기   -->
+       게시글 내용이 들어갈 부분 iframe으로 로드해보기   
    </iframe>
+-->
    <div class="post-footer">
     <!--   접속한 유저가 작성한 유저와 같은가?     -->
     {% if post[0] == session['username'] %}
@@ -32,22 +36,16 @@
  {% endfor %}
 </ul>
 <script type="text/javascript"> 
-//<![CDATA[
-function calcHeight(){
- //find the height of the internal page
- 
- var current_iframe = document.getElementsByClassName('post-body');
- 
- for(var i=0; i < current_iframe.length; i++){
-  var the_height = current_iframe[i].contentWindow.document.body.scrollHeight;
+ // jquery.load()로 게시글 내용 붙이기.
+ $(function(){
+  var load = document.getElementsByClassName('postContent');
+  for(var i = 0; i < load.length; i++){
+   var url = load[i].dataset["loadUrl"];
+   var id = load[i].dataset['loadId'];
+   $('#post-' + id).load(url);
+   
+  }
   
-  // change the height of the iframe
-  document.getElementsByClassName('post-body')[i].height = the_height;
-  
-  document.getElementsByClassName('post-body')[i].style.overflow = "hidden";
- }
-
-}
-//
+ })
 </script>
 {% endif %}
