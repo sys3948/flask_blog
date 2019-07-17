@@ -67,22 +67,4 @@
     </div>
   </div>
 </div>
-{% if paging %}
-<div class="mt-2">
-  <ul class="pagination pagination-lg" id="pagination"></ul>
-</div>
-<script>
-  $(function(){
-    $('#pagination').pagination({
-      items: {{paging}},
-      itemOnPage: 5,
-      currentPage: {{current_page}},
-      prevText: '<span aria-hidden="true">&laquo;</span>',  
-      nextText: '<span aria-hidden="true">&raquo;</span>',
-      hrefTextPrefix: '/{{pageUrl}}/',
-      onInit: function(){},
-    })
-  })
-</script>
-{% endif %}
 <script src="{{ url_for('static', filename='js/modalConfig.js') }}"></script>

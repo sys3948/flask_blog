@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% block title %}Flask Example{% endblock %}
+
 {% block page_content %}
 <div class="page-header mt-5 mb-4 pb-2">
  <h1>Home</h1>
@@ -35,7 +38,7 @@
    currentPage: {{current_page}},
    prevText: '<span aria-hidden="true">&laquo;</span>',  
    nextText: '<span aria-hidden="true">&raquo;</span>',
-   hrefTextPrefix: '/home/',
+   hrefTextPrefix: '{{pageUrl}}/',
    onInit: function(){},
   });
  })

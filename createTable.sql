@@ -1,4 +1,6 @@
 drop table if exists comments;
+drop table if exists delcomments;
+drop table if exists deletepost;
 drop table if exists posts;
 drop table if exists follows;
 drop table if exists users; -- 왜레키 제약으로 users 테이블은 맨 마지막으로 삭제를 해야한다.
@@ -52,4 +54,8 @@ create table follows( -- 팔로워 & 팔로잉에 대한 정보를 저장한 테
   references users(id) on update cascade on delete cascade,
   foreign key(followed_id)
   references users(id) on update cascade on delete cascade
-)
+);
+
+create table deletecomments like comments; -- 댓글 삭제시 저장하는 테이블
+
+create table deletepost like posts; -- 게시글 삭제시 저장하는 테이블

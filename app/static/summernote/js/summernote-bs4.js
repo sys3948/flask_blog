@@ -76,6 +76,7 @@
   var codable = renderer.create('<textarea class="note-codable" role="textbox" aria-multiline="true"/>');
   var editable = renderer.create('<div class="note-editable card-block" id="editarea" contentEditable="true" role="textbox" aria-multiline="true"/>');
   var submitEditData = renderer.create('<textarea id="submitEditData" name="body" role="textbox" aria-multiline="true" style="display:none;"/>')
+  var searchEditData = renderer.create('<textarea id="searchEditData" name="searchBody" role="textbox" aria-multiline="true" style="display:none;"/>')
   var statusbar = renderer.create([
       '<output class="note-status-output" aria-live="polite"/>',
       '<div class="note-statusbar" role="status">',
@@ -201,6 +202,7 @@
       codable: codable,
       editable: editable,
       submitEditData: submitEditData,
+      searchEditData: searchEditData,
       statusbar: statusbar,
       airEditor: airEditor,
       airEditable: airEditable,
@@ -260,6 +262,7 @@
                   ui.codable(),
                   ui.editable(),
                   ui.submitEditData(),
+                  ui.searchEditData(),
               ]),
               ui.statusbar(),
           ])).render();

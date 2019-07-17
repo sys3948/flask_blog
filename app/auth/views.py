@@ -27,7 +27,9 @@ def login():
                 abort(500)
 
             flash('로그인을 성공했습니다.')
-            return redirect(url_for('main.main_index', username = session['username']))
+            return redirect(url_for('main.index', username = session['username']))
+
+        # method가 POST가 아닌 경우(대표 method GET)
         return render_template('login.html')
     else: # 로그인 되어있는 상태에서 로그인 페이지로 들어갈시(강제적으로) 메인 페이지로 리다이렉트 하는 조건문(else 문)
         flash('예상치 못한 문제로 로그아웃 합니다.')
@@ -62,10 +64,14 @@ def register():
             email = request.form['email'] # Clinet에서 입력한 email 값을 저장하는 변수
             username = request.form['username'] # Clinet에서 입력한 username 값을 저장하는 변수
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
+            password2 = request.form['password2'] # Client에서 입력한 password 확인 값을 저장하는 변수
 
-            # 이메일 닉네임 비밀번호가 존재하지 않는 경우 회원가입 페이지로 리다이렉트 하는 기능 추가하기.
+            # 이메일 닉네임 비밀번호가 존재하지 않는 경우 회원가입 페이지로 리다이렉트 하는 기능.
+            if not bool(username.strip()) or not bool(email.strip()) or not bool(password.strip()) or not bool(password2.strip()) or password == password2:
+                flash('email or username 작성에서 잘 못 되었거나 비밀번호와 비밀번호 확인이 일치하지 않습니다.')
+                return redirect(url_for('.register'))
 
-            # user table에 email 또는 username이 존재하는 가? 만일 존재한다면 flash처리로 회원가입 하지 못하게 하기.
+            # users table에 email 또는 username이 존재하면 회원가입 불가로 처리하는 부분.
             try:
                 with db.cursor() as cur:
                     # 이메일과 닉네임 중복처리하는 쿼리 좀더 효율적으로 구현할 수 있는지 생각해보기.
@@ -89,7 +95,7 @@ def register():
                     # 삽입한 email 값으로 해당 id 값을 검색하는 쿼리
                     cur.execute('select id from users where email=%s', (email))
                     selected_id = cur.fetchone() # 위 검색 쿼리의 값을 저장하는 변수
-                    os.mkdir('app/templates/postFiles/' + str(selected_id[0]))
+                    os.mkdir('app/templates/postFiles/' + str(selected_id[0])) # 등록하는 유저의 작성하는 게시글 파일을 저장하는 폴더를 생성하기
                     cur.execute('insert into follows(follower_id, followed_id) values(%s, %s)', (selected_id[0], selected_id[0]))
                     db.commit()
                     global all_user_count
@@ -121,6 +127,7 @@ def reset():
                     selected_data = cur.fetchone() # 위 쿼리의 값을 저장하는 변수
                     if selected_data: # 변수에 값이 존재하는지 확인하는 조건문 존재한다면 해당 값(username)을 session에다 저장한 후에 비밀번호 변경 페이지로 리다이렉트 한다.
                         session['username'] = selected_data[0]
+                        flash('변경하실 비밀번호를 입력해주세요.')
                         return redirect(url_for('.reset_password'))
                     else: # 존재하지 않으면 초기화 페이지로 리다이렉트 한다.
                         flash('입력하신 이메일은 존재하지 않는 계정 이메일입니다.')
@@ -129,6 +136,8 @@ def reset():
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
 
+        # method가 POST가 아닐 시 대표 method: GET
+        flash('비밀번호 찾으실 이메일을 입력해주세요.')
         return render_template('reset.html')
     else: # 로그인이 되어있는 상태에서 강제적으로 해당 페이지로 들어왔을 시 저장된 session값을 제거(pop)한 후 메인페이지로 리다이렉트 한다.
         flash('예상치 못한 접근으로 로그아웃 합니다.')
@@ -144,19 +153,23 @@ def reset_password():
         if request.method == 'POST':
             try:
                 password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
+                password2 = request.form['password2'] # Client에서 입력한 password 확인 값을 저장하는 변수
+                if password != password2:
+                    flash('비밀번호가 같지 않습니다.')
+                    return redirect(url_for('.reset_password'))
                 with db.cursor() as cur:
                     # 저장한 password 변수를 session username에 해당하는 users 행의 password_hash열에다 update하는 쿼리
                     # 비밀번호를 변경하는 update 쿼리문
                     cur.execute('update users set password_hash=sha2(%s, 224) where username=%s', (password, session['username']))
                     db.commit()
-                # session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.password)
+                session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.password)
                 flash('비밀번호 변경이 성공했습니다.')
                 return redirect(url_for('.login'))
             except Exception as e: # 예상치 못 한 Error가 발생했을 시 처리하는 except문
                 flash(str(e) + '라는 문제가 발생했습니다.')
                 abort(500)
-
-        flash('변경하실 비밀번호를 입력해주세요.')
+     
+        # method가 post가 아닐시 대표: GET
         return render_template('reset_password.html')
     else:
         flash('문제 발생')

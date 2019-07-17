@@ -10,7 +10,7 @@
  </script>
 {% endblock %}
 
-{% block title %}Flask Example{% endblock %}
+{% block title %}Flasky Example{% endblock %}
 
 {% block page_content %}
 <div class="nav-tabs mt-5 mb-4 pb-2">
@@ -48,7 +48,7 @@
    currentPage: {{current_page}},
    prevText: '<span aria-hidden="true">&laquo;</span>',  
    nextText: '<span aria-hidden="true">&raquo;</span>',
-   hrefTextPrefix: '/{{username}}/',
+   hrefTextPrefix: '{{pageUrl}}/',
    onInit: function(){},
   });
  })
@@ -56,11 +56,13 @@
  function check_submit(){
   var editArea = document.getElementById('editarea');
   var submitEditData = document.getElementById('submitEditData');
+  var searchEditData = document.getElementById('searchEditData');
   var returnValue = false;
   if(editArea.innerHTML == '<p><br></p>'){
    returnValue = false;
   }else{
    submitEditData.value = editArea.innerHTML;
+   searchEditData.value = $('#editarea').text();
    returnValue = true;
   }
   return returnValue;
