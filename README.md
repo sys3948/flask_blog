@@ -10,6 +10,28 @@
 
 <table>
   <tr>
+    <td><b>table_name : follows</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>follower_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>followed_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr
+</table>
+
+<table>
+  <tr>
     <td><b>table_name : users</b></td>
   </tr>
   <tr>
@@ -130,33 +152,11 @@
   </tr>
 </table>
 
-<table>
-  <tr>
-    <td><b>table_name : follows</b></td>
-  </tr>
-  <tr>
-    <td><b>column_name</b></td>
-    <td><b>type</b></td>
-  </tr>
-  <tr>
-   <td>follower_id</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>followed_id</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>timestamp</td>
-   <td>datetime</td>
-  </tr
-</table>
-
 
 
 ### Table을 Flask Shell로 생성하기
->> flask_app = flasky.py
->> flask shell
+1. flask_app = flasky.py
+2. flask shell
 
 ```
 >>> db.create_all()
