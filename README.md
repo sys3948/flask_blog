@@ -152,11 +152,11 @@
   </tr
 </table>
 
-<hr/>
+* * *
 
 # Table을 Flask Shell로 생성하기
-> flask_app = flasky.py
-> flask shell
+>> flask_app = flasky.py
+>> flask shell
 
 ```
 >>> db.create_all()
