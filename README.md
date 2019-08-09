@@ -152,7 +152,7 @@
   </tr
 </table>
 
-* * *
+
 
 # Table을 Flask Shell로 생성하기
 >> flask_app = flasky.py
