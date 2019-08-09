@@ -1,8 +1,8 @@
 # flask_blog
 
-### 해당 페이지의 db 모델은 아래의 이미지 이다.(수정 2019/07/17)
+### 해당 페이지의 db 모델은 아래의 이미지 이다.(수정 2019/08/10)
 
-<img width="590" alt="flasky_db_model" src="https://user-images.githubusercontent.com/48170295/61346765-24a69080-a895-11e9-9a73-268980bca25e.PNG">
+<img width="624" alt="flasky" src="https://user-images.githubusercontent.com/48170295/62810346-9b534880-bb38-11e9-9163-88a5d29e7ddb.PNG">
 
 
 
@@ -152,3 +152,12 @@
   </tr
 </table>
 
+<hr/>
+
+# Table을 Flask Shell로 생성하기
+> flask_app = flasky.py
+> flask shell
+
+```
+>>> db.create_all()
+```
