@@ -8,6 +8,7 @@ class Config:
     UPLOAD_FOLDERS = 'app/static/icon'
     UPLOAD_POST_PATH_DEFAULT = 'app/templates/'
     UPLOAD_POST_PATH = 'postFiles/'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     @staticmethod
     def init_app(app):
@@ -17,7 +18,8 @@ class Config:
 class DevelopmentConfig(Config):
     # 개발 작업에 필요한 설정값이 지정되어있는 class이다.
     # 추후 추가가될 것이다.
-    pass
+    SQLALCHEMY_DATABASE_URI = 'mysql+driver(ex:pymysql)://user:password@ip/database schema?charset=utf8'
+    SQLALCHEMY_ECHO = False
 
 
 class TestingConfig(Config):

@@ -21,22 +21,22 @@
  {% for user_data in datas %}
  <tr>
   <td>
-   <a href="/profile/{{user_data[0]}}">
-    <img class="img-rounded" src="{{ url_for('static', filename='icon/') }}{{user_data[1]}}" width="32px">
-    {{user_data[0]}}
+   <a href="/profile/{{user_data.username}}">
+    <img class="img-rounded" src="{{ url_for('static', filename='icon/') }}{{user_data.profile_filename}}" width="32px">
+    {{user_data.username}}
    </a>
   </td>
   <td>
-   {{user_data[2]}}
+   {{user_data.member_since}}
   </td>
   <td>
-   {% if user_data[0] == session['username'] %}
+   {% if user_data.username == session['username'] %}
     
    {% else %}
-    {% if user_data[3] %}
-     <button type="button" class="btn btn-outline-secondary w-75" data-toggle="modal" data-target="#myModal" onclick="modal('{{user_data[0]}}', '{{ url_for('static', filename='icon/') }}{{user_data[1]}}')">팔로잉</button>
+    {% if login_user.is_following(user_data) %}
+     <button type="button" class="btn btn-outline-secondary w-75" data-toggle="modal" data-target="#myModal" onclick="modal('{{user_data.username}}', '{{ url_for('static', filename='icon/') }}{{user_data.profile_filename}}')">팔로잉</button>
     {% else %}
-     <a href="/follow/{{user_data[0]}}" class="btn btn-primary w-75">팔로우</a>
+     <a href="/follow/{{user_data.username}}" class="btn btn-primary w-75">팔로우</a>
     {% endif %}
    {% endif %}
   </td>
