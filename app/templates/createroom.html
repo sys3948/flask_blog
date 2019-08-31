@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky Example - Create Chatting Room{% endblock %}
+
+{% block page_content %}
+   <div class="mt-5">
+    <div class="border border-right-0 border-left-0 border-light bg-secondary text-light d-flex justify-content-between bg-secondary mb-2">
+     <h1 class="ml-3">Chatting Room</h1>
+     <a href="#" id="createRoom" class="mr-2 text-light"><h1>확인</h1></a>
+    </div>
+    <div class="border border-top-0 border-left-0 border-right-0 border-secondary" style="overflow: auto; height: 600px;">
+     <div class="input-group p-1">
+      <div class="input-group-prepend">
+       <span class="input-group-text"><span class="fas fa-search"></span></span>
+      </div>
+      <input class="form-control" type="text" id="searchList" placeholder="채팅할 username을 입력해주세요." />
+     </div>
+     <ul class="posts" id="userList">
+      <form id="usersForm" method="post">
+       {% if users %}
+        {% for user in users %}
+          <li class="custom-control custom-checkbox post text-center">
+           <input type="checkbox" class="ml-5 custom-control-input" id="check{{user.id}}" name="userId" value="{{user.id}}" />
+           <label class="custom-control-label" for="check{{user.id}}"><h3>{{user.username}}</h3></label>
+          </li>
+         {% endfor %}
+        {% endif %}
+      </form>
+     </ul>
+    </div>
+   </div>
+   <script>
+     $('#createRoom').on("click", function(){
+      document.getElementById('usersForm').submit();
+     });
+    
+    $(function(){
+     $('#searchList').on('keyup', function(){
+      var value = $(this).val().toLowerCase();
+      $('#userList li').filter(function(){
+       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+     });
+    });
+   </script>
+{% endblock %}

@@ -44,6 +44,7 @@
        </ul>
        <ul class="navbar-nav">
         {% if session['username'] %}
+        <a href="/chattingroom"><img src="{{url_for('static', filename='icon/speech-bubbles-comment-option.png')}}" /></a>
         <li class="dropdown">
          <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Account<b class="caret"></b></a>
          <ul class="dropdown-menu">

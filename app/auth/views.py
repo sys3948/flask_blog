@@ -14,9 +14,10 @@ def login():
             email = request.form['email'] # Client에서 입력한 email 값을 저장하는 변수
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
             try:
-                password_hash = db.session.query(func.sha2(password, 224))
+                password_hash = db.session.query(func.sha2(password, 224)) # 입력한 비밀번호 해쉬하기.
                 user = User.query.filter_by(email = email, password_hash = password_hash).first()
                 if not user:
+                    # 워 검색한 user가 존재하지 않을 경우
                     flash('존재하지 않는 아이디이거나 비밀번호가 맞지 않습니다.')
                     return redirect(url_for('.login'))
                 session['username'] = user.username
@@ -81,13 +82,11 @@ def register():
                 flash('존재하는 닉네임 입니다.')
                 return redirect(url_for('.register'))
 
+            # 회원가입하여 users 테이블에 입력한 데이터를 insert하고 해당 id value에 맞게 게시글 작성에 대한 폴더 생성하기.
             password_hash = db.session.query(func.sha2(password, 224))
             user = User(email = email, username = username, password_hash = password_hash)
-            print(user.username, user.email)
             db.session.add(user)
             db.session.commit()
-            print(email, username)
-            print(user.username, user.email)
             os.mkdir('app/templates/postFiles/' + str(user.id))
 
             flash('가입완료 됬습니다.')
@@ -109,10 +108,12 @@ def reset():
             email = request.form['email'] # Client에서 입력한 값을 저장하는 변수
             user = User.query.filter_by(email = email).first()
             if user:
+                # 위에서 검색한 user가 존재할 경우
                 session['username'] = user.username
                 flash('변경하실 비밀번호를 입력해주세요.')
                 return redirect(url_for('.reset_password'))
             else:
+                # 위에서 검색한 user가 존재하지 않을 경우
                 flash('입력하신 이메일은 존재하지 않는 계정 이메일입니다.')
                 return redirect(url_for('.reset'))
 
@@ -131,16 +132,18 @@ def reset():
 def reset_password():
     if 'username' in session and not 'id' in session: # reset 뷰함수에서 저장된 session이 존재하는지 확인하는 조건문 단 id가 저장되어있으면 안된다. id가 저장이 되어있으면 로그인이 되어있다는 의미이다.
         if request.method == 'POST':
+            # POST일 경우(submit을 했을 경우)
             password = request.form['password'] # Client에서 입력한 password 값을 저장하는 변수
             password2 = request.form['password2'] # Client에서 입력한 password 확인 값을 저장하는 변수
             if password != password2:
+                # 두 입력 값이 같지 않을 경우
                 flash('비밀번호가 같지 않습니다.')
                 return redirect(url_for('.reset_password'))
 
-            password_hash = db.session.query(func.sha2(password, 224))
+            # 비밀번호를 변경하기.
+            password_hash = db.session.query(func.sha2(password, 224)) # 비밀번호 해쉬
             user = User.query.filter_by(username = session['username']).first()
             user.password_hash = password_hash
-            db.session.add(user)
             db.session.commit()
             session.pop('username', None) # 변경이 완료(update 쿼리가 끝)되면 저장된 session을 제거(pop) 한 후에 로그인 페이지로 리다이렉트한다.password)
             flash('비밀번호 변경이 성공했습니다.')

@@ -30,18 +30,26 @@
  </form> 
 </div>
 <script>
-// $(function(){
-//  $('.summernote').html('{{ body | safe }}');
-// });
- 
+ $(function(){
+  $('#editarea').keyup(function(e){
+    if($('#editarea').text().replace(/(\s*)/g, "") != ""){
+     $('#submit').attr("disabled", false);
+    }else{
+     $('#submit').attr("disabled", true);
+    }
+  })
+ });
+  
  function check_submit(){
   var editArea = document.getElementById('editarea');
   var submitEditData = document.getElementById('submitEditData');
+  var searchEditData = document.getElementById('searchEditData');
   var returnValue = false;
   if(editArea.innerHTML == '<p><br></p>'){
    returnValue = false;
   }else{
    submitEditData.value = editArea.innerHTML;
+   searchEditData.value = $('#editarea').text();
    returnValue = true;
   }
   return returnValue;

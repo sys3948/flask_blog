@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  
+  <title>Flasky Example Chatting Room</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-expand-md bg-dark navbar-dark" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <a class="navbar-brand" href="#" onclick="leav_room()"><img src="{{ url_for('static', filename='icon/left-arrow.png') }}"></a>
+    </div>
+    <div class="navbar-collapse">
+     <ul class="navbar-nav">
+      <!--   로그인이 되어있을 때   -->
+      <li class="nav-item nav-link">{{me.title}}</li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container mt-3">
+    <div class="border " style="min-height: 600px">
+     <div id="chatting-body" class="chatting-body container mt-2" style="min-height: 500px; max-height: 600px; overflow: auto;">
+      {% if chats %}
+       {% for chat in chats %}
+       {% if chat.author_id != session['id'] %}
+       <div class="outhre d-flex flex-row"><div class="p-2"><img src="{{url_for('static', filename='icon/')}}{{chat.author.profile_filename}}" style="width: 32px"><div>{{chat.author.username}}</div></div><div class="p-2 col-sm-5 border border-secondary rounded-lg" style="word-break: break-all">{{chat.body | safe}}<div>{{chat.timestamp}}</div></div></div>
+       {% else %}
+       <div class="me d-flex flex-row-reverse"><div class="p-2 col-sm-6 border border-warning rounded-lg bg-warning" style="word-break: break-all">{{ chat.body | safe }}<div>{{chat.timestamp}}</div></div></div>
+       {% endif %}
+       {% endfor %}
+      {% endif %}
+     </div>
+     <div class="chatting-write">
+      <div class="form-group container">
+       <div class="form-control border border-secondary rounded" id="chatTextArea" style="height: 50px; overflow: auto;" contenteditable="true"></div>
+       <input class="btn btn-outline-secondary form-control mt-1" id="chatBtn" type="button" value="submit" disabled />
+      </div>
+     </div>
+    </div>
+  </div>
+  <script>
+    $(function(){
+     socket = io('http://' + document.domain + ':' + location.port + '/chatting');
+     socket.on('connect', function(){
+      socket.emit('joined', {roomId:{{roomId}}});
+     });
+     
+     socket.on('status', function(){
+//      초대하거나 방을 나간다더나 하는 상태 메세지.
+     });
+     
+     socket.on('message', function(data){
+      // session['id'] 값과 같으면 me 다르면 outhor로 지정한다.
+      console.log(typeof(data))
+      if({{session['id']}} == data.userId){
+       
+       $('.chatting-body').append('<div class="me d-flex flex-row-reverse"><div class="p-2 col-sm-6 border border-warning rounded-lg bg-warning" style="word-break: break-all">'+data['msg']+ '<div>' + data.timestamp + '</div></div></div>');
+       
+      }else{
+       
+       $('.chatting-body').append('<div class="outhre d-flex flex-row"><div class="p-2"><img src="{{ url_for("static", filename="icon/") }}' + data.image + '" style="width: 32px"><div>' + data.username + '</div></div><div class="p-2 col-sm-5 border border-secondary rounded-lg" style="word-break: break-all">' + data.msg + '<div>' + data.timestamp + '</div></div></div>');
+       
+      }
+      $('#chatting-body').scrollTop($('#chatting-body')[0].scrollHeight);
+     });
+     
+     $('#chatTextArea').keyup(function(e){
+      if($('#chatTextArea').text().replace(/(\s*)/g, "") != ""){
+       $('#chatBtn').attr("disabled", false);
+      }else{
+       $('#chatBtn').attr("disabled", true);
+      }
+     });
+     
+     $('#chatBtn').click(function(e){
+      var msg = $('#chatTextArea').html();
+      console.log(msg);
+      $('#chatTextArea').html("");
+      $('#chatBtn').attr("disabled", true);
+      socket.emit('text', {msg: msg, roomId: {{roomId}}});
+     });
+     $('#chatting-body').scrollTop($('#chatting-body')[0].scrollHeight);
+    });
+   
+   function leav_room(){
+    socket.emit('left', {roomId: {{roomId}}}, function(){
+     socket.disconnect();
+     
+     window.location.href = "/"
+    });
+   }
+  </script>
+ </body>
+</html>

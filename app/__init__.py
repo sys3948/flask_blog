@@ -3,12 +3,14 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
 from config import config
 # import logging은 해당 모듈에 대해 자세히 이해를 한 후에 이용하도록 한다.
 
 # instance 하는 Flask 확장 or 다른 모듈들
 
 db = SQLAlchemy()
+socketio = SocketIO()
 
 
 def create_app(config_name):
@@ -26,5 +28,8 @@ def create_app(config_name):
     app.register_error_handler(500, errors_handler.internal_server)
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+    from .chat import chat as chat_blueprint
+    app.register_blueprint(chat_blueprint)
+    socketio.init_app(app)
 
     return app

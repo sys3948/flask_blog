@@ -12,21 +12,22 @@ import os
 @main.route('/')
 def transmit_index():
     if 'username' in session and 'id' in session:
-        # 로그인이 되어있으면 게시글 작성 페이지로 리다이렉션
+        # 로그인이 되어있으면 메인 페이지로 리다이렉션
         return redirect(url_for('.index', username = session['username']))
     else:
         # 로그인이 되어있지 않으면 로그인 페이지로 리다이렉션
         flash('로그인을 해주세요.')
         return redirect(url_for('auth.login'))
 
-# 게시글 작성 페이지의 라우트 & 뷰함수
+# 메인 페이지의 라우트 & 뷰함수
 @main.route('/<username>', methods = ['GET', 'POST'])
 @main.route('/<username>/<int:num>', methods = ['GET', 'POST'])
 def index(username, num = 1):
     if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if session['username'] == username:
-            # 해당 게시글 작성 페이지의 유저와 로그인 한 유저가 같은경우 해당 페이지로 접속.
-            user = User.query.filter_by(username = username).first_or_404()
+            # 해당 유저와 로그인 한 유저가 같은경우 유저의 메인 페이지로 접속.
+            user = User.query.filter_by(username = username).first_or_404() # 해당 유저의 유저 이름이 존재하지 않으면 404 에러를 발생
+
             if request.method == 'POST': # method가 POST지 확인하는 조건문
                 # 게시글 검색을 했을 경우
                 search = request.form['search']
@@ -51,8 +52,8 @@ def index(username, num = 1):
                 pageUrl = url_for('.index', username = username, search = True, result = search, paging = request.args.get('paging'))
                         
             else:
-                # 전체 게시글을 볼 경우
-                # 전체 게시글을 출력하는 검색 쿼리
+                # 게시글을 볼 경우
+                # 게시글을 출력하는 검색 쿼리
                 pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 # 전체 게시글에서 다음 게시글을 출력하기 위한 page url을 저장하는 변수
@@ -77,12 +78,12 @@ def index(username, num = 1):
 def home(num = 1):
     if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
 
-        # posts를 보여줄 지 users를 보여줄 지 정하는 구문
+        # 게시글 목록을 보여줄 지 유저 목록을 보여줄 지 정하는 조건문
         show_page = True
         if request.cookies.get('show_page') == '':
-            show_page = False # 등록된 유저 목록을 보여주기
+            show_page = False # 전체 유저 목록을 보여주기
         else:
-            show_page = True # 작성한 게시글들을 보여주기
+            show_page = True # 전체 게시글들을 보여주기
 
         # POST 일 시(검색)
         if request.method == 'POST':
@@ -179,15 +180,16 @@ def change_pw():
             old_password_hash = db.session.query(func.sha2(old_password, 224))
             user = User.query.filter_by(username = session['username'], password_hash = old_password_hash).first_or_404()
 
-            password = request.form['password']
-            password2 = request.form['password2']
+            password = request.form['password'] # 변경할 비밀번호
+            password2 = request.form['password2'] # 변경할 비밀번호를 확인하기 위한 두 번째 비밀번호
             if password != password2:
+                # 변경할 두개의 비밀번호가 맞지 않을 경우
                 flash('변경하실 비밀번호와 비밀번호 확인 값이 맞지 않습니다. 다시 입력해주세요.')
                 return redirect(url_for('.change_pw'))
 
-            password_hash = db.session.query(func.sha2(password, 224))
-            user.password_hash = password_hash
-            db.session.add(user)
+            # 두개의 비밀번호가 맞는 경우
+            password_hash = db.session.query(func.sha2(password, 224)) # 비밀번호 해쉬
+            user.password_hash = password_hash # 비밀번호 변경
             db.session.commit()
             flash('비밀번호 변경이 성공했습니다.')
             return redirect(url_for('.index', username = session['username']))
@@ -207,11 +209,14 @@ def profile(username, num = 1):
         user = User.query.filter_by(username = username).first_or_404()
 
         if user.username != session['username']:
+            # 로그인한 유저의 프로필이 아닌 경우 로그인한 유저가 팔로우를 했는지 않했는지 확인하는 부분
             follow = Follow.query.filter_by(followed_id = user.id, follower_id = session['id']).first()
 
             if follow:
+                # 팔로우를 한 경우
                 show_follow = True
             else:
+                # 팔로우를 하지 않는 경우
                 show_follow = False
 
         if request.method == 'POST':
@@ -233,22 +238,26 @@ def profile(username, num = 1):
             paging = int(request.args.get('paging').split('/')[0]) # 총 페이지 수를 저장하는 변수
             search = request.args.get('result') # 검색 값을 저장한 변수
 
+            # 검색 값에 따른 게시글 검색 쿼리
             pagination = user.posts.filter(Post.body_text.like('%{}%'.format(search))).order_by(Post.timestamp.desc()).paginate(page=num, per_page = 10, error_out = True)
 
+            # 해당 페이지의 url
             pageUrl = url_for('.index', username = username, search = True, result = search, paging = request.args.get('paging'))
 
-            posts = pagination.items
+            posts = pagination.items # 검색한 게시글들
         else:
             # 전체 게시글 목록
+
+            # 프로필의 유저가 작성한 게시글 검색 쿼리
             pagination = user.posts.order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
-            posts = pagination.items
+            posts = pagination.items # 게시글들
 
-            pageUrl = url_for('.profile', username = username)
+            pageUrl = url_for('.profile', username = username) # 해당 페이지의 url
 
         return render_template('profile.html', profile_user = username, location = user.location, about_me = user.about_me,
                                member_since = user.member_since, image_name = user.profile_filename, posts_count = user.post_count,
-                               show_follow = show_follow, followers_count = user.follow_count, following_count = user.following_count,
+                               show_follow = show_follow, followers_count = user.follow_count, following_count = user.following_count, profile_id = user.id,
                                datas = posts, paging = pagination.pages, current_page = num, url = pageUrl, checkSearch = True)
         
     else:
@@ -264,8 +273,6 @@ def edit_profile():
         user = User.query.filter_by(username = session['username']).first_or_404()
         if request.method == 'POST': # method가 POST일 때의 조건문
 
-            print(request.form)
-            print(request.files)
             username = request.form['username'] # Client에서 입력한 username의 값을 저장하는 변수
 
             if not username.strip():
@@ -274,7 +281,7 @@ def edit_profile():
                 return redirect(url_for('.edit_profile'))
                     
             location = request.form['location'] # Client에서 입력한 location의 값을 저장하는 변수
-            about_me = request.form['about_me'] # Client에서 입력한 about_me의 값을 저장하는 변수
+            about_me = request.form['about_me'].strip() # Client에서 입력한 about_me의 값을 저장하는 변수 이 값은 textarea 값이라 빈 공백이 많아 앞 뒤 공백을 제거 했다.
 
             # 이미지 파일을 넣지 않을 시에 input type="file"은 request.files가 아닌 request.form으로 들어가는 문제가 발생한다.
             # 처리하는 조건문
@@ -300,7 +307,6 @@ def edit_profile():
                         user.location = location
                         user.about_me = about_me
                         user.profile_filename = filename
-                        db.session.add(user)
                         profile_img.save(os.path.join(current_app.config['UPLOAD_FOLDERS'], filename))
 
                     else:
@@ -310,7 +316,6 @@ def edit_profile():
                         user.location = location
                         user.about_me = about_me
                         user.profile_filename = filename
-                        db.session.add(user)
 
                     db.session.commit()
                     flash('프로필이 수정되었습니다.')
@@ -325,7 +330,6 @@ def edit_profile():
                 user.username = username
                 user.location = location
                 user.about_me = about_me
-                db.session.add(user)
                 db.session.commit()
 
                 flash('프로필이 수정되었습니다.')
@@ -344,7 +348,7 @@ def edit_profile():
 # 팔로우를 하는 것에 해당하는 라우트 & 뷰함수
 @main.route('/follow/<username>')
 def follow(username):
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if username != session['username']:
             # 팔로우 하기
             login_user = User.query.filter_by(username = session['username']).first()
@@ -352,7 +356,6 @@ def follow(username):
             login_user.follow(user)
             login_user.following_count = login_user.following_count + 1
             user.follow_count = user.follow_count + 1
-            db.session.add_all([login_user, user])
             db.session.commit()
             flash('팔로우 했습니다.')
 
@@ -368,7 +371,7 @@ def follow(username):
 # 언팔로우 하는 것에 해당하는 라우트 & 뷰함수
 @main.route('/unfollow/<username>')
 def unfollow(username):
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if username != session['username']:
             # 언팔로우 하기
             login_user = User.query.filter_by(username = session['username']).first()
@@ -376,7 +379,6 @@ def unfollow(username):
             login_user.unfollow(user)
             login_user.following_count = login_user.following_count - 1
             user.follow_count = user.follow_count - 1
-            db.session.add_all([login_user, user])
             db.session.commit()
             flash('언팔로우 했습니다.')
 
@@ -395,18 +397,19 @@ def unfollow(username):
 @main.route('/follow_list/<username>/<jf>/<int:num>', methods=['GET', 'POST'])
 def follow_list(username, jf = 'follow', num = 1):
     # 해당 username의 팔로우와 팔로잉
-    if 'username' in session and 'id' in session:
-        rnum = (num - 1) * 10
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
 
         if jf == 'follow':
+            # 팔로워 목록을 볼 경우
             show_follow = True
         elif jf == 'following':
+            # 팔로잉 목록을 볼 경우
             show_follow = False
         else:
             return redirect(url_for('.follow_list', username = username, jf = 'follow'))
 
-        login_user = User.query.filter_by(username = session['username']).first()
-        user = User.query.filter_by(username = username).first()
+        login_user = User.query.filter_by(username = session['username']).first() # 로그인 한 유저
+        user = User.query.filter_by(username = username).first() # 해당 페이지 유저
 
         if request.method == 'POST':
             search = request.form['search']
@@ -417,11 +420,10 @@ def follow_list(username, jf = 'follow', num = 1):
                 # 팔로잉 부분
                 pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id, User.username.like("%{}%".format(search))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
-            # pagination 구현부분
-
+            # 해당 페이지 url
             url = url_for('.follow_list', username = username, jf = jf, search = True, result = search, paging = pagination.pages)
 
-            follow_datas = pagination.items
+            follow_datas = pagination.items # 유저 목록
 
             return render_template('followers.html', username = username, show_follow = show_follow, datas = follow_datas, paging = pagination.pages,
                                     current_page = num, pageUrl = url, login_user = login_user)
@@ -430,29 +432,28 @@ def follow_list(username, jf = 'follow', num = 1):
         if show_follow:
             # 팔로우 부분
             if request.args.get('search'):
-
-                num = int(request.args.get('paging').split('/')[1])
-                pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id, User.username.like("%{}%".format(search))).paginate(page = num, per_page = 10, error_out = True)
+                # 검색한 팔로워 목록 결과 쿼리
+                num = int(request.args.get('paging').split('/')[1]) # 현제 페이지 넘버
+                pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id, User.username.like("%{}%".format(request.args.get('result')))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
                 
             else:
+                # 검색하지 않은 팔로워 목록 쿼리
                 pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id).paginate(page = num, per_page = 10, error_out = True)
 
         else:
             # 팔로잉 부분
             if request.args.get('search'):
-                # 검색한 팔로잉 목록 결과 출력
-                    
-                num = int(request.args.get('paging').split('/')[1])
-                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id, User.username.like("%{}%".format(search))).paginate(page = num, per_page = 10, error_out = True)
+                # 검색한 팔로잉 목록 결과 쿼리
+                num = int(request.args.get('paging').split('/')[1]) # 현제 페이지 넘버
+                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id, User.username.like("%{}%".format(request.args.get('result')))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
             else:
-                # 검색하지 않는 일반 팔로잉 목록 출력
+                # 검색하지 않는 일반 팔로잉 목록 쿼리
+                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
-                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id).paginate(page = num, per_page = 10, error_out = True)
-
-        # url 구현 하기.
+        # 해당 페이지 별 url 구현 하기.
         if request.args.get('paging'):
-            url = url_for('.follow_list', username = username, jf = jf, search = request.args.get('search'), result = request.args.get('result'), paging = paging)
+            url = url_for('.follow_list', username = username, jf = jf, search = request.args.get('search'), result = request.args.get('result'), paging = request.args.get('paging').strip('/')[0])
         else:
             url = url_for('.follow_list', username = username, jf = jf)
 
@@ -466,23 +467,27 @@ def follow_list(username, jf = 'follow', num = 1):
 # 게시글 수정 라우트 & 뷰함수
 @main.route('/edit_post/<int:id>', methods=['GET', 'POST'])
 def edit_post(id):
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
 
-        post = Post.query.filter_by(id = id).first_or_404()
+        post = Post.query.filter_by(id = id).first_or_404() # 수정할 게시글 검색 쿼리 존재하지 않을 시 404 에러 발생
 
         if request.method == 'POST':
+            # method가 POST일 시(submit을 할 시) 게시글 수정하기.
             body = request.form['body']
             body_text = request.form['searchBody']
 
-            filePath = current_app.config['UPLOAD_POST_PATH_DEFAULT'] + post.name
+            filePath = current_app.config['UPLOAD_POST_PATH_DEFAULT'] + post.name # 수정할 파일의 경로 /app/templates/postFiles/id value/파일 명
 
+            # 파일 수정
             f = open(filePath, 'wt', encoding = 'utf-8')
             f.write(body)
             f.close()
 
+            # 검색 컬럼 값 update
             post.body_text = body_text
-            db.session.add(post)
             db.session.commit()
+
+            return redirect(url_for('.index', username = session['username']))
             
         if post.author.username != session['username']:
             flash('수정하는 게시글의 작성한 유저가 아닙니다.')
@@ -498,7 +503,7 @@ def edit_post(id):
             return render_template('edit_post.html', body=content)
         else: # 게시글의 내용이 존재하지 않을 때 작동하는 조건문
             flash('수정할 게시글이 존재하지 않습니다.')
-            return redirect(url_for('.index'))
+            return redirect(url_for('.index', username = session['username']))
     else:
         flash('로그인을 해주시길 바라겠습니다.')
         return redirect(url_for('auth.login'))
@@ -507,17 +512,20 @@ def edit_post(id):
 # 게시글 삭제 라우트 & 뷰함수
 @main.route('/delete_post/<int:id>')
 def delete_post(id):
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
 
-        post = Post.query.filter_by(id = id).first_or_404()
+        post = Post.query.filter_by(id = id).first_or_404() # 삭제할 포스트를 가져오는 쿼리 존재하지 않을 시 404 에러 발생
 
         if post.author.username != session['username']:
+            # 삭제할 작성자와 로그인한 유저가 같지 않을 경우
             flash('해당 게시글의 작성한 유저가 아닙니다.')
             return redirect(request.referrer)
 
+        # 삭제할 포스트와 그 포스트에 속해있는 댓글들을 deletepost, delcomments 테이블에 저장.
         delete_post = DeletePost(id = post.id, author_id = post.author_id, name = post.name, timestamp = post.timestamp, comment_count = post.comment_count, body_text = post.body_text)
         comments = Comment.query.filter_by(post_id = post.id).all()
         db.session.bulk_insert_mappings(
+            # 다수의 entity를 insert 위해 SQLALchemy에서 bulk_insert_mappings()를 지원해준다.
             DeleteComment,
             [
                 dict(id = comment.id, author_id = comment.author_id, post_id = comment.post_id, body = comment.body, timestamp = comment.timestamp, groupnum = comment.groupnum, parent = comment.parent)
@@ -527,7 +535,8 @@ def delete_post(id):
         db.session.add(delete_post)
 
         db.session.delete(post)
-        db.session.query(Comment).filter(Comment.post_id == post.id).delete()
+        db.session.query(Comment).filter(Comment.post_id == post.id).delete() # 다수의 entity를 delete하기 위한 방식.
+        post.author.post_count = post.author.post_count - 1
 
         db.session.commit()
         flash('삭제 완료했습니다.')
@@ -541,7 +550,7 @@ def delete_post(id):
 # 게시글 작성 라우트 & 뷰함수
 @main.route('/write', methods = ['GET', 'POST'])
 def write():
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if request.method == 'POST':
             user = User.query.filter_by(username = session['username']).first()
             body = request.form['body'] # 게시글 내용
@@ -552,7 +561,7 @@ def write():
             post = Post(name = name, body_text = body_text, author_id = session['id'])
             user.post_count = user.post_count + 1
 
-            db.session.add_all([user, post])
+            db.session.add(post)
             db.session.commit()
 
             flash('게시글 작성을 완료했습니다.')
@@ -567,9 +576,10 @@ def write():
 # 게시글의 내용 및 댓글을 다는 라우트 & 뷰함수
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
-    if 'username' in session and 'id' in session:
-        post = Post.query.filter_by(id = id).first_or_404()
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
+        post = Post.query.filter_by(id = id).first_or_404() # 게시글을 가져오는 쿼리 존재하지 않을 시 404에러 발생
         if request.method == 'POST':
+            # POST 일 시(submit을 할 때)
             if request.form['comment-classfiy'] == 'comment': # 댓글 작성을 처리하는 조건문
                 body = request.form['body'] # 작성한 댓글의 내용을 저장하는 변수
 
@@ -584,8 +594,6 @@ def post(id):
 
                 post.comment_count = post.comment_count + 1
 
-                db.session.add(post)
-
             elif request.form['comment-classfiy'] == 'recomment': # 답 댓글 작성을 처리하는 조건문
                 parent_id = request.form['parent_id'] # 작성한 답 댓글의 부모 댓글의 id 컬럼 값을 저장한 변수
                 groupnum = request.form['group_id'] # 답글의 그룹 번호 값을 저장한 변수
@@ -595,8 +603,6 @@ def post(id):
 
                 post.comment_count = post.comment_count + 1
 
-                db.session.add(post)
-
             else:
                 # 댓글을 수정하는 경우
                 editCommentId = request.form['editComment_id']
@@ -605,6 +611,7 @@ def post(id):
                 comment = Comment.query.filter_by(id = editCommentId).first()
 
                 if comment.author.username != session['username']:
+                    # 수정할 댓글 작성자와 해당 댓글 작성자가 맞지 않을 경우.
                     flash('작성한 유저가 아닙니다.')
                     return redirect(url_for('.post', id = id))
 
@@ -630,10 +637,9 @@ def post(id):
 # 댓글 삭제 라우트 & 뷰함수
 @main.route('/delComment/<int:comment_id>')
 def delComment(comment_id):
-    if 'username' in session and 'id' in session:
+    if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
 
         comment = Comment.query.filter_by(id = comment_id).first()
-        post = comment.post
 
         if comment.author.username != session['username']:
             flash('해당 댓글을 작성한 유저가 아닙니다.')
@@ -643,23 +649,22 @@ def delComment(comment_id):
 
         if comment.parent == 0:
             # 삭제할 댓글이 최상위 댓글일 경우.
-            count = Comment.query.filter_by(groupnum = comment.groupnum).count()
+            count = Comment.query.filter_by(post_id = comment.post.id, groupnum = comment.groupnum).count()
             if count > 1:
-                # 답글이 존재하는 경우. 해당 최상위 댓글은 작성자와 내용 작성시간을 Null 처리
+                # 답 댓글이 존재하는 경우. 해당 최상위 댓글은 작성자와 내용 작성시간을 Null 처리
                 comment.author_id = None
                 comment.body = None
                 comment.timestamp = None
-                db.session.add(comment)
             else:
                 # 답글이 존재하지 않는 경우. 댓글 삭제
                 db.session.delete(comment)
-                post.comment_count = post.comment_count - 1
-                db.session.add(post)
+                comment.post.comment_count = comment.post.comment_count - 1
+
         else:
-            # 최상위 댓글이 아닐 경우. 댓글 삭제.
+            # 최상위 댓글이 아닐 경우(답 댓글일 경우). 댓글 삭제.
             db.session.delete(comment)
-            post.comment_count = post.comment_count - 1
-            db.session.add(post)
+            comment.post.comment_count = comment.post.comment_count - 1
+
 
         db.session.add(delete_comment)
         db.session.commit()
@@ -671,7 +676,7 @@ def delComment(comment_id):
         return redirect(url_for('auth.login'))
 
 
-# /follow_list 페이지에서 팔로우 nav-tab을 클릭할 시 쿠키에 저장하는 라우트 & 뷰함수
+# /follow_list 페이지에서 팔로우 nav-tab을 클릭할 시 팔로워 목록을 출력하는 라우트 & 뷰함수
 @main.route('/follower/<username>')
 def follower(username):
     try:
@@ -681,7 +686,7 @@ def follower(username):
         abort(500)
 
 
-# /follow_list 페이지에서 팔로잉 nav-tab을 클릭할 시 쿠키에 저장하는 라우트 & 뷰함수
+# /follow_list 페이지에서 팔로잉 nav-tab을 클릭할 시 팔로잉 목록을 출력하는 라우트 & 뷰함수
 @main.route('/following/<username>')
 def following(username):
     try:

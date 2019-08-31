@@ -37,13 +37,10 @@ class User(db.Model):
                                backref=db.backref('followed', lazy = 'joined'),
                                lazy = 'dynamic',
                                cascade = 'all, delete-orphan')
+    machingchat = db.relationship('MachingChat', backref = 'author', lazy = 'dynamic')
+    chatcontent = db.relationship('ChatContent', backref = 'author', lazy = 'dynamic')
 
     def __init__(self, **kwargs):
-        # self.email = email
-        # self.username = username
-        # self.password_hash = password_hash
-        print(kwargs)
-        print(kwargs['email'])
         super().__init__(**kwargs)
         self.follow(self)
 
@@ -110,3 +107,20 @@ class DeleteComment(db.Model):
     groupnum = db.Column(db.Integer, default = 0)
     parent = db.Column(db.Integer, default = 0)
     
+
+class MachingChat(db.Model):
+    __tablename__ = 'machingchat'
+    id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer)
+    title = db.Column(db.String(64))
+    gp = db.Column(db.Boolean)
+
+
+class ChatContent(db.Model):
+    __tablename__ = 'chatcontent'
+    id = db.Column(db.Integer, primary_key = True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    room_id = db.Column(db.Integer)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime(), default = datetime.now)

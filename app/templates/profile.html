@@ -41,10 +41,11 @@
      <a class="btn btn-outline-secondary text-secondary font-weight-bolder" href="/edit_profile">Edit Profile</a>
     {% else %}
      {% if not show_follow %}
-      <a href="/follow/{{profile_user}}" class="btn btn-primary btn-lg" style="width: 267px">팔로우</a>
+      <a href="/follow/{{profile_user}}" class="btn btn-primary btn-lg" style="width: 134px">팔로우</a>
      {% else %}
-      <a href="/unfollow/{{profile_user}}" class="btn btn-outline-secondary btn-lg" style="width: 267px">언팔로우</a>
+      <a href="/unfollow/{{profile_user}}" class="btn btn-outline-secondary btn-lg" style="width: 134px">언팔로우</a>
      {% endif %}
+     <a href="/maching/{{profile_id}}" class="btn btn-outline-secondary btn-lg" style="width: 134px">메세지</a>
     {% endif %}
    </div>
   </div>
