@@ -1,12 +1,34 @@
 # flask_blog
 
-### 해당 페이지의 db 모델은 아래의 이미지 이다.(수정 2019/07/17)
+### 해당 페이지의 db 모델은 아래의 이미지 이다.(수정 2019/08/10)
 
-<img width="590" alt="flasky_db_model" src="https://user-images.githubusercontent.com/48170295/61346765-24a69080-a895-11e9-9a73-268980bca25e.PNG">
+<img width="624" alt="flasky" src="https://user-images.githubusercontent.com/48170295/62810346-9b534880-bb38-11e9-9163-88a5d29e7ddb.PNG">
 
 
 
 ### 이미지에 존재하는 테이블의 타입은 다음과 같이 설명한다.(수정 2019/07/17)
+
+<table>
+  <tr>
+    <td><b>table_name : follows</b></td>
+  </tr>
+  <tr>
+    <td><b>column_name</b></td>
+    <td><b>type</b></td>
+  </tr>
+  <tr>
+   <td>follower_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>followed_id</td>
+   <td>int</td>
+  </tr>
+  <tr>
+   <td>timestamp</td>
+   <td>datetime</td>
+  </tr
+</table>
 
 <table>
   <tr>
@@ -130,25 +152,12 @@
   </tr>
 </table>
 
-<table>
-  <tr>
-    <td><b>table_name : follows</b></td>
-  </tr>
-  <tr>
-    <td><b>column_name</b></td>
-    <td><b>type</b></td>
-  </tr>
-  <tr>
-   <td>follower_id</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>followed_id</td>
-   <td>int</td>
-  </tr>
-  <tr>
-   <td>timestamp</td>
-   <td>datetime</td>
-  </tr
-</table>
 
+
+### Table을 Flask Shell로 생성하기
+1. flask_app = flasky.py
+2. flask shell
+
+```
+>>> db.create_all()
+```
