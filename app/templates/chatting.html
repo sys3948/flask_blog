@@ -50,7 +50,8 @@
   </div>
   <script>
     $(function(){
-     socket = io('http://' + document.domain + ':' + location.port + '/chatting');
+     socket = io('http://' + document.domain + ':' + location.port + '/chatting'); // socket connect
+     // joined event로 room id value를 전송하는 이벤트.
      socket.on('connect', function(){
       socket.emit('joined', {roomId:{{roomId}}});
      });
@@ -59,21 +60,22 @@
 //      초대하거나 방을 나간다더나 하는 상태 메세지.
      });
      
+     // text 이벤트에서 받은 내용을 표시하는 message 이벤트
      socket.on('message', function(data){
       // session['id'] 값과 같으면 me 다르면 outhor로 지정한다.
-      console.log(typeof(data))
       if({{session['id']}} == data.userId){
-       
+       // 로그인한 user의 채팅
        $('.chatting-body').append('<div class="me d-flex flex-row-reverse"><div class="p-2 col-sm-6 border border-warning rounded-lg bg-warning" style="word-break: break-all">'+data['msg']+ '<div>' + data.timestamp + '</div></div></div>');
        
       }else{
-       
+       // 다른 user의 채팅
        $('.chatting-body').append('<div class="outhre d-flex flex-row"><div class="p-2"><img src="{{ url_for("static", filename="icon/") }}' + data.image + '" style="width: 32px"><div>' + data.username + '</div></div><div class="p-2 col-sm-5 border border-secondary rounded-lg" style="word-break: break-all">' + data.msg + '<div>' + data.timestamp + '</div></div></div>');
        
       }
-      $('#chatting-body').scrollTop($('#chatting-body')[0].scrollHeight);
+      $('#chatting-body').scrollTop($('#chatting-body')[0].scrollHeight); // 최신 채팅내용으로 스크롤 내리기
      });
      
+     // 작성 내용이 존재할 시 submit을 할 수 있는 이벤트
      $('#chatTextArea').keyup(function(e){
       if($('#chatTextArea').text().replace(/(\s*)/g, "") != ""){
        $('#chatBtn').attr("disabled", false);
@@ -82,6 +84,7 @@
       }
      });
      
+     // submit 버튼을 클릭할 시 작성한 내용을을 text 이벤트로 전송하는 함수.
      $('#chatBtn').click(function(e){
       var msg = $('#chatTextArea').html();
       console.log(msg);
@@ -89,9 +92,11 @@
       $('#chatBtn').attr("disabled", true);
       socket.emit('text', {msg: msg, roomId: {{roomId}}});
      });
+     
      $('#chatting-body').scrollTop($('#chatting-body')[0].scrollHeight);
     });
    
+   // 채팅방을 나가기 위해 left 이벤트로 통신하는 함수.
    function leav_room(){
     socket.emit('left', {roomId: {{roomId}}}, function(){
      socket.disconnect();

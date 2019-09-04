@@ -31,7 +31,12 @@ def index(username, num = 1):
             if request.method == 'POST': # method가 POST지 확인하는 조건문
                 # 게시글 검색을 했을 경우
                 search = request.form['search']
-                pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                # pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = Post.query.join(Follow, Follow.followed_id == Post.author_id).\
+                             filter(Follow.follower_id == user.id, \
+                                    or_(Post.body_text.like("%{}%".format(search)), \
+                                        User.username.like("%{}%".format(search)))). \
+                             order_by(Post.timestamp.desc()).paginate(page = 1, per_page = 10, error_out = True)
 
                 # GET method일 시에 해당 검색한 결과의 게시글을 출력하기 위한 page url을 저장하는 변수(url에는 검색 값, 총 페이지 수 등의 값이 저장되어있다.)
                 pageUrl = url_for('.index', username = username, search = True, result = search, paging = pagination.pages)
@@ -46,22 +51,30 @@ def index(username, num = 1):
                 paging = int(request.args.get('paging').split('/')[0]) # 총 페이지 수를 저장하는 변수
                 search = request.args.get('result') # 검색 값을 저장한 변수
                 # 검색 값에 맞는 게시글들을 출력하는 검색 쿼리
-                pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                # pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = Post.query.join(Follow, Follow.followed_id == Post.author_id). \
+                             filter(Follow.follower_id == user.id, or_(Post.body_text.like("%{}%".format(search)), \
+                                                                       User.username.like("%{}%".format(search)))). \
+                             order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 # 해당 검색한 결과의 다음 게시글들을 출력하기 위한 page url을 저장하는 변수(url에는 검색 값, 총 페이지 수 등의 값이 저장되어있다.)
-                pageUrl = url_for('.index', username = username, search = True, result = search, paging = request.args.get('paging'))
+                pageUrl = url_for('.index', username = username, search = True, result = search, paging = paging)
                         
             else:
                 # 게시글을 볼 경우
                 # 게시글을 출력하는 검색 쿼리
-                pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                # pagination = Post.query.join(User, Post.author_id == User.id).join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = Post.query.join(Follow, Follow.followed_id == Post.author_id).\
+                             filter(Follow.follower_id == user.id). \
+                             order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 # 전체 게시글에서 다음 게시글을 출력하기 위한 page url을 저장하는 변수
                 pageUrl = url_for('.index', username = username)
 
             posts = pagination.items
                     
-            return render_template('index.html', username = username, datas = posts, paging = pagination.pages, current_page = num, pageUrl = pageUrl, checkSearch = True)
+            return render_template('index.html', username = username, datas = posts, paging = pagination.pages, current_page = num,
+                                    pageUrl = pageUrl, checkSearch = True)
 
         else:
             # 같지 않는 경우 프로필 페이지로 리다이렉션
@@ -90,25 +103,31 @@ def home(num = 1):
             search = request.form['search']
             if show_page:
                 # 게시글 검색(조인 조건으로 수정해야한다.)
-                pagination = Post.query.join(User, Post.author_id == User.id).filter(or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = Post.query.join(User, Post.author_id == User.id).\
+                             filter(or_(Post.body_text.like("%{}%".format(search)), \
+                                        User.username.like("%{}%".format(search)))). \
+                             order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 datas = pagination.items
 
                 # 검색한 게시글 목록에서 다음 게시글 목록을 보기 위한 url을 저장한 변수
-                url = url_for('.home', search = True, result = search, pagin = pagination.pages)
+                url = url_for('.home', search = True, result = search, paging = pagination.pages)
 
-                return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num, pageUrl = url, checkSearch = True)
+                return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num,
+                                        pageUrl = url, checkSearch = True)
             else:
                 # 유저 검색
                 login_user = User.query.filter_by(username = session['username']).first()
-                pagination = User.query.filter(User.username.like("%{}%".format(search))).order_by(User.username, User.member_since.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.filter(User.username.like("%{}%".format(search))). \
+                             order_by(User.username, User.member_since.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 datas = pagination.items
 
                 # 검색한 유저 목록에서 다음 유저 목록을 보기 위한 url을 저장한 변수
                 url = url_for('.home', search = True, result = search, paging = pagination.pages)
 
-                return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num, pageUrl = url, login_user = login_user)
+                return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num,
+                                        pageUrl = url, login_user = login_user)
 
         # GET일 시
         if show_page:
@@ -122,7 +141,9 @@ def home(num = 1):
                 url = url_for('.home', search = True, result = search, paging = paging) # 다음 게시글들을 보기 위한 url을 저장한 변수
 
                 # 검색한 게시글 목록
-                pagination = Post.query.filter(or_(Post.body_text.like("%{}%".format(search)), User.username.like("%{}%".format(search)))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = Post.query.filter(or_(Post.body_text.like("%{}%".format(search)), \
+                                                   User.username.like("%{}%".format(search)))). \
+                             order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
             else:
                 # 전체 게시글 목록
                 pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
@@ -131,7 +152,8 @@ def home(num = 1):
 
             datas = pagination.items
 
-            return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num, pageUrl = url, checkSearch = True)
+            return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num,
+                                    pageUrl = url, checkSearch = True)
 
         else:
             # 유저 목록을 볼 때
@@ -144,16 +166,18 @@ def home(num = 1):
                 url = url_for('.home', search = True, result = search, paging = paging) # 다음 유저 목록들을 보기 위한 url을 저장한 변수(검색)
 
                 # 검색한 유저 목록을 출력하는 쿼리문
-                pagination = User.query.filter(User.username.like("%{}%".format(search))).order_by(User.username.asc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.filter(User.username.like("%{}%".format(search))). \
+                             order_by(User.username.asc()).paginate(page = num, per_page = 10, error_out = True)
             else:
                 # 전제 유저 목록
-                pagination = User.query.paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.order_by(User.username, User.member_since.desc()).paginate(page = num, per_page = 10, error_out = True)
 
                 url = url_for('.home') # 다음 유저 목록들을 보기 위한 url을 저장한 변수(전체)
 
             datas = pagination.items
 
-            return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num, pageUrl = url, login_user = login_user)
+            return render_template('home.html', datas = datas, paging = pagination.pages, show_page = show_page, current_page = num,
+                                    pageUrl = url, login_user = login_user)
 
     else:
         flash('로그인을 해주세요.')
@@ -223,7 +247,8 @@ def profile(username, num = 1):
             # 게시글 검색을 시작하는 부분
             search = request.form['search']
 
-            pagination = user.posts.filter(Post.body_text.like('%{}%'.format(search))).order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+            pagination = user.posts.filter(Post.body_text.like('%{}%'.format(search))). \
+                         order_by(Post.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
             pageUrl = url_for('.profile', username = username, search = True, result = search, paging = pagination.pages)
 
@@ -239,7 +264,8 @@ def profile(username, num = 1):
             search = request.args.get('result') # 검색 값을 저장한 변수
 
             # 검색 값에 따른 게시글 검색 쿼리
-            pagination = user.posts.filter(Post.body_text.like('%{}%'.format(search))).order_by(Post.timestamp.desc()).paginate(page=num, per_page = 10, error_out = True)
+            pagination = user.posts.filter(Post.body_text.like('%{}%'.format(search))). \
+                         order_by(Post.timestamp.desc()).paginate(page=num, per_page = 10, error_out = True)
 
             # 해당 페이지의 url
             pageUrl = url_for('.index', username = username, search = True, result = search, paging = request.args.get('paging'))
@@ -257,8 +283,8 @@ def profile(username, num = 1):
 
         return render_template('profile.html', profile_user = username, location = user.location, about_me = user.about_me,
                                member_since = user.member_since, image_name = user.profile_filename, posts_count = user.post_count,
-                               show_follow = show_follow, followers_count = user.follow_count, following_count = user.following_count, profile_id = user.id,
-                               datas = posts, paging = pagination.pages, current_page = num, url = pageUrl, checkSearch = True)
+                               show_follow = show_follow, followers_count = user.follow_count, following_count = user.following_count,
+                               profile_id = user.id, datas = posts, paging = pagination.pages, current_page = num, url = pageUrl, checkSearch = True)
         
     else:
         # 로그인이 되어있지 않는 경우
@@ -351,8 +377,8 @@ def follow(username):
     if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if username != session['username']:
             # 팔로우 하기
-            login_user = User.query.filter_by(username = session['username']).first()
-            user = User.query.filter_by(username = username).first()
+            login_user = User.query.filter_by(username = session['username']).first() # 로그인한 유저
+            user = User.query.filter_by(username = username).first() # 팔로우 할 유저
             login_user.follow(user)
             login_user.following_count = login_user.following_count + 1
             user.follow_count = user.follow_count + 1
@@ -374,8 +400,8 @@ def unfollow(username):
     if 'username' in session and 'id' in session: # 로그인이 되어있는지 확인하는 조건문
         if username != session['username']:
             # 언팔로우 하기
-            login_user = User.query.filter_by(username = session['username']).first()
-            user = User.query.filter_by(username = username).first()
+            login_user = User.query.filter_by(username = session['username']).first() # 로그인한 유저
+            user = User.query.filter_by(username = username).first() # 언팔로우 할 유저
             login_user.unfollow(user)
             login_user.following_count = login_user.following_count - 1
             user.follow_count = user.follow_count - 1
@@ -415,10 +441,16 @@ def follow_list(username, jf = 'follow', num = 1):
             search = request.form['search']
             if show_follow:
                 # 팔로우 부분
-                pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id, User.username.like("%{}%".format(search))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.follower_id == User.id). \
+                             filter(Follow.followed_id == user.id, Follow.follower_id != user.id, \
+                                    User.username.like("%{}%".format(search))). \
+                             order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
             else:
                 # 팔로잉 부분
-                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id, User.username.like("%{}%".format(search))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.followed_id == User.id). \
+                             filter(Follow.follower_id == user.id, Follow.followed_id != user.id, \
+                                    User.username.like("%{}%".format(search))). \
+                             order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
             # 해당 페이지 url
             url = url_for('.follow_list', username = username, jf = jf, search = True, result = search, paging = pagination.pages)
@@ -434,26 +466,37 @@ def follow_list(username, jf = 'follow', num = 1):
             if request.args.get('search'):
                 # 검색한 팔로워 목록 결과 쿼리
                 num = int(request.args.get('paging').split('/')[1]) # 현제 페이지 넘버
-                pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id, User.username.like("%{}%".format(request.args.get('result')))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.follower_id == User.id). \
+                             filter(Follow.followed_id == user.id, Follow.follower_id != user.id, \
+                                    User.username.like("%{}%".format(request.args.get('result')))). \
+                             order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
                 
             else:
                 # 검색하지 않은 팔로워 목록 쿼리
-                pagination = User.query.join(Follow, Follow.follower_id == User.id).filter(Follow.followed_id == user.id, Follow.follower_id != user.id).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.follower_id == User.id). \
+                             filter(Follow.followed_id == user.id, Follow.follower_id != user.id). \
+                             paginate(page = num, per_page = 10, error_out = True)
 
         else:
             # 팔로잉 부분
             if request.args.get('search'):
                 # 검색한 팔로잉 목록 결과 쿼리
                 num = int(request.args.get('paging').split('/')[1]) # 현제 페이지 넘버
-                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id, User.username.like("%{}%".format(request.args.get('result')))).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.followed_id == User.id). \
+                             filter(Follow.follower_id == user.id, Follow.followed_id != user.id, \
+                                    User.username.like("%{}%".format(request.args.get('result')))). \
+                             order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
             else:
                 # 검색하지 않는 일반 팔로잉 목록 쿼리
-                pagination = User.query.join(Follow, Follow.followed_id == User.id).filter(Follow.follower_id == user.id, Follow.followed_id != user.id).order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
+                pagination = User.query.join(Follow, Follow.followed_id == User.id). \
+                             filter(Follow.follower_id == user.id, Follow.followed_id != user.id). \
+                             order_by(Follow.timestamp.desc()).paginate(page = num, per_page = 10, error_out = True)
 
         # 해당 페이지 별 url 구현 하기.
         if request.args.get('paging'):
-            url = url_for('.follow_list', username = username, jf = jf, search = request.args.get('search'), result = request.args.get('result'), paging = request.args.get('paging').strip('/')[0])
+            url = url_for('.follow_list', username = username, jf = jf, search = request.args.get('search'), \
+                          result = request.args.get('result'), paging = request.args.get('paging').strip('/')[0])
         else:
             url = url_for('.follow_list', username = username, jf = jf)
 
@@ -522,13 +565,15 @@ def delete_post(id):
             return redirect(request.referrer)
 
         # 삭제할 포스트와 그 포스트에 속해있는 댓글들을 deletepost, delcomments 테이블에 저장.
-        delete_post = DeletePost(id = post.id, author_id = post.author_id, name = post.name, timestamp = post.timestamp, comment_count = post.comment_count, body_text = post.body_text)
+        delete_post = DeletePost(id = post.id, author_id = post.author_id, name = post.name, \
+                                 timestamp = post.timestamp, comment_count = post.comment_count, body_text = post.body_text)
         comments = Comment.query.filter_by(post_id = post.id).all()
         db.session.bulk_insert_mappings(
             # 다수의 entity를 insert 위해 SQLALchemy에서 bulk_insert_mappings()를 지원해준다.
             DeleteComment,
             [
-                dict(id = comment.id, author_id = comment.author_id, post_id = comment.post_id, body = comment.body, timestamp = comment.timestamp, groupnum = comment.groupnum, parent = comment.parent)
+                dict(id = comment.id, author_id = comment.author_id, post_id = comment.post_id, body = comment.body, \
+                     timestamp = comment.timestamp, groupnum = comment.groupnum, parent = comment.parent)
                 for comment in comments
             ]
         )
@@ -645,7 +690,8 @@ def delComment(comment_id):
             flash('해당 댓글을 작성한 유저가 아닙니다.')
             return redirect(request.referrer)
 
-        delete_comment = DeleteComment(id = comment.id, author_id = comment.author_id, post_id = comment.post_id, body = comment.body, timestamp = comment.timestamp, groupnum = comment.groupnum, parent = comment.parent)
+        delete_comment = DeleteComment(id = comment.id, author_id = comment.author_id, post_id = comment.post_id, body = comment.body, \
+                                       timestamp = comment.timestamp, groupnum = comment.groupnum, parent = comment.parent)
 
         if comment.parent == 0:
             # 삭제할 댓글이 최상위 댓글일 경우.

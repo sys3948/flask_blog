@@ -67,7 +67,8 @@ def register():
             password2 = request.form['password2'] # Client에서 입력한 password 확인 값을 저장하는 변수
             
             # 이메일 닉네임 비밀번호가 존재하지 않는 경우 회원가입 페이지로 리다이렉트 하는 기능.
-            if not bool(username.strip()) or not bool(email.strip()) or not bool(password.strip()) or not bool(password2.strip()) or password != password2:
+            if not bool(username.strip()) or not bool(email.strip()) or not bool(password.strip()) or \
+               not bool(password2.strip()) or password != password2:
                 flash('email or username 작성에서 잘 못 되었거나 비밀번호와 비밀번호 확인이 일치하지 않습니다.')
                 return redirect(url_for('.register'))
 
