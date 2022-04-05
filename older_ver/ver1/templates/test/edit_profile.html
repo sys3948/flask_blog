@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <style>
+   .profile-thumbnail {
+    position: absolute;
+   }
+   .profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+   }
+   
+   div.post-tabs {
+    margin-top: 16px;
+   }
+   
+   ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+   }
+   div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+   }
+   ul.posts li.post {
+       padding: 8px;
+       border-bottom: 1px solid #e0e0e0;
+   }
+   ul.posts li.post:hover {
+       background-color: #f0f0f0;
+   }
+   div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+   }
+   div.post-footer {
+    text-align: right;
+   }
+  </style>
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-inverse" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+     </button>
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav">
+      <li><a>Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li><a href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="nav navbar-nav navbar-right">
+      <!--   로그인이 되어있을 때   -->
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container">
+   <div class="page-header">
+    <h1>Edit Your Profile</h1>
+   </div>
+   <div class="col-md-4">
+    <form action method="post" class="form" role="form">
+     <div class="form-group">
+      <label class="control-label" for="name">UserName</label>
+      <input class="form-control" id="name" name="name" type="text" value="저장된 닉네임 값">
+     </div>
+     <div class="form-group">
+      <label class="control-label" for="location">location</label>
+      <input class="form-control" id="location" name="location" type="text" value="저장된 지역 값">
+     </div>
+     <div class="form-group">
+      <label class="control-label" for="about_me">About me</label>
+      <textarea class="form-control" id="about_me" name="about_me">저장된 자기 소개
+      </textarea>
+     </div>
+     <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+    </form> 
+   </div>
+  </div>
+ </body>
+</html>

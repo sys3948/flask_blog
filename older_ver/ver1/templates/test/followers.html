@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <style>
+   .profile-thumbnail {
+    position: absolute;
+   }
+   .profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+   }
+   
+   div.post-tabs {
+    margin-top: 16px;
+   }
+   
+   ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+   }
+   div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+   }
+   ul.posts li.post {
+       padding: 8px;
+       border-bottom: 1px solid #e0e0e0;
+   }
+   ul.posts li.post:hover {
+       background-color: #f0f0f0;
+   }
+   div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+   }
+   div.post-footer {
+    text-align: right;
+   }
+  </style>
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-inverse" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+     </button>
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav">
+      <li><a>Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li><a href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="nav navbar-nav navbar-right">
+      <!--   로그인이 되어있을 때   -->
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container">
+   <div class="page-header">
+    <h1>사용자 닉네임의 Followers List</h1>
+   </div>
+   <table class="table table-hover followers">
+    <thead>
+     <tr>
+      <th>User</th>
+      <th>Since</th>
+     </tr>
+    </thead>
+    <!--  팔로워들 목록 루프  -->
+    <tr>
+     <td>
+      <a>
+       <img class="img-rounded" src="./icon/information.png" width="32px">
+       팔로워 이름
+      </a>
+     </td>
+     <td>
+      팔로워한 시기
+     </td>
+    </tr>
+    <!--  endfor  -->
+   </table>
+   <div class="pagination">
+    <!--  pagination jquery plugin 적용하기  -->
+   </div>
+  </div>
+ </body>
+</html>

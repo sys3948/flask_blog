@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Post{% endblock %}
+
+{% block page_content %}
+ {% include '_posts.html' %}
+ <h4 id="comments">Comment</h4>
+ {% if 'username' in session and 'id' in session %}
+  <div class="comment-form">
+   <form action method="post" class="form" role="form">
+    <div class="form-group required">
+     <label class="control-label" for="body">Enter Your Comment</label>
+     <input class="form-control" id="body" name="body" required type="text" value>
+    </div>
+    <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+   </form>
+  </div>
+ {% endif %}
+ {% include '_comments.html' %}
+ {% if pagination %}
+  <div class="pagination">
+   {# pagination jquery plugin 적용하기. #}
+  </div>
+ {% endif %}
+{% endblock %}

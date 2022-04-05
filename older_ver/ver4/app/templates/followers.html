@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Follower & Following of {{username}} Lists{% endblock %}
+
+{% block page_content %}
+<div class="page-header mt-5 mb-4 pb-2">
+ <h1>Follower & Following List of {{username}}</h1>
+</div>
+<ul class="nav nav-tabs">
+ <li class="nav-item">
+  <a href="/follower/{{username}}" {% if show_follow %} class="nav-link font-weight-bolder active" {% else %} class="nav-link font-weight-bolder" {% endif %}>
+   팔로우
+  </a>
+ </li>
+ <li class="nav-item">
+  <a href="/following/{{username}}" {% if not show_follow %} class="nav-link font-weight-bolder active" {% else %} class="nav-link font-weight-bolder" {% endif %}>
+   팔로잉
+  </a>
+ </li>
+</ul>
+{% include '_userlist.html' %}
+<div class="pagination">
+ <!--  pagination jquery plugin 적용하기  -->
+</div>
+{% endblock %}

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  <link rel="stylesheet" href="../../static/css/style.css">
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+   div.c_l, div.c_r{
+    display: inline-block;
+   }
+   div.c_l{
+    width: 10%;
+   }
+   div.c_r{
+    width: 90%;
+   }
+  </style>
+ </head>
+ <body>
+  <div class="navbar navbar-expand-md bg-dark navbar-dark" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse">
+     <ul class="navbar-nav col-md-11">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="navbar-nav">
+      <!--   로그인이 되어있을 때   -->
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--   로그인이 되어있지 않았을 때   -->
+<!--      <li><a class="nav-link" href="#">Log In</a></li>-->
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container">
+    <ul class="posts">
+     <li class="post">
+      <div class="post-thumbnail">
+       <a href="#">
+        <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="40px">
+       </a>
+      </div>
+      <div class="post-content">
+       <!--   게시글 작성 시간    -->
+       <div class="post-date"></div>
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="post-author"><a href="#"></a></div>
+       <!--   게시글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+       <div class="post-body">
+       <!--   게시글 내용이 들어갈 부분    -->
+       </div>
+       <div class="post-fotter">
+        <!--   접속한 유저가 작성한 유저와 같은가?     -->
+        <a href="#"><span class="badge badge-primary">Edit</span></a>
+        <!--    end 접속한 유저가 작성한 유저와 같은가?    -->
+        <a><span class="badge badge-secondary">Comments</span></a>
+       </div>
+      </div>
+     </li>
+    </ul>
+   <div>
+    <form action method="post" class="form" role="form">
+     <div class="form-group required">
+      <label class="font-weight-bold" for="body">Enter Your Comment</label>
+      <div class="flask-pagedown">
+       <textarea class="form-control flask-pagedown-input" id="flask-pagedown-body" name="body" required>
+       </textarea>
+      </div>
+     </div>
+     <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+    </form> 
+   </div>
+   <ul class="comments mb-4">
+    <li class="comment" id="comment_0">
+     삭제된 댓글입니다.
+    </li>
+    <li class="comment" id="comment_1">
+     <div></div>
+     <div>
+      <div class="Re-comment-body">
+         Re:
+      </div>
+      <div class="comment-thumbnail">
+       <a href="#">
+        <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="40px">
+       </a>
+      </div>
+      <div class="comment-content">
+       <!--   댓글 작성 시간    -->
+       <div class="comment-date">
+        <p class="time">2019-05-13 17:30</p>
+        <p class="awc" onclick="write_recomment(1);">답글달기</p>
+       </div>
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="comment-author"><a href="#">닉네임</a></div>
+        <!--   댓글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+        <div class="comment-body">
+         <!--   댓글 내용이 들어갈 부분    -->
+         댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용
+        </div>
+       </div>
+      </div>
+    </li>
+    <li class="comment" id="comment_2">
+     <div>
+      <div class="Re-comment-body">
+         Re:
+      </div>
+      <div class="comment-thumbnail">
+       <a href="#">
+        <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="40px">
+       </a>
+      </div>
+      <div class="comment-content">
+       <!--   댓글 작성 시간    -->
+       <div class="comment-date">
+        <p class="time">2019-05-13 17:30</p>
+        <p class="awc" onclick="write_recomment(2);">답글달기</p>
+       </div>
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="comment-author"><a href="#">닉네임</a></div>
+        <!--   댓글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+        <div class="comment-body">
+         <!--   댓글 내용이 들어갈 부분    -->
+         댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용
+        </div>
+       </div>
+      </div>
+     </li>
+     <li class="comment" id="comment_3">
+     <div>
+      <div class="Re-comment-body">
+         Re:
+      </div>
+      <div class="comment-thumbnail">
+       <a href="#">
+        <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="40px">
+       </a>
+      </div>
+      <div class="comment-content">
+       <!--   댓글 작성 시간    -->
+       <div class="comment-date">
+        <p class="time">2019-05-13 17:30</p>
+        <p class="awc">답글달기</p>
+       </div>
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="comment-author"><a href="#">닉네임</a></div>
+        <!--   댓글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+        <div class="comment-body">
+         <!--   댓글 내용이 들어갈 부분    -->
+         댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용
+        </div>
+       </div>
+      </div>
+     </li>
+    <li class="comment" id="comment_4">
+     <div>
+      <div class="Re-comment-body">
+         Re:
+      </div>
+      <div class="comment-thumbnail">
+       <a href="#">
+        <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="40px">
+       </a>
+      </div>
+      <div class="comment-content">
+       <!--   댓글 작성 시간    -->
+       <div class="comment-date">
+        <p class="time">2019-05-13 17:30</p>
+        <p class="awc">답글달기</p>
+       </div>
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="comment-author"><a href="#">닉네임</a></div>
+        <!--   댓글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+        <div class="comment-body">
+         <!--   댓글 내용이 들어갈 부분    -->
+         댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용
+        </div>
+       </div>
+      </div>
+     </li>
+    </ul>
+   </div>
+   <script>
+    var re_com = false;
+    var ck_num;
+    
+    function write_recomment(num){
+     console.log('처음:' + typeof(num));
+     
+     if(ck_num == null){
+      ck_num = num;
+      console.log('ck_num이 null일 때: ' + ck_num);
+      console.log('ck_num이 null일 때의 타입: ' + typeof(ck_num));
+      var comment_id = 'li#comment_' + num;
+      var select_value = comment_id + ' ' + 'div.comment-body';
+
+      var form_elements = "<div id='recomment_" +num + "'" + ">" +
+          "<form action method='post' class='form' role='form'>" +
+           "<div class='form-group required'>" +
+            "<label class='control-label' for='body'>Enter Your Re Comment</label>" +
+            "<div class='flask-pagedown'>" +
+             "<textarea class='form-control flask-pagedown-input' id='flask-pagedown-body' name='body' required>" +
+             "</textarea>" +
+             "<input type='hidden' value=''>" +
+            "</div>" +
+           "</div>" +
+           "<input class='btn btn-default' id='submit' name='submit' type='submit' value='Submit'>" +
+          "</form>" +
+         "</div>";
+
+      document.querySelector(select_value).innerHTML += form_elements;
+     }else{
+      if(ck_num == num){
+       var parent_element = 'li#comment_' + ck_num + ' ' + 'div.comment-body';
+       var selector = 'recomment_' + ck_num;
+       console.log(selector);
+       var remove_item = document.getElementById(selector);
+       console.log(remove_item);
+       console.log()
+       document.querySelector(parent_element).removeChild(remove_item);
+       ck_num = null;
+      }else{
+       console.log('ck_num값: ' + ck_num + 'num 값: ' + num);
+       var parent_element = 'li#comment_' + ck_num + ' ' + 'div.comment-body';
+       var selector = 'recomment_' + ck_num;
+       console.log('ck_num과 num 값이 다를 때의 recomment id 값: ' + selector);
+       var remove_item = document.getElementById(selector);
+       console.log()
+       document.querySelector(parent_element).removeChild(remove_item);
+       ck_num = num;
+       console.log('여기는 안되는건가요?');
+       var comment_id = 'li#comment_' + num;
+       var select_value = comment_id + ' ' + 'div.comment-body';
+
+       var form_elements = "<div id='recomment_" +num + "'" + ">" +
+           "<form action method='post' class='form' role='form'>" +
+            "<div class='form-group required'>" +
+             "<label class='control-label' for='body'>Enter Your Re Comment</label>" +
+             "<div class='flask-pagedown'>" +
+              "<textarea class='form-control flask-pagedown-input' id='flask-pagedown-body' name='body' required>" +
+              "</textarea>" +
+              "<input type='hidden' value=''>" +
+             "</div>" +
+            "</div>" +
+            "<input class='btn btn-default' id='submit' name='submit' type='submit' value='Submit'>" +
+           "</form>" +
+          "</div>";
+       
+         document.querySelector(select_value).innerHTML += form_elements;
+      }
+     }
+    }
+   </script>
+ </body>
+</html>

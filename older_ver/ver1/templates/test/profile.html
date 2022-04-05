@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <style>
+   .profile-thumbnail {
+    position: absolute;
+   }
+   .profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+   }
+   
+   div.post-tabs {
+    margin-top: 16px;
+   }
+   
+   ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+   }
+   div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+   }
+   ul.posts li.post {
+       padding: 8px;
+       border-bottom: 1px solid #e0e0e0;
+   }
+   ul.posts li.post:hover {
+       background-color: #f0f0f0;
+   }
+   div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+   }
+   div.post-footer {
+    text-align: right;
+   }
+  </style>
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-inverse" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+     </button>
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav">
+      <li><a>Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li><a href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="nav navbar-nav navbar-right">
+      <!--   로그인이 되어있을 때   -->
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container">
+   <div class="page-header">
+    <img class="img-rounded profile-thumbnail" src="./icon/information.png" width="256px">
+    <div class="profile-header">
+     <h1>사용자 닉네임</h1>
+     <!--  if 사용자 닉네임 or location(지역)에 관한 데이터가 있는가?   -->
+     <p>
+      <!--   사용자 이름이 존재하는 가?   -->
+      사용자 이름<br>
+      <!--   end if   -->
+      <!--  location의 데이터가 존재하는 가?    -->
+      from <a href="http://maps.google.com/?q=이천">이천</a>
+      <br>
+      <!--   end if   -->
+     </p>
+     <!--   end if   -->
+     <!--  소개 글이 존재하는 가?    -->
+     <p>소개글에대한 내용</p>
+     <!--  end if    -->
+     <p>가입 날짜:</p>
+     <p>게시글 작성 수: 댓글 작성 수:</p>
+     <p>
+      <!--   프로필의 유저와 현제 유저와 다른가?   -->
+      <!--   이 프로필 유저를 팔로우 되어있는가?   -->
+      <a class="btn btn-primary">Follow</a>
+      <!--   그러지 않는 경우   -->
+      <a class="btn btn-default">Unfollow</a>
+      <!--   end if   -->
+      <a>Followers: <span class="badge">0</span></a>
+      <a>Following: <span class="badge">0</span></a>
+      <!--   로그인이 되어있는 상태이고 프로필과 로그인한 유저가 달라야되고 프로필이 팔로우 된 상태여야한다.   -->
+      <span class="label label-default">Follows you</span>
+      <!--   end if   -->
+     </p>
+     <p>
+      <!--   접속한 사용자와 프로필의 사용자가 동일한가?   -->
+      <a class="btn btn-default" href="#">Edit Profile</a>
+     </p>
+     <p></p>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

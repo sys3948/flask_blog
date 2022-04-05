@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block head %}
+ {{ super() }}
+ <script>
+  $(function(){
+   $('.summernote').summernote({
+    height: 500,
+   })
+  })
+ </script>
+{% endblock %}
+
+{% block title %}Flasky Example - Writer{% endblock %}
+
+{% block page_content %}
+<div class="nav-tabs mt-5 mb-4 pb-2">
+ <h1>{{username}}의 글 작성 공간입니다. 글을 작성해주세요.</h1>
+</div>
+
+<div>
+ <form method="post" class="form" role="form" onsubmit="return check_submit()">
+  <div class="form-group required">
+   <label class="control-lable" for="body">What's on your mind?</label>
+   <div class="flask-pagedown">
+    <div class="summernote"></div>
+   </div>
+  </div>
+  <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit" />
+ </form>
+</div>
+
+<script>
+ function check_submit(){
+  var editArea = document.getElementById('editarea');
+  var submitEditData = document.getElementById('submitEditData');
+  var searchEditData = document.getElementById('searchEditData');
+  var returnValue = false;
+  if(editArea.innerHTML == '<p><br></p>'){
+   returnValue = false;
+  }else{
+   submitEditData.value = editArea.innerHTML;
+   searchEditData.value = $('#editarea').text();
+   returnValue = true;
+  }
+  return returnValue;
+ }
+</script>
+{% endblock %}

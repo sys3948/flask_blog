@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Profile{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+ <img class="img-rounded profile-thumbnail" src="{{url_for('static', filename='icon/')}}{{image_name}}" width="256px">
+ <div class="profile-header">
+  <h1>{{profile_user}}</h1>
+  {% if location %}
+  <p>
+   from <a href="http://maps.google.com/?q={{location}}">{{location}}</a>
+   <br>
+  </p>
+ {% endif %}
+  
+ {% if about_me %}
+  <p>{{about_me}}</p>
+ {% endif %}
+  
+ <p>가입 날짜: {{ member_since }}</p>
+ <p>게시글 작성 수: {{posts_count}} 댓글 작성 수: {{comments_count}}</p>
+ <p>
+  {% if 'username' in session and 'id' in session %}
+   {% if profile_user != session['username'] %}
+    {% if not show_follow %}
+    <a class="btn btn-primary" href="/follow/{{profile_user}}">Follow</a>
+    {% else %}
+    <a class="btn btn-default" href="/unfollow/{{profile_user}}">Unfollow</a>
+    {% endif %}
+   {% endif %}
+  {% endif %}
+  <a href="/followers/{{profile_user}}">Followers: <span class="badge">{{followers_count}}</span></a>
+  <a href="/following/{{profile_user}}">Following: <span class="badge">{{following_count}}</span></a>
+  {#{% if 로그인이 되어있는 상태이고 프로필과 로그인한 유저가 달라야되고 프로필이 팔로우 된 상태여야한다. %}
+   <span class="label label-default">Follows you</span>
+  {% endif %}#}
+ </p>
+ <p>
+  {% if profile_user == session['username'] %}
+  <a class="btn btn-default" href="/edit_profile">Edit Profile</a>
+  {% endif %}
+ </p>
+ </div>
+</div>
+<div>
+ <h3>작성한 게시글</h3>
+ {% include '_posts.html' %}
+ 
+ {% if paging %}
+ <div>
+  {# pagination에 관한 jquery plugin 적용하기. #}
+  <ul class="pagination pagination-lg" id="pagination"></ul>
+ </div>
+ {% endif %}
+
+ <script>
+  $(function(){
+   $('#pagination').pagination({
+    items: {{paging}},
+    itemOnPage: 5,
+    currentPage: {{current_page}},
+    prevText: '<span aria-hidden="true">&laquo;</span>',  
+    nextText: '<span aria-hidden="true">&raquo;</span>',
+    hrefTextPrefix: '/{{url}}/',
+    onInit: function(){},
+    onPageClick: function(page, evt){
+     location.replace('/{{url}}/'+page);
+    }
+   });
+  })
+ </script>
+</div>
+{% endblock %}

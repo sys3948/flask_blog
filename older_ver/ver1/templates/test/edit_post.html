@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <style>
+   .profile-thumbnail {
+    position: absolute;
+   }
+   .profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+   }
+   
+   div.post-tabs {
+    margin-top: 16px;
+   }
+   
+   ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+   }
+   div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+   }
+   ul.posts li.post {
+       padding: 8px;
+       border-bottom: 1px solid #e0e0e0;
+   }
+   ul.posts li.post:hover {
+       background-color: #f0f0f0;
+   }
+   div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+   }
+   div.post-footer {
+    text-align: right;
+   }
+  </style>
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-inverse" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+     </button>
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav">
+      <li><a>Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li><a href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="nav navbar-nav navbar-right">
+      <!--   로그인이 되어있을 때   -->
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  
+  <div class="container">
+   <div class="page-header">
+    <h1>Edit Post</h1>
+   </div>
+   <div>
+    <form action method="post" class="form" role="form">
+<!--     cross 위조 공격 보호하기.
+<input id="csrf_token" name="csrf_token" type="hidden" value="ImU0Y2IzMzA3YmMwMGY2NDhlOThkZGYxOWY4ZjE2MzY2MDIwYTRmZWUi.D57WEg.800zobmNWXT0sfGlJBaatIi2E9g">-->
+     <div class="form-group required">
+      <label class="control-label" for="body">What's on your mind?</label>
+      <div class="flask-pagedown">
+       <textarea class="form-control flask-pagedown-input" id="flask-pagedown-body" name="body" required>
+       </textarea>
+      </div>
+<!-- textarea 작성할 시에 작성 내용을 미리 보여주는 elements와 script
+      <div class="flask-pagedown-preview" id="flask-pagedown-body-preview"></div>
+      <script type="text/javascript">
+       f = function() {
+           if (typeof flask_pagedown_converter === "undefined")
+               flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+           var textarea = document.getElementById("flask-pagedown-body");
+           var preview = document.getElementById("flask-pagedown-body-preview");
+           textarea.onkeyup = function() { preview.innerHTML = flask_pagedown_converter(textarea.value); }
+           textarea.onkeyup.call(textarea);
+       }
+       if (document.readyState === 'complete')
+           f();
+       else if (window.addEventListener)
+           window.addEventListener("load", f, false);
+       else if (window.attachEvent)
+           window.attachEvent("onload", f);
+       else
+           f();
+      </script>
+-->
+     </div>
+     <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+    </form> 
+   </div>
+  </div>
+ </body>
+</html>

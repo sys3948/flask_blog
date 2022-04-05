@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  {%- block head %}
+  <link rel="shortcut icon" href="{{ url_for('static', filename='blog.png') }}">
+   {%- block styles %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {# summernote api의 css local file link #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='summernote/css/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='summernote/css/example.css')}}">
+   {%- endblock styles %}
+  
+  {# bootstrap4 cdn #}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  {# simplePagination plugin file local link #}
+  <script src="{{ url_for('static', filename='js/jquery.simplePagination.js') }}"></script>
+  {# summernote api local js file link #}
+  <script src="{{ url_for('static', filename='summernote/js/summernote-bs4.js') }}"></script>
+  
+  
+  <title>{% block title %}{% endblock title %}</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {%- endblock head %}
+ </head>
+ <body>
+  {% block body -%}
+   {% block navbar %}
+    <div class="navbar navbar-expand-md bg-dark navbar-dark" role="navigation">
+     <div class="container">
+      <div class="navbar-header">
+       <a class="navbar-brand" href="/">Flasky</a>
+      </div>
+      <div class="navbar-collapse ">
+       <ul class="navbar-nav col-md-11">
+        <li class="nav-itme"><a class="nav-link" href="/home">Home</a></li>{# home의 url은 /home로 전체 유저의 list와 전체 게시글들을 보여준다(최신의 게시글들로.) #}
+        {% if session['username'] %}
+        <li class="nav-item"><a class="nav-link" href="/profile/{{session['username']}}">Profile</a></li>
+        {% endif %}
+       </ul>
+       <ul class="navbar-nav">
+        {% if session['username'] %}
+        <a href="/chattingroom"><img src="{{url_for('static', filename='icon/speech-bubbles-comment-option.png')}}" /></a>
+        <li class="dropdown">
+         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Account<b class="caret"></b></a>
+         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/write">Write</a></li>
+          <li><a class="dropdown-item" href="/follow_list/{{session['username']}}">Follow & Following List</a></li>
+          <li><a class="dropdown-item" href="/change_password">Change Password</a></li>
+          <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+         </ul>
+        </li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+        {% endif %}
+       </ul>
+      </div>
+     </div>
+    </div>
+   {% endblock navbar %}
+   {% block content -%}
+    <div class="container">
+     {% if get_flashed_messages() %}
+      {% for message in get_flashed_messages() %}
+       <div class="alert alert-warning mt-2">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+       </div>
+      {% endfor %}
+     {% endif %}
+     {% block  page_content%}
+      
+     {% endblock %}
+    </div>
+   {%- endblock content %}
+  {%- endblock body %}
+ </body>
+</html>

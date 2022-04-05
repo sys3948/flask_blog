@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Password Reset{% endblock %}
+
+{% block page_content %}
+<div class="nav-tabs mt-5 mb-4 pb-2">
+ <h1>Reset Your Password</h1>
+</div>
+<div class="col-md-4">
+ <form action method="post" class="form" role="form">
+  <div class="form-group required">
+   <label class="font-weight-bolder" for="email">Input your Email</label>
+   <input class="form-control" id="email" name="email" required type="email" value>
+  </div>
+  <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Reset Password">
+ </form>
+</div>
+{% endblock %}

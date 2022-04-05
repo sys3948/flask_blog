@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block head %}
+ {{super()}}
+ <script>
+  $(function(){
+   $('.summernote').summernote({
+    height: 150,
+   });
+  });
+ </script>
+{% endblock %}
+
+{% block title %}Flask Example{% endblock %}
+
+{% block page_content %}
+<div class="nav-tabs mt-5 mb-4 pb-2">
+ <h1>{{username}}의 글 작성 공간입니다. 글을 작성해주세요.</h1>   
+</div>
+
+<div>
+ {% if session['username'] == username %}
+ <form action="/{{username}}" method="post" class="form" role="form" onsubmit="return check_submit()">
+  <div class="form-group required">
+   <label class="control-label" for="body">What's on your mind?</label>
+    <div class="flask-pagedown">
+     <div class="summernote"></div>
+   </div>
+  </div>
+  <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit" />
+ </form>
+ {% endif %}
+</div>
+<div class="post-tabs">
+ {% include '_posts.html' %}
+</div>
+{% if paging %}
+<div class="mt-2">
+ {# pagination에 관한 jquery plugin 적용하기. #}
+ <ul class="pagination pagination-lg" id="pagination"></ul>
+</div>
+{% endif %}
+
+<script>
+ $(function(){
+  $('#pagination').pagination({
+   items: {{paging}},
+   itemOnPage: 5,
+   currentPage: {{current_page}},
+   prevText: '<span aria-hidden="true">&laquo;</span>',  
+   nextText: '<span aria-hidden="true">&raquo;</span>',
+   hrefTextPrefix: '/{{username}}/',
+   onInit: function(){},
+  });
+ })
+ 
+ function check_submit(){
+  var editArea = document.getElementById('editarea');
+  var submitEditData = document.getElementById('submitEditData');
+  var returnValue = false;
+  if(editArea.innerHTML == '<p><br></p>'){
+   returnValue = false;
+  }else{
+   submitEditData.value = editArea.innerHTML;
+   returnValue = true;
+  }
+  return returnValue;
+ }
+</script>
+{% endblock %}

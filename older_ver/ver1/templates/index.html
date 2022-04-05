@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Flask Example{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+ <h1>Hello, {% if session['username'] %}{{ session['username'] }}{% else %}Stranger{% endif %}!</h1>   
+</div>
+
+<div>
+ {% if session['username'] %}
+ <form action method="post" class="form" role="form" onsubmit="return check_submit()">
+  {#<input id="csrf_token" name="csrf_token" type="hidden" value="ImU0Y2IzMzA3YmMwMGY2NDhlOThkZGYxOWY4ZjE2MzY2MDIwYTRmZWUi.D57WEg.800zobmNWXT0sfGlJBaatIi2E9g">#}
+  <div class="form-group required">
+   <label class="control-label" for="body">What's on your mind?</label>
+   <div class="flask-pagedown">
+    <textarea class="form-control flask-pagedown-input" id="flask-pagedown-body" name="body" required></textarea>
+   </div>
+   {# textarea 작성할 시에 작성 내용을 미리 보여주는 elements와 script
+      <div class="flask-pagedown-preview" id="flask-pagedown-body-preview"></div>
+      <script type="text/javascript">
+       f = function() {
+           if (typeof flask_pagedown_converter === "undefined")
+               flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+           var textarea = document.getElementById("flask-pagedown-body");
+           var preview = document.getElementById("flask-pagedown-body-preview");
+           textarea.onkeyup = function() { preview.innerHTML = flask_pagedown_converter(textarea.value); }
+           textarea.onkeyup.call(textarea);
+       }
+       if (document.readyState === 'complete')
+           f();
+       else if (window.addEventListener)
+           window.addEventListener("load", f, false);
+       else if (window.attachEvent)
+           window.attachEvent("onload", f);
+       else
+           f();
+      </script> #}
+   
+  </div>
+  <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
+ </form>
+ {% endif %}
+</div>
+<div class="post-tabs">
+ <ul class="nav nav-tabs">
+  {% if 'username' in session %}
+  <li {% if show_follower %} class="" {% else %} class="active" {% endif %}><a href="/all">All</a></li>
+  <li {% if show_follower %} class="active" {% else %} class="" {% endif %}><a href="/followed">Followers</a></li>
+  {% else %}
+  <li class="active"><a href="/all">All</a></li>
+  {% endif %}
+ </ul>
+ {% include '_posts.html' %}
+</div>
+{% if paging %}
+<div>
+ {# pagination에 관한 jquery plugin 적용하기. #}
+ <ul class="pagination pagination-lg" id="pagination"></ul>
+</div>
+{% endif %}
+
+<script>
+ $(function(){
+  $('#pagination').pagination({
+   items: {{paging}},
+   itemOnPage: 5,
+   currentPage: {{current_page}},
+   prevText: '<span aria-hidden="true">&laquo;</span>',  
+   nextText: '<span aria-hidden="true">&raquo;</span>',
+   hrefTextPrefix: '/',
+   onInit: function(){},
+   onPageClick: function(page, evt){
+    location.replace('/'+page);
+   }
+  });
+ })
+</script>
+{% endblock %}

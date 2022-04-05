@@ -1,0 +1,70 @@
+<div class="mt-1 pt-2">
+ <form method="post">
+  <div class="input-group">
+   <div class="input-group-prepend">
+    <span class="input-group-text"><span class="fas fa-search"></span></span>
+   </div>
+   <input class="form-control" type="text" name="search" placeholder="Search" />
+   <input type="submit" class="btn btn-secondary" value="Search" />
+  </div>
+ </form>
+</div>
+<table class="table table-hover followers">
+ <thead>
+  <tr>
+   <th class="w-50">User</th>
+   <th class="w-25">Since</th>
+   <th class="w-25"></th>
+  </tr>
+ </thead>
+ {% if datas %}
+ {% for user_data in datas %}
+ <tr>
+  <td>
+   <a href="/profile/{{user_data.username}}">
+    <img class="img-rounded" src="{{ url_for('static', filename='icon/') }}{{user_data.profile_filename}}" width="32px">
+    {{user_data.username}}
+   </a>
+  </td>
+  <td>
+   {{user_data.member_since}}
+  </td>
+  <td>
+   {% if user_data.username == session['username'] %}
+    
+   {% else %}
+    {% if login_user.is_following(user_data) %}
+     <button type="button" class="btn btn-outline-secondary w-75" data-toggle="modal" data-target="#myModal" onclick="modal('{{user_data.username}}', '{{ url_for('static', filename='icon/') }}{{user_data.profile_filename}}')">팔로잉</button>
+    {% else %}
+     <a href="/follow/{{user_data.username}}" class="btn btn-primary w-75">팔로우</a>
+    {% endif %}
+   {% endif %}
+  </td>
+ </tr>
+ {% endfor %}
+ {% endif %}
+</table>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title contaniner" style="margin: 0 auto;">
+          <img class="img-rounded" id="icon" src="" width="64px;">
+        </h4>
+      </div>
+        
+      <!-- Modal body -->
+      <div class="modal-body" id="modalContent"></div>
+        
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary mx-auto" data-dismiss="modal">취소</button>
+        <a href="#" class="btn btn-outline-danger mx-auto" id="unfollowLink">언팔로우</a>
+      </div>    
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/modalConfig.js') }}"></script>

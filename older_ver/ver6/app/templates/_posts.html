@@ -1,0 +1,58 @@
+<div class="mt-1 pt-2">
+ <form method="post">
+  <div class="input-group">
+   <div class="input-group-prepend">
+    <span class="input-group-text"><span class="fas fa-search"></span></span>
+   </div>
+   <input class="form-control" type="text" name="search" placeholder="내용 또는 작성자를 입력해주세요." />
+   <input type="submit" class="btn btn-secondary" value="Search" />
+  </div>
+ </form>
+</div>
+{% if datas %}
+<ul class="posts">
+ {% for post in datas %}
+ <li class="post">
+  <div class="post-thumbnail">
+   <a href="/profile/{{post[0]}}">
+    <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{post[1]}}" width="40px">
+   </a>
+  </div>
+  <div class="post-content">
+   <!--   게시글 작성 시간    -->
+   <div class="post-date">{{post[3]}}</div>
+   <!--   작성자 유저네임(href, 해당 이름값)    -->
+   <div class="post-author"><a href="/profile/{{post[0]}}">{{post[0]}}</a></div>
+   <div class="postContent" id="post-{{post[5]}}" style="width: 100%;" data-load-url="{{post[2]}}" data-load-id="{{post[5]}}">
+   
+   </div>
+   <div class="post-footer">
+    <!--   접속한 유저가 작성한 유저와 같은가?     -->
+    {% if post[0] == session['username'] %}
+    <a href="/delete_post/{{post[5]}}"><span class="badge badge-danger">Delete</span></a>
+    <a href="/edit_post/{{post[5]}}"><span class="badge badge-primary">Edit</span></a>
+    {% endif %}
+    {% if not id %}
+    <a href="/post/{{post[5]}}#comments"><span class="badge badge-secondary">Comments {{post[4]}}개</span></a>
+    {% else %}
+    <a href="/post/{{id}}#comments"><span class="badge badge-secondary">Comments {{post[4]}}개</span></a>
+    {% endif %}
+   </div>
+  </div>
+ </li>
+ {% endfor %}
+</ul>
+<script type="text/javascript"> 
+ // jquery.load()로 게시글 내용 붙이기.
+ $(function(){
+  var load = document.getElementsByClassName('postContent');
+  for(var i = 0; i < load.length; i++){
+   var url = load[i].dataset["loadUrl"];
+   var id = load[i].dataset['loadId'];
+   $('#post-' + id).load(url);
+   
+  }
+  
+ })
+</script>
+{% endif %}

@@ -1,0 +1,26 @@
+<ul class="comments">
+ {% if comments %}
+  {% for comment in comments %}
+   <li class="comment">
+     <div class="comment-thumbnail">
+      <a href="#">
+       <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{comment[3]}}" width="36rem">
+      </a>
+     </div>
+     <div class="comment-content">
+      <!--   댓글 작성 시간    -->
+      <div class="comment-date">
+       <p>{{comment[1]}}</p>
+      </div>
+      <!--   작성자 유저네임(href, 해당 이름값)    -->
+      <div class="comment-author"><a href="/profile/{{comment[2]}}">{{comment[2]}}</a></div>
+      <!--   댓글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+      <div class="comment-body">
+       <!--   댓글 내용이 들어갈 부분    -->
+       {{comment[0]}}
+      </div>
+     </div>
+   </li>
+  {% endfor %}
+ {% endif %}
+</ul>

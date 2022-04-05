@@ -1,0 +1,820 @@
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ERROR:root:Encountered unknown tag 'endbloc'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 170, in index
+    return render_template('index.html', show_follower = show_follower, posts = posts, paging = paging, current_page = num)
+  File "d:\venv\lib\site-packages\flask\templating.py", line 134, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "d:\venv\lib\site-packages\jinja2\loaders.py", line 125, in load
+    code = environment.compile(source, name, filename)
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 591, in compile
+    self.handle_exception(exc_info, source_hint=source_hint)
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "d:\venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\templates\index.html", line 12, in template
+    {% endbloc %}
+  File "d:\venv\lib\site-packages\jinja2\environment.py", line 497, in _parse
+    return Parser(self, source, name, encode_filename(filename)).parse()
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 901, in parse
+    result = nodes.Template(self.subparse(), lineno=1)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 130, in parse_statement
+    return getattr(self, 'parse_' + self.stream.current.value)()
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 268, in parse_block
+    node.body = self.parse_statements(('name:endblock',), drop_needle=True)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 165, in parse_statements
+    result = self.subparse(end_tokens)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 144, in parse_statement
+    self.fail_unknown_tag(token.value, token.lineno)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 97, in fail_unknown_tag
+    return self._fail_ut_eof(name, self._end_token_stack, lineno)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 90, in _fail_ut_eof
+    self.fail(' '.join(message), lineno)
+  File "d:\venv\lib\site-packages\jinja2\parser.py", line 59, in fail
+    raise exc(msg, lineno, self.name, self.filename)
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endbloc'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:39] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:39] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:39] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:40] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:40] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:40] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:04:40] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:05:52] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:05:52] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:05:52] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:05:55] "[37mGET /login HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:00] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:00] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:01] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:01] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:06] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:38] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:38] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:06:38] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:17] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:17] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:21] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:07:22] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:08:14] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:08:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:42] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:43] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:44] "[32mGET /followed HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:45] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:45] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:48] "[32mGET /all HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:48] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:48] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:58] "[37mGET /profile/%EC%9C%A4%EC%84%9D HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:12:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:05] "[37mGET /edit_profile HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:05] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:09] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:23] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:30] "[37mGET /2 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:13:30] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:16:20] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:16:20] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:16:20] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:19:49] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:19:49] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:49] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:49] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:50] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:51] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:52] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:20:52] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:57] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:58] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:23:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:10] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:10] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:18] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:19] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:30] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:30] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:32] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:33] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:33] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:33] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:48] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:49] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:50] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:51] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:51] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:24:51] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:25:10] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:25:11] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:01] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:01] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:03] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:04] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:04] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:04] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:26:04] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:15] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:16] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:58] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:58] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:58] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:30:59] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:26] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:54] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:31:54] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:04] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:05] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:05] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:05] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:21] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:22] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:32:22] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:33:12] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:33:12] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:34:37] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:34:37] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:34:49] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:34:49] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:35:09] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:35:09] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:07] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:07] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:39] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:40] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:54] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:36:54] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:14] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:28] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:29] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:35] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:37:35] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:41:33] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:41:33] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:41:58] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:41:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:42:33] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:42:33] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:43:46] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:43:46] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:02] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:03] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:03] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:03] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:16] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:16] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:17] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:33] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:34] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:44:34] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:21] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:22] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:36] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:37] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:37] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:47] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:48] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:45:48] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:48:27] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:48:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:48:46] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:48:46] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:50:39] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:50:39] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:47] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:47] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:47] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:51:48] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:24] "[37mGET /post/5 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:24] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:24] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[37mGET /static/js/recomment.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:25] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:34] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:34] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:35] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+ERROR:root:400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 44, in index
+    body = request.form['body'] # ÀÛ¼ºÇÑ °Ô½Ã±ÛÀÇ ³»¿ëÀ» ¹Þ´Â º¯¼ö
+  File "d:\venv\lib\site-packages\werkzeug\datastructures.py", line 431, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:45] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:52:45] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 15:53:00] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:18] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:19] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:19] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:23] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:23] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:24] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:38] "[37mGET /post/15 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:06:39] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Detected change in 'd:\\Progamming\\Flask ½Ç½À\\flasky_ex\\flasky.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Detected change in 'd:\\Progamming\\Flask ½Ç½À\\flasky_ex\\flasky.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:09:44] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:09:44] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:09:50] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:09:51] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:09:51] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:11:06] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:11:06] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:11:17] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:11:17] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:11:17] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:35] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:36] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:36] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:36] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:38] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:38] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:12:38] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:13:04] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:13:04] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:13:05] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:44] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:45] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:45] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:46] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:46] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:14:46] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:10] "[37mGET /static/icon/information.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:11] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:11] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:11] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:13] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:14] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:17] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:17] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:18] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:45] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:45] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:47] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:47] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:16:47] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:14] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:15] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:15] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:16] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:25] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:25] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:37] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:37] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:17:38] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:18:36] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:18:36] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:18:42] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:18:42] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:18:42] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+ERROR:root:(1406, "Data too long for column 'body' at row 1")
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 51, in index
+    cur.execute('insert into posts(body, author_id, timestamp) values(%s, %s, %s)', (body, session['id'], timestamp))
+  File "d:\venv\lib\site-packages\pymysql\cursors.py", line 170, in execute
+    result = self._query(query)
+  File "d:\venv\lib\site-packages\pymysql\cursors.py", line 328, in _query
+    conn.query(q)
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 517, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 732, in _read_query_result
+    result.read()
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 1075, in read
+    first_packet = self.connection._read_packet()
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 684, in _read_packet
+    packet.check_error()
+  File "d:\venv\lib\site-packages\pymysql\protocol.py", line 220, in check_error
+    err.raise_mysql_exception(self._data)
+  File "d:\venv\lib\site-packages\pymysql\err.py", line 109, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1406, "Data too long for column 'body' at row 1")
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:20:17] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:20:21] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Detected change in 'd:\\Progamming\\Flask ½Ç½À\\flasky_ex\\flasky.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:20] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:20] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+ERROR:root:(1406, "Data too long for column 'body' at row 1")
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 50, in index
+    cur.execute('insert into posts(body, author_id, timestamp) values(%s, %s, %s)', (body, session['id'], timestamp))
+  File "d:\venv\lib\site-packages\pymysql\cursors.py", line 170, in execute
+    result = self._query(query)
+  File "d:\venv\lib\site-packages\pymysql\cursors.py", line 328, in _query
+    conn.query(q)
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 517, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 732, in _read_query_result
+    result.read()
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 1075, in read
+    first_packet = self.connection._read_packet()
+  File "d:\venv\lib\site-packages\pymysql\connections.py", line 684, in _read_packet
+    packet.check_error()
+  File "d:\venv\lib\site-packages\pymysql\protocol.py", line 220, in check_error
+    err.raise_mysql_exception(self._data)
+  File "d:\venv\lib\site-packages\pymysql\err.py", line 109, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.DataError: (1406, "Data too long for column 'body' at row 1")
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:27] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:28] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:30] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 16:21:30] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:38] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:39] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:39] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:39] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:55] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:56] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:07:56] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:26] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:27] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:27] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:54] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:55] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:55] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:14:55] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:25] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:25] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:26] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:26] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:44] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:44] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:44] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:15:44] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:07] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:08] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:08] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:08] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:08] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:16:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:33] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:33] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:33] "[33mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:33] "[33mGET /static/summernote/css/font/summernote.ttf?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:57] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:57] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:17:57] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:46] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:46] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:18:47] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:22] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:22] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:22] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:23] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:19:27] "[33mGET /hello HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:00] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:00] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:01] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 17:20:06] "[33mGET /hello HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:27] "[33mGET /hello HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:32] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:33] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:34] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:38] "[33mGET /hello HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:51] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:51] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:52] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+ERROR:root:400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 44, in index
+    body = request.form['body'] # ÀÛ¼ºÇÑ °Ô½Ã±ÛÀÇ ³»¿ëÀ» ¹Þ´Â º¯¼ö
+  File "d:\venv\lib\site-packages\werkzeug\datastructures.py", line 431, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:58] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:21:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 105-810-594
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:27:58] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:27:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+ERROR:root:400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 44, in index
+    body = request.form['body'] # ÀÛ¼ºÇÑ °Ô½Ã±ÛÀÇ ³»¿ëÀ» ¹Þ´Â º¯¼ö
+  File "d:\venv\lib\site-packages\werkzeug\datastructures.py", line 431, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:28:04] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:28:04] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:29:22] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:29:22] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+ERROR:root:400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+Traceback (most recent call last):
+  File "d:\Progamming\Flask ½Ç½À\flasky_ex\flasky.py", line 44, in index
+    body = request.form['body'] # ÀÛ¼ºÇÑ °Ô½Ã±ÛÀÇ ³»¿ëÀ» ¹Þ´Â º¯¼ö
+  File "d:\venv\lib\site-packages\werkzeug\datastructures.py", line 431, in __getitem__
+    raise exceptions.BadRequestKeyError(key)
+werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:29:28] "[1m[35mPOST / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:29:28] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:41] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:41] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:43] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:44] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:44] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:44] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:50] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:51] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:47:51] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:00] "[37mGET /post/27 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:00] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:02] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:02] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:47] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:47] "[37mGET /static/css/style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/summernote/css/summernote-bs4.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/summernote/css/example.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/js/jquery.simplePagination.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/summernote/js/summernote-bs4.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/icon/96c5233eb49c2b9562a8fa249b2818fc.jpg HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[37mGET /static/summernote/css/font/summernote.woff?1d9aeaaff0a8939558a45be6cd52cd4c HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:48] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:54] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:54] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:48:55] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:49:34] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:49:34] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:49:34] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:50:00] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:50:01] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:50:02] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:51:08] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:51:10] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:51:11] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:53:30] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:53:30] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:53:42] "[32mPOST /post/30 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:53:43] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:53:43] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:05] "[32mPOST /post/30 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:05] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:05] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:16] "[32mPOST /post/30 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:17] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:17] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:31] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:31] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:40] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 18:54:40] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:01:00] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:01:01] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:01:02] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:06:51] "[32mGET /followed HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:06:51] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:06:52] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:17:16] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:17:19] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:18:14] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:19:58] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:20:00] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:21:54] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:21:56] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:22:11] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:22:11] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:31:21] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:31:21] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:31:54] "[32mGET /all HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:31:55] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:31:55] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:40:14] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:40:14] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:40:36] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:40:36] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:44:02] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:44:02] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:59:08] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 19:59:08] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:00:27] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:00:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:01:15] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:01:15] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:04:33] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:04:33] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:05:38] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:10:37] "[37mGET /edit_post/32 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:10:37] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:10:49] "[32mPOST /edit_post/32 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:10:50] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:10:50] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:11:42] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:11:42] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:11:52] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:11:52] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:12:04] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:12:04] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:16] "[37mGET /post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:17] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:20] "[37mGET /edit_post/30 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:20] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:57] "[32mPOST /edit_post/30 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:58] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:21:58] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:22:27] "[37mGET /edit_post/27 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:22:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:22:50] "[32mPOST /edit_post/27 HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:22:50] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:22:50] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:09] "[37mGET /profile/%EC%9C%A4%EC%84%9D HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:09] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:20] "[37mGET /profile/%EC%9C%A4%EC%84%9D/2 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:20] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:23] "[37mGET /profile/%EC%9C%A4%EC%84%9D/3 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:23] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:27] "[37mGET /profile/%EC%9C%A4%EC%84%9D/1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:27] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:31] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [11/Jun/2019 20:27:31] "[33mGET /static/summernote/js/summernote-bs4.js.map HTTP/1.1[0m" 404 -

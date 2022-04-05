@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+ {{super()}}
+ <script>
+  $(function(){
+   $('.summernote').summernote({
+    height: 150,
+    tabsize: 2,
+   });
+  });
+ </script>
+{% endblock %}
+
+{% block title %}Flasky Example - Edit Post{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+ <h1>Edit Post</h1>
+</div>
+<div>
+ <form action method="post" class="form" role="form" onsubmit="return check_submit()">
+<!--     cross 위조 공격 보호하기.
+<input id="csrf_token" name="csrf_token" type="hidden" value="ImU0Y2IzMzA3YmMwMGY2NDhlOThkZGYxOWY4ZjE2MzY2MDIwYTRmZWUi.D57WEg.800zobmNWXT0sfGlJBaatIi2E9g">-->
+  <div class="form-group required">
+   <label class="font-weight-bold" for="body">What's on your mind?</label>
+   <div class="summernote">{{ body | safe }}</div>
+  </div>
+  <input class="btn btn-outline-secondary text-secondary" id="submit" name="submit" type="submit" value="Submit">
+ </form> 
+</div>
+<script>
+// $(function(){
+//  $('.summernote').html('{{ body | safe }}');
+// });
+ 
+ function check_submit(){
+  var editArea = document.getElementById('editarea');
+  var submitEditData = document.getElementById('submitEditData');
+  var returnValue = false;
+  if(editArea.innerHTML == '<p><br></p>'){
+   returnValue = false;
+  }else{
+   submitEditData.value = editArea.innerHTML;
+   returnValue = true;
+  }
+  return returnValue;
+ }
+</script>
+{% endblock %}

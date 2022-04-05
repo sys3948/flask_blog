@@ -1,0 +1,31 @@
+{% if posts %}
+<ul class="posts">
+ {% for post in posts %}
+ <li class="post">
+  <div class="post-thumbnail">
+   <a href="/profile/{{post[3]}}">
+    <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{post[4]}}" width="40px">
+   </a>
+  </div>
+  <div class="post-content">
+   <!--   게시글 작성 시간    -->
+   <div class="post-date">{{post[2]}}</div>
+   <!--   작성자 유저네임(href, 해당 이름값)    -->
+   <div class="post-author"><a href="/profile/{{post[3]}}">{{post[3]}}</a></div>
+   <!--   게시글 작성 내용 작성내용의 html버전의 내용이 존재한다면 그것을 출력하고 존재하지 않으면 text버전을 출력한다.    -->
+   <div class="post-body">
+    <!--   게시글 내용이 들어갈 부분    -->
+    {{post[1]}}
+   </div>
+   <div class="post-footer">
+    <!--   접속한 유저가 작성한 유저와 같은가?     -->
+    {% if post[3] == session['username'] %}
+    <a href="/edit_post/{{post[0]}}"><span class="label label-primary">Edit</span></a>
+    {% endif %}
+    <a href="/post/{{post[0]}}#comments"><span class="label label-default">Comments {{post[5]}}개</span></a>
+   </div>
+  </div>
+ </li>
+ {% endfor %}
+</ul>
+{% endif %}

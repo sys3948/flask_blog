@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  <style>
+   .profile-thumbnail {
+    position: absolute;
+   }
+   .profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+   }
+   
+   div.post-tabs {
+    margin-top: 16px;
+   }
+   
+   ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+   }
+   div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+   }
+   ul.posts li.post {
+       padding: 8px;
+       border-bottom: 1px solid #e0e0e0;
+   }
+   ul.posts li.post:hover {
+       background-color: #f0f0f0;
+   }
+   div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+   }
+   div.post-footer {
+    text-align: right;
+   }
+  </style>
+  
+  <title></title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+ <body>
+  <div class="navbar navbar-expand-md bg-dark navbar-dark" role="navigation">
+   <div class="container">
+    <div class="navbar-header">
+     <a class="navbar-brand" href="/">Flasky</a>
+    </div>
+    <div class="navbar-collapse">
+     <ul class="navbar-nav col-md-11">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <!--   로그인이 되어있을 때   -->
+      <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+      <!--   end 로그인이 되어있을 때   -->
+     </ul>
+     <ul class="navbar-nav">
+      <!--   로그인이 되어있을 때   -->
+      <a href="#"><img src="icon/speech-bubbles-comment-option.png" /></a>
+      <li class="dropdown">
+       <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Account<b class="caret"></b></a>
+       <ul class="dropdown-menu">
+        <li><a>Change Password</a></li>
+        <li><a>Change Email</a></li>
+        <li><a>Log Out</a></li>
+       </ul>
+      </li>
+      <!--   로그인이 되어있지 않았을 때   -->
+<!--      <li><a class="nav-link" href="#">Log In</a></li>-->
+      <!--  end 로그인이 되어있을 때   -->
+     </ul>
+    </div>
+   </div>
+  </div>
+  <div class="container">
+   <div class="alert alert-warning mt-2">
+    안녕
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+   </div>
+   <div class="mt-5">
+    <div class="border border-right-0 border-left-0 border-light bg-secondary text-light d-flex justify-content-between bg-secondary mb-2">
+     <h1 class="ml-3">Chatting Room</h1>
+     <a href="#" class="mr-2"><img src="icon/add.png" alt="채팅방 만들기." /></a>
+    </div>
+    <div class="border border-top-0 border-left-0 border-right-0 border-secondary" style="overflow: auto; height: 600px;">
+     <ul class="posts" style="">
+      <li class="p-1">
+        <form>
+         <div class="input-group">
+          <div class="input-group-prepend">
+           <span class="input-group-text"><span class="fas fa-search"></span></span>
+          </div>
+          <input class="form-control" type="text" />
+          <input type="submit" class="btn btn-secondary" value="Search" />
+         </div>
+        </form>
+      </li>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+      <a href="#"><li class="post">윤석</li></a>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

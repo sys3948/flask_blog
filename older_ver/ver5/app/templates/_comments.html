@@ -1,0 +1,53 @@
+<ul class="comments container mb-4">
+ {% if comments %}
+  {% for comment in comments %}
+   {% if comment[1] and comment[3] and comment[4] %}
+   <li class="comment container" id="comment_{{comment[0]}}">
+    <div class="co" data-value="{{comment[6]}}">
+     <div class="comment-thumbnail">
+      <a href="/profile/{{comment[3]}}">
+       <img class="img-rounded profile-thumbnail" src="{{ url_for('static', filename='icon/') }}{{comment[4]}}" width="34px">
+      </a>
+     </div>
+     <div class="comment-content">
+      <!--   댓글 작성 시간    -->
+      <div class="row">
+       <!--   작성자 유저네임(href, 해당 이름값)    -->
+       <div class="comment-author col-sm-10"><a href="/profile/{{comment[3]}}">{{comment[3]}}</a></div>
+       <div class="comment-date col-sm-2 font-weight-bolder">
+        <p class="mb-1">{{comment[2]}}</p>
+        <p class="awc mb-1" class="text-secondary font-weight-bolder" onclick="write_recomment({{comment[0]}}, {{comment[5]}})"><span>답글 작성</span></p>
+        {% if comment[3] == session['username'] %}
+         <p class="awc mb-2 font-weight-boder"><span class="text-primary edit-comments" onclick="edit_comment({{comment[0]}})">수정</span><span>|</span><span><a  class="text-danger" href="/delComment/{{comment[0]}}">삭제</a></span></p>
+        {% endif %}
+       </div>
+      </div>
+      <div class="comment-body" id="commentBody-{{comment[0]}}">{{comment[1]}}</div>
+     </div>
+    </div>
+   </li>
+   {% else %}
+    <li class="comment container" id="comment_{{comment[0]}}">
+     <div class="co" data-value="{{comment[6]}}">삭제된 댓글입니다.</div>
+    </li>
+   {% endif %}
+  {% endfor %}
+ {% endif %}
+</ul>
+<script src="{{ url_for('static', filename='js/recomment.js') }}"></script>
+<script>
+ $(function(){
+  var div_co = document.getElementsByClassName('co');
+  for(var i=0; i < div_co.length; i++){
+   var level = div_co[i].dataset['value'];
+   level = parseInt(level);
+   if(level == 0){
+     var margin_value = 0;
+   }
+   else{
+     var margin_value = 30;
+   }
+   document.getElementsByClassName('co')[i].style.marginLeft = margin_value + "px";
+  }
+ });
+</script>

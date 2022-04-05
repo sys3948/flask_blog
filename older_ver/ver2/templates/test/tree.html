@@ -1,0 +1,68 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+</head>
+<body>
+<h2>JSON data</h2>
+<pre>[{"_id":1,"title":"Fruits","parent":"root","parent_id":0,"level":0,"children":[{"_id":3,"title":"Banana","parent":"Fruits","parent_id":1,"level":1,"children":[]}]},{"_id":2,"title":"Veg","parent":"root","parent_id":0,"level":0,"children":[{"_id":4,"title":"Carrot","parent":"Veg","parent_id":2,"level":1,"children":[{"_id":5,"title":"OOty carrot","parent":"Carrot","parent_id":4,"level":2,"children":[]},{"_id":6,"title":"Carrot Fruits","parent":"Carrot","parent_id":4,"level":2,"children":[]}]}]}]
+</pre>
+<div>
+  <h2> Rendered List</h2>
+</div> 
+</body>
+ 
+<script>
+// Building up the ul-li RAW tree
+$(function(){
+    function get_tree(tree_data){
+      dom += '<ul>';
+      for(var i in tree_data){
+        if(tree_data[i].children.length > 0){
+          dom += '<li>';
+          dom += '<a href="#" class="tree-parent-anchor">'+tree_data[i].title+'</a>';
+          get_tree(tree_data[i].children);
+          dom += '<li>';
+        }
+        else{
+          dom += '<li>'+tree_data[i].title+'</li>'
+        }
+      }
+      dom+= '</ul>'
+    }
+    var tree_data = JSON.parse($('pre').text());
+    var dom= '<ul id="Menu-list">';
+            get_tree(tree_data);
+        dom+= '</ul>'
+    $('div').append(dom);
+    treeList.init();
+})
+
+// Giving the TREE Life
+var treeList = {
+    init: function() {
+        $('a', '#Menu-list').each(function() {
+            var $a = $(this);
+            var $li = $a.parent();
+            if ($a.next().is('ul')) {
+                var $ul = $a.next();
+                $(document).on('click', $a, function(e){
+                // document.addEventListener($a[0], 'click', function(e){
+                // $a.click(function(e) {
+                    e.preventDefault();
+                    treeList.collapse($ul);
+                    $a.toggleClass('active');
+                });
+            }
+        });
+        $('#Menu-list').find('li').each(function(){
+            if($(this).text() == ''){
+                $(this).remove()
+            }
+        })
+    },
+    collapse: function(element) {
+        element.slideToggle(600);
+    }
+};
+ </script>
+</html>

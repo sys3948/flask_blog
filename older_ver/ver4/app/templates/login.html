@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Flask - Login{% endblock %}
+
+{% block page_content %}
+<div class="nav-tabs mt-5 mb-4 pb-2">
+ <h1>Login</h1>
+</div>
+<div class="col-md-5">
+ <form action method="post" class="form" role="form">
+  <div class="form-group required">
+   <label class="font-weight-bold" for="email">Email</label>
+   <input class="form-control" id="email" name="email" required type="email" value>
+  </div>
+  <div class="form-group required">
+   <label class="font-weight-bold" for="password">Password</label>
+   <input class="form-control" id="password" name="password" required type="password" value>
+  </div>
+  <input class="btn btn-outline-secondary" id="submit" name="submit" type="submit" value="Log In">
+ </form>
+ <br>
+ <p>
+  비밀번호를 잊으셨습니까?
+  <a class="text-primary" href="/reset">여기 클릭하기</a>
+ </p>
+ <p>
+  새로운 계정을 생성하시겠습니까?
+  <a class="text-primary" href="/register">여기 클릭하기</a>
+ </p>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky Example - Follower & Following of {{username}} Lists{% endblock %}
+
+{% block page_content %}
+<div class="page-header mt-5 mb-4 pb-2">
+ <h1>Follower & Following List of {{username}}</h1>
+</div>
+<ul class="nav nav-tabs">
+ <li class="nav-item">
+  <a href="/follower/{{username}}" {% if show_follow %} class="nav-link font-weight-bolder active" {% else %} class="nav-link font-weight-bolder" {% endif %}>
+   팔로워
+  </a>
+ </li>
+ <li class="nav-item">
+  <a href="/following/{{username}}" {% if not show_follow %} class="nav-link font-weight-bolder active" {% else %} class="nav-link font-weight-bolder" {% endif %}>
+   팔로잉
+  </a>
+ </li>
+</ul>
+{% include '_userlist.html' %}
+{% if paging %}
+<div class="mt-2">
+  <ul class="pagination pagination-lg" id="pagination"></ul>
+</div>
+<script>
+  $(function(){
+    $('#pagination').pagination({
+      items: {{paging}},
+      itemOnPage: 5,
+      currentPage: {{current_page}},
+      prevText: '<span aria-hidden="true">&laquo;</span>',  
+      nextText: '<span aria-hidden="true">&raquo;</span>',
+      hrefTextPrefix: '{{pageUrl}}/',
+      onInit: function(){},
+    })
+  })
+</script>
+{% endif %}
+{% endblock %}
